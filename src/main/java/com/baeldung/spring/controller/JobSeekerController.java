@@ -16,12 +16,11 @@ import com.baeldung.spring.dao.JobSeekerDao;
  *
  */
 @Controller
-@RequestMapping(value="/home")
+@RequestMapping(value="/")
 public class JobSeekerController {
 
-    @RequestMapping(value="/temp", method = RequestMethod.GET)
+    @RequestMapping(value="/jobboard", method = RequestMethod.GET)
     public String showHomePage() {
-    	System.out.println("ashay");
-        return "home";
+        return "index";
     }
 }
