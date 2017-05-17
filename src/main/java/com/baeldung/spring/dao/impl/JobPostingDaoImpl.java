@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baeldung.spring.dao.JobPostingDao;
+import com.baeldung.spring.entity.Company;
 import com.baeldung.spring.entity.JobPosting;
 
 
@@ -19,8 +20,10 @@ public class JobPostingDaoImpl implements JobPostingDao {
 	private EntityManager entityManager;
 
 	@Override
-	public JobPosting createJobPosting(JobPosting job) throws Exception {
+	public JobPosting createJobPosting(JobPosting job, int cid) throws Exception {
 		try {
+			Company c = entityManager.find(Company.class, cid);
+			job.setCompany(c);
 			entityManager.persist(job);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -51,7 +51,7 @@ public class JobPostingController {
 	@ResponseBody
 	public ResponseEntity<?> createJobPosting(@RequestParam("title") String title,
 			@RequestParam("description") String description, @RequestParam("responsibilities") String responsibilities,
-			@RequestParam("location") String location, @RequestParam("salary") String salary, @RequestParam("state") int state) {
+			@RequestParam("location") String location, @RequestParam("salary") String salary, @RequestParam("state") int state, @RequestParam("cid") int cid) {
 
 		JobPosting j = new JobPosting();
 		j.setTitle(title);
@@ -60,12 +60,12 @@ public class JobPostingController {
 		j.setLocation(location);
 		j.setSalary(salary);
 		j.setState(state);
-		//j.setCompany();
+//		j.setCompany();
 		
 
 		try{
 				
-			JobPosting p1 =jobDao.createJobPosting(j);
+			JobPosting p1 =jobDao.createJobPosting(j, cid);
 			return ResponseEntity.ok(p1);
 			
 		}

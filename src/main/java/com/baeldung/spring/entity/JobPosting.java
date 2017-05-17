@@ -1,4 +1,5 @@
 package com.baeldung.spring.entity;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,32 +19,32 @@ import javax.persistence.Table;
 public class JobPosting {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "jobId", unique = true, nullable = false)
 	private int jobId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "companyId")
 	private Company company;
-	
+
 	@Column(name = "state")
-	private int State;
-	
+	private int state;
+
 	@Column(name = "title")
-	private String Title;
-	
+	private String title;
+
 	@Column(name = "description")
-	private String Description;
-	
+	private String description;
+
 	@Column(name = "responsibilities")
-	private String Responsibilties;
-	
+	private String responsibilties;
+
 	@Column(name = "location")
-	private String Location;
-	
+	private String location;
+
 	@Column(name = "salary")
-	private String Salary;
+	private String salary;
 
 	// @OneToMany(mappedBy="passenger", cascade = CascadeType.ALL)
 	// @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class,
@@ -64,7 +65,6 @@ public class JobPosting {
 		this.jobId = jobId;
 	}
 
-
 	/**
 	 * @return Company
 	 */
@@ -83,7 +83,7 @@ public class JobPosting {
 	 * @return State of Job
 	 */
 	public int getState() {
-		return State;
+		return state;
 	}
 
 	/**
@@ -91,14 +91,14 @@ public class JobPosting {
 	 * 
 	 */
 	public void setState(int State) {
-		this.State = State;
+		this.state = State;
 	}
 
 	/**
 	 * @return Title of the job
 	 */
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	/**
@@ -106,28 +106,28 @@ public class JobPosting {
 	 * 
 	 */
 	public void setTitle(String Title) {
-		this.Title = Title;
+		this.title = Title;
 	}
 
 	/**
 	 * @return Responsibilities on the job
 	 */
 	public String getResponsibilities() {
-		return Responsibilties;
+		return responsibilties;
 	}
 
 	/**
 	 * @param Responsibilities
 	 */
 	public void setResponsibilities(String Responsibilities) {
-		this.Responsibilties = Responsibilities;
+		this.responsibilties = Responsibilities;
 	}
 
 	/**
 	 * @return Description of the job
 	 */
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	/**
@@ -135,14 +135,14 @@ public class JobPosting {
 	 * 
 	 */
 	public void setDescription(String Description) {
-		this.Description = Description;
+		this.description = Description;
 	}
 
 	/**
 	 * @return Location of the job
 	 */
 	public String getLocation() {
-		return Location;
+		return location;
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class JobPosting {
 	 *            of the job
 	 */
 	public void setLocation(String Location) {
-		this.Location = Location;
+		this.location = Location;
 
 	}
 
@@ -158,18 +158,14 @@ public class JobPosting {
 	 * @return Salary on the job
 	 */
 	public String getSalary() {
-		return Salary;
+		return salary;
 	}
 
 	/**
 	 * @param Salary
 	 */
 	public void setSalary(String Salary) {
-		this.Salary = Salary;
+		this.salary = Salary;
 	}
-	
-	
-	
-	
 
 }
