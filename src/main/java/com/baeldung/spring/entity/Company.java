@@ -40,6 +40,10 @@ public class Company {
 	@Column(name="description")
 	private String description;
 
+	@Column(name="verified")
+	private boolean verified;
+	@Column(name="verificationCode")
+	private int verificationCode;
 	/**
 	 * @return CompanyId
 	 */
@@ -123,6 +127,27 @@ public class Company {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public boolean isVerified() {
+		return verified;
+	}
+	/**
+	 * @param verified
+	 */
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+	/**
+	 * @return verificationCode
+	 */
+	public int getVerificationCode() {
+		return verificationCode;
+	}
+	/**
+	 * @param verificationCode 
+	 */
+	public void setVerificationCode(int verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 
 }

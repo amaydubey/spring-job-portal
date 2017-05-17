@@ -3,7 +3,9 @@
  */
 package com.baeldung.spring.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -99,4 +101,63 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		return jpListRes;
 		
 	}
+	
+	@Override
+	public JobSeeker createJobSeeker(JobSeeker jseeker) throws Exception {
+		try {
+			entityManager.persist(jseeker);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jseeker;
+	}
+	
+	@Override
+	public JobSeeker getJobSeeker (int id) {
+		JobSeeker js = null;
+		
+			js = entityManager.find(JobSeeker.class, id);
+		
+		return js;
+	}
+	
+	
+	
+	@Override
+	public JobSeeker updateJobSeeker (JobSeeker js)
+	{
+		JobSeeker jobseeker = getJobSeeker(js.getJobseekerId());
+		jobseeker.setEmailId(js.getEmailId());
+		jobseeker.setFirstName(js.getFirstName());
+		jobseeker.setLastName(js.getLastName());
+		jobseeker.setHighestEducation(js.getHighestEducation());
+		jobseeker.setPassword(js.getPassword());
+		jobseeker.setSkills(js.getSkills());
+		jobseeker.setWorkEx(js.getWorkEx());
+		try {
+			if(jobseeker!=null){
+				entityManager.merge(jobseeker);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jobseeker;
+	}
+	
+	
+	@Override
+	public List<String> PasswordLookUp(String emailid) {
+		
+		Query query = entityManager.createQuery("SELECT password FROM JobSeeker js WHERE js.emailId = :emailId ");
+		query.setParameter("emailId", emailid);
+		List<String> list = new ArrayList<String>();
+		List<?> querylist = query.getResultList();
+		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
+			String pwd = (String) iterator.next();
+			System.out.println(pwd +" is the password");
+			list.add(pwd);
+		}
+		return list;
+	}
+
 }
