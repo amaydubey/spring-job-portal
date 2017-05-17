@@ -216,7 +216,7 @@ body {
 		<div class="container">
 			<div class="well">
 				<h1>
-					<img src="img/logo.png" height="80" width="auto">Complete
+					<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">Complete
 					Registration
 				</h1>
 
@@ -283,10 +283,11 @@ body {
 
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
-			<p>Amay Dubey ()</p>
-			<p>Ashay Argal (010822513)</p>
-			<p>Avdeep ()</p>
-			<p>Surendra ()</p>
+			<p>Amay</p>
+			<p>Ashay</p>
+			<p>Avdeep</p>
+			<p>Surendra</p>
+			<p>Surendra</p>
 		</div>
 
 	</div>

@@ -210,19 +210,19 @@ body {
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="index.jsp">FindJobs.com</a>
+				<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
 			</div>
 		</div>
 	</nav>
 	<div class="container-fluid">
 		<div class="container">
 			<h1 class="well">
-				<img src="img/logo.png" height="80" width="auto">Registration
+				<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">Registration
 				Form
 			</h1>
 			<div class="col-lg-12 well">
 				<div class="row">
-					<form>
+					<form action="/register" method="post">
 						<div class="form-group well">
 							<div class="btn-group btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-default active"> <input
@@ -237,29 +237,25 @@ body {
 						</div>
 						<div class="col-sm-12">
 							<div class="row">
-								<div class="col-sm-6 form-group">
-									<label>First Name *</label> <input type="text"
-										placeholder="Enter First Name Here.." class="form-control">
-								</div>
-								<div class="col-sm-6 form-group">
-									<label>Last Name *</label> <input type="text"
-										placeholder="Enter Last Name Here.." class="form-control">
-								</div>
+								
+									<label>Name *</label> <input type="text"
+										placeholder="Enter Full Name Here.." class="form-control" name="name">
+								
 							</div>
 
 							<div class="form-group">
-								<label>Email Address *</label> <input type="text"
+								<label>Email Address *</label> <input type="text" name="email"
 									placeholder="Enter Email Address Here.." class="form-control"
 									name="email" required>
 							</div>
 							<div class="form-group">
-								<label><b>Password *</b></label> <input type="password"
+								<label><b>Password *</b></label> <input type="password" name="password"
 									placeholder="Enter Password" class="form-control" name="psw"
 									required>
 							</div>
 
 
-							<button type="button" class="btn btn-lg btn-primary">Submit</button>
+							<button type="submit" class="btn btn-lg btn-primary">Submit</button>
 						</div>
 					</form>
 				</div>
@@ -273,10 +269,11 @@ body {
 
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
-			<p>Amay Dubey ()</p>
-			<p>Ashay Argal (010822513)</p>
-			<p>Avdeep ()</p>
-			<p>Surendra ()</p>
+			<p>Amay</p>
+			<p>Ashay</p>
+			<p>Avdeep</p>
+			<p>Surendra</p>
+			<p>Surendra</p>
 		</div>
 
 	</div>

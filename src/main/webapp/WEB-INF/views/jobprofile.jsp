@@ -888,9 +888,7 @@ a.stp-back-totop {
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as <%
-						out.print(name);
-					%>
+						data-toggle="dropdown" href="#">logged in as ${companyname}
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
@@ -902,6 +900,16 @@ a.stp-back-totop {
 		</nav>
 	</div>
 
+
+	<div class="jumbotron">
+			<div class="container text-center">
+
+
+				<h2>Job Profile</h2>
+				
+			</div>
+		</div>
+	
 	<header id="stp-header">
 		<div class="container">
 			<div class="row">
@@ -997,10 +1005,11 @@ a.stp-back-totop {
 
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
-			<p>Amay Dubey ()</p>
-			<p>Ashay Argal (010822513)</p>
-			<p>Avdeep ()</p>
-			<p>Surendra ()</p>
+			<p>Amay</p>
+			<p>Ashay</p>
+			<p>Avdeep</p>
+			<p>Surendra</p>
+			<p>Surendra</p>
 		</div>
 </body>
 </html>

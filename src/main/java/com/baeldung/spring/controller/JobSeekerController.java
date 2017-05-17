@@ -39,9 +39,15 @@ import com.baeldung.spring.mail.EmailServiceImpl;
 @RequestMapping(value="/register")
 public class JobSeekerController {
 
-    @RequestMapping(value="/jobboard", method = RequestMethod.GET)
+    @RequestMapping(value="/findjobs", method = RequestMethod.GET)
     public String showHomePage() {
         return "index";
+    }
+    
+    
+    @RequestMapping(value="/register", method = RequestMethod.GET)
+    public String showRegisterPage() {
+        return "register";
     }
     
     @Autowired

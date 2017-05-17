@@ -827,7 +827,7 @@ a.stp-back-totop {
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
 							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="index.jsp">Logout</a></li>
+							<li><a href="/findjobs">Logout</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -980,12 +980,13 @@ a.stp-back-totop {
         </section>
        
         
-      <div id="team" class="container-fluid text-center">
+    <div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
-			<p>Amay Dubey ()</p>
-			<p>Ashay Argal (010822513)</p>
-			<p>Avdeep ()</p>
-			<p>Surendra ()</p>
+			<p>Amay</p>
+			<p>Ashay</p>
+			<p>Avdeep</p>
+			<p>Surendra</p>
+			<p>Surendra</p>
 		</div>
   
         
