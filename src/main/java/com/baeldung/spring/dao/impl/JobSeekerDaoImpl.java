@@ -39,6 +39,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 				ja.setResumePath(resumePath);
 			}
 			ja.setState(0);
+			entityManager.persist(ja);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
