@@ -3,6 +3,7 @@
  */
 package com.baeldung.spring.dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -72,7 +73,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 			}
 			selectQuery = selectQuery.concat(" jpv.companyName IN (:companies) ");
 		}
-		if (null != jpv.getCompanyName()) {
+		if (null != jpv.getSalary()) {
 			salaryFlag = true;
 			if (locationFlag || companyFlag) {
 				selectQuery = selectQuery.concat("AND");
@@ -80,10 +81,16 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 			selectQuery = selectQuery.concat(" jpv.salary = (:salary) ");
 		}
 		Query query = entityManager.createQuery(selectQuery);
-		if (locationFlag)
-			query.setParameter("locations", jpv.getLocation());
-		if (companyFlag)
-			query.setParameter("companies", jpv.getCompanyName());
+		if (locationFlag){
+			String[] location = jpv.getLocation().split(",");
+			List<String> locationList = Arrays.asList(location);
+			query.setParameter("locations", locationList);
+		}
+		if (companyFlag){
+			String[] companyArray = jpv.getCompanyName().split(",");
+			List<String> companyList = Arrays.asList(companyArray);
+			query.setParameter("companies", companyList);
+		}
 		if (salaryFlag)
 			query.setParameter("salary", jpv.getSalary());
 
