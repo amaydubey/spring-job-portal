@@ -271,7 +271,7 @@ body {
 									placeholder="Enter Responsibilities Here.." class="form-control"
 									name="responsibilities" required>
 							</div>
-							state: <input type="text" name="state"><br>
+							
 							<div class="form-group">
 								<label>Description</label>
 								<textarea placeholder="Enter Description Here.." rows="3"

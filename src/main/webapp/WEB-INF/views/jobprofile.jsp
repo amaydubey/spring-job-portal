@@ -1,8 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/template">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/template">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <head>
 <!-- Basic -->
 <meta charset="utf-8">
@@ -737,7 +738,7 @@ ul.stp-filtered li.stp-filter.active {
 }
 
 #stp-contact-form .stp-field input:focus ~ label, #stp-contact-form .stp-field textarea:focus 
-	~ label {
+	 ~ label {
 	top: 0px;
 	font-size: 12px;
 	color: #3498db;
@@ -874,7 +875,7 @@ a.stp-back-totop {
 
 <body id="pagetop">
 	<%
-		String name = "John"; 
+		String name = "John";
 	%>
 	<div class="container-fluid">
 
@@ -887,7 +888,9 @@ a.stp-back-totop {
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as <% out.print(name);%>
+						data-toggle="dropdown" href="#">logged in as <%
+						out.print(name);
+					%>
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
@@ -899,24 +902,39 @@ a.stp-back-totop {
 		</nav>
 	</div>
 
-			<header id="stp-header">
-				<div class="container">
-                <div class="row">
-		
+	<header id="stp-header">
+		<div class="container">
+			<div class="row">
 
-		
-					<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
-						<h1>${job.title}</h1>
-						<p>${job.location}</p><br>
-						<p>Posted by: ${companyname}</p>
-						<h4>Status: ${job.state}</h4>
+
+
+				<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
+					<h1>${job.title}</h1>
+					<p>${job.location}</p>
+					<br>
+					<p>Posted by: ${companyname}</p>
+					<h4>
+						Status:
+						<c:if test="${job.state == 0}">	
+							<c:out value="Open" />
+						</c:if>
+						<c:if test="${job.state == 1}">	
+							<c:out value="Filled" />
+						</c:if>
+						<c:if test="${job.state == 2}">	
+							<c:out value="Cancelled" />
+						</c:if>
+						
+						
+						
+							</h4>
 							
 							
                     
 					</div>
 
 					<div
-						class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
+					class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
 						<p>Salary: ${job.salary}</p>
 						<br>
 						<p>Posted by: ${companyname}</p>

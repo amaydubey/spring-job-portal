@@ -56,7 +56,9 @@ public class JobPostingController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String createJobPosting(@RequestParam("title") String title,
 			@RequestParam("description") String description, @RequestParam("responsibilities") String responsibilities,
-			@RequestParam("location") String location, @RequestParam("salary") String salary, @RequestParam("state") int state, @RequestParam("cid") int cid, Model model) {
+
+			@RequestParam("location") String location, @RequestParam("salary") String salary,  @RequestParam("cid") int cid, Model model) {
+
 
 		System.out.println("ashay");
 		JobPosting j = new JobPosting();
@@ -65,7 +67,6 @@ public class JobPostingController {
 		j.setResponsibilities(responsibilities);
 		j.setLocation(location);
 		j.setSalary(salary);
-		j.setState(state);
 //		j.setCompany();
 		
 		System.out.println(model);
