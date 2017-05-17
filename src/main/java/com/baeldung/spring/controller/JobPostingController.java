@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +38,11 @@ public class JobPostingController {
 	@Autowired
 	JobPostingDao jobDao;
 
+	@RequestMapping(method = RequestMethod.GET)
+    public String showHomePage() {
+        return "postjob";
+    }
+	
 	/**
 	 * @param Title
 	 * @param Description
@@ -47,12 +53,12 @@ public class JobPostingController {
 	 * @return JobPosting Created
 	 */
 	@SuppressWarnings("finally")
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<?> createJobPosting(@RequestParam("title") String title,
+	@RequestMapping(method = RequestMethod.POST)
+	public String createJobPosting(@RequestParam("title") String title,
 			@RequestParam("description") String description, @RequestParam("responsibilities") String responsibilities,
-			@RequestParam("location") String location, @RequestParam("salary") String salary, @RequestParam("state") int state, @RequestParam("cid") int cid) {
+			@RequestParam("location") String location, @RequestParam("salary") String salary, @RequestParam("state") int state, @RequestParam("cid") int cid, Model model) {
 
+		System.out.println("ashay");
 		JobPosting j = new JobPosting();
 		j.setTitle(title);
 		j.setDescription(description);
@@ -62,11 +68,16 @@ public class JobPostingController {
 		j.setState(state);
 //		j.setCompany();
 		
+		System.out.println(model);
+		
 
 		try{
 				
 			JobPosting p1 =jobDao.createJobPosting(j, cid);
-			return ResponseEntity.ok(p1);
+			model.addAttribute("job", p1);
+			String cname = p1.getCompany().getCompanyName();
+			model.addAttribute("companyname", cname);
+			return "jobprofile";
 			
 		}
 		catch(Exception e){
@@ -80,7 +91,7 @@ public class JobPostingController {
 			String json_resp = json_test.toString();
 			
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-			return new ResponseEntity <String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
+			return "error";
 		}	
 
 	}

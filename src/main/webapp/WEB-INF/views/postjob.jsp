@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/template">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <head>
 
 <meta charset="utf-8">
 <meta name="author" content="">
-<title>Register | FindJobs.com</title>
+<title>Search jobs | FindJobs.com</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Latest compiled and minified CSS -->
@@ -19,6 +21,7 @@
 <!-- Latest compiled JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 #requirements {
 	margin-top: 10px;
@@ -199,78 +202,98 @@ body {
 </style>
 
 
+
 <!--
+<link rel="stylesheet" href="css/style.css">
 <script src="js/script.js"></script>-->
 
 
 </head>
 
-<body>
+<body id="pagetop">
+	<%
+		String name = "John"; 
+	%>
+	<div class="container-fluid">
 
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="index.jsp">FindJobs.com</a>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="#team">Team</a></li>
+
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">logged in as <% out.print(name);%>
+							<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Profile</a></li>
+							<li><a href="jobsearch.jsp">Search Jobs</a></li>
+							<li><a href="index.jsp">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="jumbotron">
+			<div class="container text-center">
+
+
+				<h2>Post a job</h2>
+
 			</div>
 		</div>
-	</nav>
-	<div class="container-fluid">
-		<div class="container">
-			<h1 class="well">
-				<img src="img/logo.png" height="80" width="auto">Registration
-				Form
-			</h1>
+	<div class="container">
+			
 			<div class="col-lg-12 well">
 				<div class="row">
-					<form>
-						<div class="form-group well">
-							<div class="btn-group btn-group-justified" data-toggle="buttons">
-								<label class="btn btn-default active"> <input
-									type="radio" name="type" id="seeker" value="seeker"
-									autocomplete="off" checked> Job Seeker
-								</label> <label class="btn btn-default"> <input type="radio"
-									name="type" id="recruiter" value="recruiter"
-									autocomplete="off"> Recruiter
-								</label>
-
-							</div>
-						</div>
+					<form action="/JobPosting" method="post">
+						
 						<div class="col-sm-12">
 							<div class="row">
 								<div class="col-sm-6 form-group">
-									<label>First Name *</label> <input type="text"
-										placeholder="Enter First Name Here.." class="form-control">
+									<label>Title *</label> <input type="text" name="title" placeholder="Enter title Here.." class="form-control">
 								</div>
 								<div class="col-sm-6 form-group">
-									<label>Last Name *</label> <input type="text"
-										placeholder="Enter Last Name Here.." class="form-control">
+									<label>Location *</label> <input type="text" name="location"
+										placeholder="Enter Location Here.." class="form-control">
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label>Email Address *</label> <input type="text"
-									placeholder="Enter Email Address Here.." class="form-control"
-									name="email" required>
+								<label>cid *</label> <input type="text"
+									placeholder="Enter cid Here.." class="form-control"
+									name="cid" required>
 							</div>
 							<div class="form-group">
-								<label><b>Password *</b></label> <input type="password"
-									placeholder="Enter Password" class="form-control" name="psw"
+								<label>Responsibilities *</label> <input type="text"
+									placeholder="Enter Responsibilities Here.." class="form-control"
+									name="responsibilities" required>
+							</div>
+							state: <input type="text" name="state"><br>
+							<div class="form-group">
+								<label>Description</label>
+								<textarea placeholder="Enter Description Here.." rows="3"
+									name="description" class="form-control"></textarea>
+							</div>
+							<div class="form-group">
+							
+								<label><b>Salary *($ p.a.)</b></label> <input type="text"
+									placeholder="Enter Salary in $" class="form-control" name="salary"
 									required>
 							</div>
 
 
-							<button type="button" class="btn btn-lg btn-primary">Submit</button>
+							<button type="submit" class="btn btn-lg btn-primary">Submit</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-
-
-
-
-
-
+		
+		
+		
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
 			<p>Amay Dubey ()</p>
@@ -280,8 +303,19 @@ body {
 		</div>
 
 	</div>
+	</div>
 
+	<script>
+// Get the modal
+var modal = document.getElementById('id01');
 
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 
 </body>
 
