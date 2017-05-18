@@ -262,8 +262,8 @@ body {
 							</div>
 
 							<div class="form-group">
-								<label>cid *</label> <input type="text"
-									placeholder="Enter cid Here.." class="form-control"
+								<input type="hidden"
+									value="${cid}" class="form-control"
 									name="cid" required>
 							</div>
 							<div class="form-group">

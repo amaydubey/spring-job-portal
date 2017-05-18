@@ -216,7 +216,7 @@ body {
 		<div class="container">
 			<div class="well">
 				<h1>
-					<img src="img/logo.png" height="80" width="auto">Complete
+					Complete
 					Registration
 				</h1>
 
@@ -225,69 +225,60 @@ body {
 				<h4 class="text-center">Job seeker registration</h4>
 				<br>
 				<div class="row">
-					<form>
+					<form action="/update" method="post">
 
-
+					<input type="hidden" name="id" value="${seeker.jobseekerId}"></input>
+					<input type="hidden" name="password" value="123"></input>
 
 
 						<div class="col-sm-12">
 							<div class="row">
 								<div class="col-sm-6 form-group">
 									<label>First Name</label>
-									<%
-										String fname = "john";
-										String lname = "doe";
-										String email = "email@mail.com";
-										out.print("<input type='text' value='" + fname + "' readonly class='form-control'>");
-									%>
+									
+									<input type='text' name="firstname" value='${ seeker.firstName} ' readonly class='form-control'>
 								</div>
 								<div class="col-sm-6 form-group">
 									<label>Last Name</label>
-									<%
-										out.print("<input type='text' value='" + lname + "' readonly class='form-control'>");
-									%>
+									<input type='text' name="lastname" value='${seeker.lastName }' readonly class='form-control'>
 								</div>
 							</div>
 							<div class="form-group">
 								<label>Email Address</label>
-								<%
-									out.print("<input type='text' value='" + email + "' readonly class='form-control'>");
-								%>
+								<input type='text' name="emailid" value='${seeker.emailId }' readonly class='form-control'>
 							</div>
-							<div class="form-group">
-								<label>Self-introduction</label>
-								<textarea placeholder="Enter Self-introduction Here.." rows="3"
-									class="form-control"></textarea>
-							</div>
+							
 							<div class="row">
 								<div class="col-sm-6 form-group">
-									<label>Work experience (in years)</label> <input type="text"
-										placeholder="Enter number of years Here.."
+									<label>Work experience (in years)</label> <input type="text" name="workex"
+										placeholder="Enter number of years Here.." value="${seeker.workEx }"
 										class="form-control">
 								</div>
 								<div class="col-sm-6 dropdown form-group">
-									<label>Highest education</label>
-									<button class="btn btn-default dropdown-toggle" type="button"
-										data-toggle="dropdown">
-										Select one <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a href="#">Master's degree</a></li>
-										<li><a href="#">Bachelor's degree</a></li>
-										<li><a href="#">Ph.D.</a></li>
-									</ul>
+									<div ><label>Highest education</label>
+								<label class="btn btn-default active"><input 
+									type="radio" name="highesteducation" id="seeker" value="0"
+									autocomplete="off" checked> Master's degree
+								</label> <label class="btn btn-default"> <input type="radio"
+									name="highesteducation" id="recruiter" value="1"
+									autocomplete="off"> Bachelor's degree
+								</label>
+
+							</div>
+									
+									
 
 								</div>
 
 							</div>
 							<div class="form-group">
 								<label>Skills (comma separated)</label>
-								<textarea placeholder="Enter comma separated skills here.."
-									rows="3" class="form-control"></textarea>
+								<textarea 
+									rows="3" name="skills" class="form-control" value="${seeker.skills }"></textarea>
 							</div>
 
 
-							<button type="button" class="btn btn-lg btn-primary">Submit</button>
+							<button type="submit" class="btn btn-lg btn-primary">Submit</button>
 						</div>
 					</form>
 				</div>

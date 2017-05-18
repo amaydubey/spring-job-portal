@@ -39,8 +39,10 @@ public class JobPostingController {
 	JobPostingDao jobDao;
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String showHomePage() {
-        return "postjob";
+    public String showHomePage(@RequestParam("cid") String cid, Model model) {
+		System.out.println(cid);
+		model.addAttribute("cid", cid);
+		return "postjob";
     }
 	
 	/**
@@ -57,7 +59,7 @@ public class JobPostingController {
 	public String createJobPosting(@RequestParam("title") String title,
 			@RequestParam("description") String description, @RequestParam("responsibilities") String responsibilities,
 
-			@RequestParam("location") String location, @RequestParam("salary") String salary,  @RequestParam("cid") int cid, Model model) {
+			@RequestParam("location") String location, @RequestParam("salary") String salary,  @RequestParam("cid") String cid, Model model) {
 
 
 		System.out.println("ashay");
@@ -74,7 +76,7 @@ public class JobPostingController {
 
 		try{
 				
-			JobPosting p1 =jobDao.createJobPosting(j, cid);
+			JobPosting p1 =jobDao.createJobPosting(j, Integer.parseInt(cid));
 			model.addAttribute("job", p1);
 			String cname = p1.getCompany().getCompanyName();
 			model.addAttribute("companyname", cname);
