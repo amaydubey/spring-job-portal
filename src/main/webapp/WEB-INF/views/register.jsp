@@ -222,7 +222,7 @@ body {
 			</h1>
 			<div class="col-lg-12 well">
 				<div class="row">
-					<form action="/register" method="post">
+					<form action="/createuser" method="post">
 						<div class="form-group well">
 							<div class="btn-group btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-default active"> <input

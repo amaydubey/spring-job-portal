@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,7 @@ import com.baeldung.spring.mail.EmailServiceImpl;
  *
  */
 @Controller
-@RequestMapping(value="/register")
+@RequestMapping(value="/")
 public class JobSeekerController {
 
     @RequestMapping(value="/findjobs", method = RequestMethod.GET)
@@ -108,10 +109,10 @@ public class JobSeekerController {
 	 * @throws SQLException
 	 */
 	@SuppressWarnings("finally")
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/createuser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> createJobSeeker(@RequestParam("name") String name, @RequestParam("email") String email,
-			@RequestParam("password") String password, @RequestParam("type") String type) throws IOException, SQLException {
+	public String createJobSeeker(@RequestParam("name") String name, @RequestParam("email") String email,
+			@RequestParam("password") String password, @RequestParam("type") String type, Model model) throws IOException, SQLException {
 
 		    int randomPIN = (int)(Math.random()*9000)+1000;
 		    String[] splited = name.split("\\s+");
@@ -129,11 +130,12 @@ public class JobSeekerController {
 			    j.setVerified(false);
 			    
 			    JobSeeker j1 =jobSeekerDao.createJobSeeker(j);
+			    model.addAttribute("name",j1.getFirstName());
 			    
 			    emailService.sendSimpleMessage(email, "Verification Pin", Integer.toString(randomPIN));
 			    
 			    
-				return ResponseEntity.ok(j1);
+				return "codesent";
 		    	
 		    }
 		    
@@ -148,11 +150,13 @@ public class JobSeekerController {
 		    	c.setHeadquarters("head");
 		    	
 		    	Company c1 = companyDao.createCompany(c);
+			    model.addAttribute("name",c1.getCompanyName());
+
 		    	
 			    emailService.sendSimpleMessage(email, "Verification Pin", Integer.toString(randomPIN));
 		    	
 		    	//Company c1 =companyDao.
-				return ResponseEntity.ok(c1);
+				return "codesent";
 		    }
 		    
 
@@ -169,7 +173,7 @@ public class JobSeekerController {
 			String json_resp = json_test.toString();
 			
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-			return new ResponseEntity <String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
+			return "error";
 			
 			
 			
@@ -185,7 +189,7 @@ public class JobSeekerController {
 			String json_resp = json_test.toString();
 			
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-			return new ResponseEntity <String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
+			return "error";
 		}	
 }
 	

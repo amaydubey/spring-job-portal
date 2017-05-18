@@ -51,6 +51,7 @@
 				<h2>
 					<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">FindJobs.com
 				</h2>
+				<h2>hi, ${name}</h2>
 				<h1>A verification code has been sent</h1>
 
 				<p>Click on the link sent to your email</p>
