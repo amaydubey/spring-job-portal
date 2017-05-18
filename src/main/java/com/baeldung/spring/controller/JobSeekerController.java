@@ -341,4 +341,43 @@ public class JobSeekerController {
 		return "Hello";
 
 	}
+	
+	@RequestMapping(value="/update/company",method = RequestMethod.PUT)
+    public ResponseEntity<?> companyupdate(@RequestParam("id") String id,@RequestParam("companyName") Optional<String> name,
+@RequestParam("headquarters") Optional<String> headquarters,
+@RequestParam("companyUser") Optional<String>
+user,@RequestParam("description") Optional<String> description)
+    {
+
+        Company  c = new Company();
+
+        c.setCompanyId(Integer.parseInt(id));
+
+        if(!name .equals( Optional.empty()))
+        {
+
+            c.setCompanyName(name.get());
+        }
+        if(!headquarters.equals( Optional.empty()))
+        {
+            c.setHeadquarters(headquarters.get());
+        }
+        if(!description.equals( Optional.empty()))
+        {
+            c.setDescription(description.get());
+        }
+
+
+
+        Company company = companyDao.getCompany(Integer.parseInt(id));
+        Company c1 = null;
+        if(company != null)
+        {
+            c1 = companyDao.updateCompany(c);
+
+        }
+        System.out.println("done");
+        return ResponseEntity.ok(c1);
+
+    }
 }
