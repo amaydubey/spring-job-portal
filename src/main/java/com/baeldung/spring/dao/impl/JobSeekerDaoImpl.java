@@ -160,4 +160,21 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		return list;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baeldung.spring.dao.JobSeekerDao#verify(com.baeldung.spring.entity.JobSeeker)
+	 */
+	@Override
+	public void verify(JobSeeker j) {
+		JobSeeker jobseeker = getJobSeeker(j.getJobseekerId());
+		jobseeker.setVerified(true);
+		try {
+			if(jobseeker!=null){
+				entityManager.merge(jobseeker);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }
