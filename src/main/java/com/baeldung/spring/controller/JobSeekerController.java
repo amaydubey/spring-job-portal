@@ -36,62 +36,63 @@ import com.baeldung.spring.mail.EmailServiceImpl;
  *
  */
 @Controller
-@RequestMapping(value="/register")
+@RequestMapping(value = "/")
 public class JobSeekerController {
 
-    @RequestMapping(value="/jobboard", method = RequestMethod.GET)
-    public String showHomePage() {
-        return "index";
-    }
-    
-    @Autowired
-    JobSeekerDao jobSeekerDao;
-    
-    @Autowired
-    EmailServiceImpl emailService;
-    
-    /**
+	@RequestMapping(value = "/jobboard", method = RequestMethod.GET)
+	public String showHomePage() {
+		return "index";
+	}
+
+	@Autowired
+	JobSeekerDao jobSeekerDao;
+
+	@Autowired
+	EmailServiceImpl emailService;
+
+	/**
 	 * @param jobSeekerId
 	 * @param jobId
 	 * @param resumeFlag
 	 * @param resumePath
 	 * @return The newly created application
 	 */
-	@RequestMapping(value="/apply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/apply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> apply(@RequestParam("jobSeekerId") String jobSeekerId, @RequestParam("jobId") String jobId, @RequestParam("resumeFlag") boolean resumeFlag, @RequestParam("resumePath") String resumePath){
+	public ResponseEntity<?> apply(@RequestParam("jobSeekerId") String jobSeekerId, @RequestParam("jobId") String jobId,
+			@RequestParam("resumeFlag") boolean resumeFlag, @RequestParam("resumePath") String resumePath) {
 		JobApplication ja = new JobApplication();
 		ja = jobSeekerDao.apply(Integer.parseInt(jobSeekerId), Integer.parseInt(jobId), resumeFlag, resumePath);
 		return ResponseEntity.ok(ja);
 	}
-	
+
 	/**
 	 * @param locations
 	 * @return
 	 */
-	@RequestMapping(value="/searchjobs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/searchjobs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> searchJobs(@RequestParam("locations") Optional<String> locations, @RequestParam("companies") Optional<String> companies, @RequestParam("salary") Optional<String> salary){
+	public ResponseEntity<?> searchJobs(@RequestParam("locations") Optional<String> locations,
+			@RequestParam("companies") Optional<String> companies, @RequestParam("salary") Optional<String> salary) {
 		JobPostingsView jpv = new JobPostingsView();
-		
+
 		System.out.println("************************" + locations + " " + locations.equals(Optional.empty()));
-		if(!locations.equals(Optional.empty())){
+		if (!locations.equals(Optional.empty())) {
 			jpv.setLocation(locations.get());
 		}
-		if(!companies.equals(Optional.empty())){
+		if (!companies.equals(Optional.empty())) {
 			jpv.setCompanyName(companies.get());
 		}
-		if(!salary.equals(Optional.empty())){
+		if (!salary.equals(Optional.empty())) {
 			jpv.setSalary(salary.get());
 		}
 		List<?> jp = jobSeekerDao.searchJobs(jpv);
 		return ResponseEntity.ok(jp);
 	}
-	
+
 	@Autowired
 	CompanyDao companyDao;
-	
-	
+
 	/**
 	 * @param name
 	 * @param email
@@ -102,58 +103,61 @@ public class JobSeekerController {
 	 * @throws SQLException
 	 */
 	@SuppressWarnings("finally")
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<?> createJobSeeker(@RequestParam("name") String name, @RequestParam("email") String email,
-			@RequestParam("password") String password, @RequestParam("type") String type) throws IOException, SQLException {
+			@RequestParam("password") String password, @RequestParam("type") String type)
+			throws IOException, SQLException {
 
-		    int randomPIN = (int)(Math.random()*9000)+1000;
-		    String[] splited = name.split("\\s+");
-		    
-		 try{  
-		    
-		    if(type.equals("seeker")){
-		    	
-		    	JobSeeker j = new JobSeeker();
-			    j.setFirstName(splited[0]);
-			    j.setLastName(splited[1]);
-			    j.setPassword(password);
-			    j.setEmailId(email);
-			    j.setVerificationCode(randomPIN);
-			    j.setVerified(false);
-			    
-			    JobSeeker j1 =jobSeekerDao.createJobSeeker(j);
-			    
-			    emailService.sendSimpleMessage(email, "Verification Pin", Integer.toString(randomPIN));
-			    
-			    
+		int randomPIN = (int) (Math.random() * 9000) + 1000;
+		String[] splited = name.split("\\s+");
+
+		try {
+
+			if (type.equals("seeker")) {
+
+				JobSeeker j = new JobSeeker();
+				j.setFirstName(splited[0]);
+				j.setLastName(splited[1]);
+				j.setPassword(password);
+				j.setEmailId(email);
+				j.setVerificationCode(randomPIN);
+				j.setVerified(false);
+
+				JobSeeker j1 = jobSeekerDao.createJobSeeker(j);
+
+				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobseekerId() + "&pin="
+						+ randomPIN + "&type=seeker";
+
+				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
+
 				return ResponseEntity.ok(j1);
-		    	
-		    }
-		    
-		    else{
-		    	
-		    	Company c = new Company();
-		    	c.setVerified(false);
-		    	c.setVerificationCode(randomPIN);
-		    	c.setCompanyName(name);
-		    	c.setCompanyUser(email);
-		    	c.setPassword(password);
-		    	c.setHeadquarters("head");
-		    	
-		    	Company c1 = companyDao.createCompany(c);
-		    	
-			    emailService.sendSimpleMessage(email, "Verification Pin", Integer.toString(randomPIN));
-		    	
-		    	//Company c1 =companyDao.
-				return ResponseEntity.ok(c1);
-		    }
-		    
 
-			
-		}
-		catch(SQLException se){
-			HttpHeaders httpHeaders= new HttpHeaders();
+			}
+
+			else {
+
+				Company c = new Company();
+				c.setVerified(false);
+				c.setVerificationCode(randomPIN);
+				c.setCompanyName(name);
+				c.setCompanyUser(email);
+				c.setPassword(password);
+				c.setHeadquarters("head");
+
+				Company c1 = companyDao.createCompany(c);
+
+				String verificationUrl = "http://localhost:8080/register/verify?userId=" + c1.getCompanyId() + "&pin="
+						+ randomPIN + "";
+
+				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
+
+				// Company c1 =companyDao.
+				return ResponseEntity.ok(c1);
+			}
+
+		} catch (SQLException se) {
+			HttpHeaders httpHeaders = new HttpHeaders();
 			Map<String, Object> message = new HashMap<String, Object>();
 			Map<String, Object> response = new HashMap<String, Object>();
 			message.put("code", "400");
@@ -161,15 +165,12 @@ public class JobSeekerController {
 			response.put("BadRequest", message);
 			JSONObject json_test = new JSONObject(response);
 			String json_resp = json_test.toString();
-			
+
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-			return new ResponseEntity <String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
-			
-			
-			
-		}
-		catch(Exception se){
-			HttpHeaders httpHeaders= new HttpHeaders();
+			return new ResponseEntity<String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
+
+		} catch (Exception se) {
+			HttpHeaders httpHeaders = new HttpHeaders();
 			Map<String, Object> message = new HashMap<String, Object>();
 			Map<String, Object> response = new HashMap<String, Object>();
 			message.put("code", "400");
@@ -177,12 +178,12 @@ public class JobSeekerController {
 			response.put("BadRequest", message);
 			JSONObject json_test = new JSONObject(response);
 			String json_resp = json_test.toString();
-			
+
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-			return new ResponseEntity <String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
-		}	
-}
-	
+			return new ResponseEntity<String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
+		}
+	}
+
 	/**
 	 * @param id
 	 * @param firstname
@@ -194,69 +195,59 @@ public class JobSeekerController {
 	 * @param workex
 	 * @return
 	 */
-	@RequestMapping(value="/update",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> updateJobSeeker(@RequestParam("id") String id, @RequestParam("firstname") Optional<String> firstname, @RequestParam("lastname") Optional<String> lastname,
-			@RequestParam("emailid") Optional<String> emailid, @RequestParam("highesteducation") Optional<Integer> highesteducation,
-			@RequestParam("password") Optional<String> password, @RequestParam("skills") Optional<String> skills, @RequestParam("workex") Optional<Integer> workex) 
-	{
+	public ResponseEntity<?> updateJobSeeker(@RequestParam("id") String id,
+			@RequestParam("firstname") Optional<String> firstname, @RequestParam("lastname") Optional<String> lastname,
+			@RequestParam("emailid") Optional<String> emailid,
+			@RequestParam("highesteducation") Optional<Integer> highesteducation,
+			@RequestParam("password") Optional<String> password, @RequestParam("skills") Optional<String> skills,
+			@RequestParam("workex") Optional<Integer> workex) {
 		JobSeeker js = new JobSeeker();
-		
+
 		js.setJobseekerId(Integer.parseInt(id));
-		
-		if(!emailid .equals( Optional.empty()))
-		{
-			System.out.println("emailid done : "+emailid.get() + ":::: " + emailid);
+
+		if (!emailid.equals(Optional.empty())) {
+			System.out.println("emailid done : " + emailid.get() + ":::: " + emailid);
 			js.setEmailId(emailid.get());
 		}
-		if(!firstname.equals( Optional.empty()))
-		{
+		if (!firstname.equals(Optional.empty())) {
 			System.out.println("fname done");
 			js.setFirstName(firstname.get());
 		}
-		if(!lastname.equals( Optional.empty()))
-		{
+		if (!lastname.equals(Optional.empty())) {
 			System.out.println("lname done");
 			js.setLastName(lastname.get());
 		}
-		if(!highesteducation.equals( Optional.empty()))
-		{
+		if (!highesteducation.equals(Optional.empty())) {
 			System.out.println("highest edu");
 			js.setHighestEducation(highesteducation.get());
 		}
-		if(!password .equals( Optional.empty()))
-		{
+		if (!password.equals(Optional.empty())) {
 			System.out.println("password");
 			js.setPassword(password.get());
 		}
-		if(!skills .equals( Optional.empty()))
-		{
-			System.out.println("skills : "+skills);
+		if (!skills.equals(Optional.empty())) {
+			System.out.println("skills : " + skills);
 			js.setSkills(skills.get());
-			System.out.println("huhuhuh : "+skills.get());
+			System.out.println("huhuhuh : " + skills.get());
 		}
-		
-		if(!workex .equals( Optional.empty()))
-		{
-			System.out.println("workex : "+workex);
+
+		if (!workex.equals(Optional.empty())) {
+			System.out.println("workex : " + workex);
 			js.setWorkEx(workex.get());
 		}
-		
-		
+
 		JobSeeker jobseeker = jobSeekerDao.getJobSeeker(Integer.parseInt(id));
 		JobSeeker jobskr = null;
-		if(jobseeker != null)
-		{
+		if (jobseeker != null) {
 			jobskr = jobSeekerDao.updateJobSeeker(js);
 			System.out.println("updated");
 		}
 		System.out.println("done");
 		return ResponseEntity.ok(jobskr);
-		
+
 	}
-	
-	
-	
 
 	/**
 	 * @param emailId
@@ -264,38 +255,69 @@ public class JobSeekerController {
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public String Login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,@RequestParam("type") String type)
-	{
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
+			@RequestParam("type") String type) {
 		List<String> list = new ArrayList<String>();
 		String email = emailId;
 		String pwd = password;
-		System.out.println(email+" : " + pwd);
-		
-		if(type.equals("recruiter"))
-		{
+		System.out.println(email + " : " + pwd);
+
+		if (type.equals("recruiter")) {
 			list = companyDao.PasswordLookUp(email);
-		}
-		else if (type.equals("seeker"))
-		{
+		} else if (type.equals("seeker")) {
 			list = jobSeekerDao.PasswordLookUp(email);
 		}
-		
+
 		System.out.println(list);
-		if(list.size()==0)
-		{
+		if (list.size() == 0) {
 			return "UserName Invalid";
-		}
-		else
-		{
-			if(pwd.equals(list.get(0)))
-			{
+		} else {
+			if (pwd.equals(list.get(0))) {
 				return "Login Successful";
 			}
-			
+
 		}
 		return "Invalid Password";
-			
-		
+
+	}
+
+	/**
+	 * @param type
+	 * @param pin
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
+	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
+			@RequestParam("userId") int userId) {
+
+		if (type.equals("seeker")) {
+
+			JobSeeker j = jobSeekerDao.getJobSeeker(userId);
+			if (j.getVerificationCode() == pin) {
+				j.setVerified(true);
+				jobSeekerDao.verify(j);
+
+			} else {
+				return "Invalid Login";
+
+			}
+
+		} else {
+
+			Company j = companyDao.getCompany(userId);
+			if (j.getVerificationCode() == pin) {
+				j.setVerified(true);
+				companyDao.verify(j);
+
+			} else {
+				return "Invalid Login";
+			}
+
+		}
+
+		return "Hello";
+
 	}
 }
