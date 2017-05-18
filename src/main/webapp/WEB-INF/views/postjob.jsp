@@ -296,10 +296,11 @@ body {
 		
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
-			<p>Amay Dubey ()</p>
-			<p>Ashay Argal (010822513)</p>
-			<p>Avdeep ()</p>
-			<p>Surendra ()</p>
+			<p>Amay</p>
+			<p>Ashay</p>
+			<p>Avdeep</p>
+			<p>Surendra</p>
+			<p>Surendra</p>
 		</div>
 
 	</div>

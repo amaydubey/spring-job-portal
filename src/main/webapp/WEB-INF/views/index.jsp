@@ -249,8 +249,10 @@ body {
 				</div>
 				<div class="col-xs-6">
 					<h4>New users</h4>
-					<button class="btn btn-danger btn-block"
-						onclick="location.href ='register.jsp'">Register</button>
+					<form action="/register" method="get">
+					<button type="submit" class="btn btn-danger btn-block"
+						>Register</button>
+						</form>
 				</div>
 
 
@@ -261,7 +263,7 @@ body {
 							<span
 								onclick="document.getElementById('id01').style.display='none'"
 								class="close" title="Close Modal">&times;</span> <img
-								src="img/avatar.png" alt="Avatar" class="avatar">
+								src="https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png" alt="Avatar" class="avatar">
 						</div>
 
 						<div class="container-fluid">
@@ -540,10 +542,11 @@ body {
 
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
-			<p>Amay Dubey ()</p>
-			<p>Ashay Argal (010822513)</p>
-			<p>Avdeep ()</p>
-			<p>Surendra ()</p>
+			<p>Amay</p>
+			<p>Ashay</p>
+			<p>Avdeep</p>
+			<p>Surendra</p>
+			<p>Surendra</p>
 		</div>
 
 	</div>
