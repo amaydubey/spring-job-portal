@@ -81,12 +81,15 @@ public class JobSeekerController {
 	}
 
 	/**
+	 * @param searchString
 	 * @param locations
-	 * @return
+	 * @param companies
+	 * @param salary
+	 * @return Jobs that match the filter criteria
 	 */
 	@RequestMapping(value = "/searchjobs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> searchJobs(@RequestParam("locations") Optional<String> locations,
+	public ResponseEntity<?> searchJobs(@RequestParam("searchString") Optional<String> searchString, @RequestParam("locations") Optional<String> locations,
 			@RequestParam("companies") Optional<String> companies, @RequestParam("salary") Optional<String> salary) {
 		JobPostingsView jpv = new JobPostingsView();
 
@@ -100,7 +103,7 @@ public class JobSeekerController {
 		if (!salary.equals(Optional.empty())) {
 			jpv.setSalary(salary.get());
 		}
-		List<?> jp = jobSeekerDao.searchJobs(jpv);
+		List<?> jp = jobSeekerDao.filterJobs(jpv);
 		return ResponseEntity.ok(jp);
 	}
 

@@ -22,13 +22,13 @@ public interface JobSeekerDao {
 	 * @param resumePath
 	 * @return The newly created job application
 	 */
-	JobApplication apply(int jobseekerId, int jobId, boolean resumeFlag, String resumePath);
+	public JobApplication apply(int jobseekerId, int jobId, boolean resumeFlag, String resumePath);
 
 	/**
 	 * @param jpv
 	 * @return Job Postings according to the provided parameter
 	 */
-	List<?> searchJobs(JobPostingsView jpv);
+	public List<?> filterJobs(JobPostingsView jpv);
 
 	/**
 	 * @param job
@@ -59,5 +59,11 @@ public interface JobSeekerDao {
 	 * @param j
 	 */
 	public void verify(JobSeeker j);
+	
+	/**
+	 * @param searchString
+	 * @return Jobs for that search string
+	 */
+	public List<?> searchJobs(String searchString);
 
 }

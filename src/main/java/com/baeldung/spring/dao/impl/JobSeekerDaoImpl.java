@@ -61,7 +61,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	 * entity.JobPostingsView)
 	 */
 	@Override
-	public List<?> searchJobs(JobPostingsView jpv) {
+	public List<?> filterJobs(JobPostingsView jpv) {
 		boolean locationFlag = false, companyFlag = false, salaryFlag = false;
 		String selectQuery = "SELECT jobId, title, description, responsibilites, location, salary, companyId, companyName FROM JobPostingsView jpv WHERE";
 		if (null != jpv.getLocation()) {
@@ -175,6 +175,15 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 			e.printStackTrace();
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.baeldung.spring.dao.JobSeekerDao#searchJobs(java.lang.String)
+	 */
+	@Override
+	public List<?> searchJobs(String searchString) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
