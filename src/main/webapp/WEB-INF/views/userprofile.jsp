@@ -808,21 +808,19 @@ a.stp-back-totop {
     <body>
 		
         <body id="pagetop">
-	<%
-		String name = "John"; 
-	%>
+	
 	<div class="container-fluid">
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+					<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as <% out.print(name);%>
+						data-toggle="dropdown" href="#">logged in as ${seeker.firstName}
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
@@ -844,32 +842,27 @@ a.stp-back-totop {
             <div class="container">
                 <div class="row">
                     <!-- user image -->
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 stp-user-img">
-                        <img src="images/user.jpg" class="img-responsive img-circle" alt="user image or profile image">
-                    </div>
+                    
                     <!-- user image -->
                     <!-- user bio -->
                     <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
-                        <h1>Sharojit Sheel</h1>
-                        <p><a href="#contact" title="hire me" class="stp-btn">UPDATE</a>
+                        <h1>${ seeker.firstName} ${seeker.lastName }</h1>
+                        <p>
+                        <form >
+                        	
+                        
+                        	<button type="submit" class="btn btn-primary">Update</button>
+                        </form>
 							
 							
 							
-						<form>
-							<div>
-							 <input type="hidden" role="uploadcare-uploader"
-						    name ="image"			
-  
-									>
-							</div>
-							<input  type= "submit" value="save" class="stp-btn">
-						</form>	
+						
 						
                     </div>
                  
                     <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
-                        <p>Email: <a>hi@themesplugin.com</a></p>
-                        <p>Phone: <a >+8801918376720</a><br>
+                        <p>Email: <a>${seeker.emailId }</a></p>
+                        
                         
                     </div>
                     <!-- user info -->
@@ -900,8 +893,8 @@ a.stp-back-totop {
                         <div class="row">
                             <div class="col-lg-12 col-xs-12">
                                 <div class="stp-jobs">
-                                    <p class="stp-job-time">2016-Present</p>
-                                    <h2 class="stp-job-title">Senior Web Developer</h2>
+                                  
+                                    <h2 class="stp-job-title">${seeker.workEx }</h2>
                                     
                                    
                                 </div>
@@ -934,7 +927,7 @@ a.stp-back-totop {
                
                         <div class="skill">
                             <div class="">
-                                Janina Development
+                                ${seeker.skills }
                             </div>
                         </div>
                     </div>
@@ -956,7 +949,7 @@ a.stp-back-totop {
                 <div class="row">
                     <!-- Heading -->
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 stp-heading">
-                        <h2 class="stp-title">education</h2>
+                        <h2 class="stp-title">Highest Education</h2>
                     </div>
                     <!-- Heading -->
                     <!-- Content -->
@@ -965,8 +958,8 @@ a.stp-back-totop {
                         <div class="row">
                             <div class="col-lg-12 col-xs-12">
                                 <div class="stp-degree">
-                                    <p class="stp-degree-year">2015-2016</p>
-                                    <h2 class="stp-degree-title">The university name</h2>
+                                    
+                                    <h2 class="stp-degree-title">${seeker.highestEducation }</h2>
                                    
                                 </div>
                             </div>
@@ -978,7 +971,7 @@ a.stp-back-totop {
                 </div>
             </div>
         </section>
-       
+       </div>
         
     <div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>

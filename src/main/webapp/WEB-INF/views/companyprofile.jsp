@@ -821,7 +821,7 @@ a.stp-back-totop {
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as <% out.print(name);%>
+						data-toggle="dropdown" href="#">logged in as ${company.companyName}
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
@@ -846,28 +846,22 @@ a.stp-back-totop {
                 <div class="row">
                     <!-- user image -->
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 stp-user-img">
-                        <img src="" class="img-responsive img-circle" alt="user image or profile image">
+                        
                     </div>
                     <!-- user image -->
                     <!-- user bio -->
                     <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
-                        <h1>COMPANY NAME</h1>
-                        <p><a href="#contact" title="hire me" class="stp-btn">UPDATE</a>
+                        <h1>${company.companyName}</h1>
+                        <p><form action="/JobPosting?cid=${company.companyId }" method="get" class="stp-btn">UPDATE</form>
 							
 							
-				<! -- to be updated=====================-->			
-						<form>
-							<div>
-							 <input type="hidden" role="uploadcare-uploader" name ="image">
-							</div>
-							<input  type= "submit" value="save" class="stp-btn">
 							
-						</form>	
+						
 						
                     </div>
                  
                     <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
-                        <p>HEADQUATERS:SAN JOSE</p>
+                        <p>HEADQUATERS: ${company.headquarters}</p>
 						<input  type= "submit" value="POST JOB" class="stp-btn">
                         
                     </div>
@@ -898,7 +892,7 @@ a.stp-back-totop {
                         <div class="row">
                             <div class="col-lg-12 col-xs-12">
                                 <div class="stp-jobs">
-                                    <p class="stp-job-time">2016-Present</p>
+                                    <p class="stp-job-time">Description</p>
                                     
                                    
                                 </div>

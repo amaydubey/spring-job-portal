@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.JobSeekerDao;
+import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
 import com.baeldung.spring.entity.JobApplication;
 import com.baeldung.spring.entity.JobPostingsView;
@@ -115,10 +116,7 @@ public class JobSeekerController {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	@SuppressWarnings("finally")
-
-	@RequestMapping(value = "/createuser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
+	@RequestMapping(value = "/createuser", method = RequestMethod.POST)
 	public String createJobSeeker(@RequestParam("name") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("type") String type, Model model)
 			throws IOException, SQLException {
@@ -162,7 +160,7 @@ public class JobSeekerController {
 				Company c1 = companyDao.createCompany(c);
 
 				String verificationUrl = "http://localhost:8080/register/verify?userId=" + c1.getCompanyId() + "&pin="
-						+ randomPIN + "";
+						+ randomPIN + "&type=recruiter";
 
 				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
 			    model.addAttribute("name",c1.getCompanyName());
@@ -204,7 +202,15 @@ public class JobSeekerController {
 		}	
 }
 	
-
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String updateSeekerPage(@RequestParam("id") String id, Model model){
+		
+		JobSeeker j1 = new JobSeekerDaoImpl().getJobSeeker(Integer.parseInt(id));
+		model.addAttribute("j", j1);
+		return "updateSeeker";
+	}
+	
+	
 	/**
 	 * @param id
 	 * @param firstname
@@ -215,15 +221,15 @@ public class JobSeekerController {
 	 * @param skills
 	 * @param workex
 	 * @return
+	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<?> updateJobSeeker(@RequestParam("id") String id,
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateJobSeeker(@RequestParam("id") String id,
 			@RequestParam("firstname") Optional<String> firstname, @RequestParam("lastname") Optional<String> lastname,
 			@RequestParam("emailid") Optional<String> emailid,
-			@RequestParam("highesteducation") Optional<Integer> highesteducation,
+			@RequestParam("highesteducation") Optional<String> highesteducation,
 			@RequestParam("password") Optional<String> password, @RequestParam("skills") Optional<String> skills,
-			@RequestParam("workex") Optional<Integer> workex) {
+			@RequestParam("workex") Optional<String> workex, Model model) throws Exception {
 		JobSeeker js = new JobSeeker();
 
 		js.setJobseekerId(Integer.parseInt(id));
@@ -242,7 +248,7 @@ public class JobSeekerController {
 		}
 		if (!highesteducation.equals(Optional.empty())) {
 			System.out.println("highest edu");
-			js.setHighestEducation(highesteducation.get());
+			js.setHighestEducation(Integer.parseInt(highesteducation.get()));
 		}
 		if (!password.equals(Optional.empty())) {
 			System.out.println("password");
@@ -256,17 +262,21 @@ public class JobSeekerController {
 
 		if (!workex.equals(Optional.empty())) {
 			System.out.println("workex : " + workex);
-			js.setWorkEx(workex.get());
+			js.setWorkEx(Integer.parseInt(workex.get()));
 		}
 
 		JobSeeker jobseeker = jobSeekerDao.getJobSeeker(Integer.parseInt(id));
 		JobSeeker jobskr = null;
 		if (jobseeker != null) {
-			jobskr = jobSeekerDao.updateJobSeeker(js);
+			jobskr  = jobSeekerDao.updateJobSeeker(js);
 			System.out.println("updated");
+		} else {
+			jobskr  = jobSeekerDao.createJobSeeker(js);
 		}
 		System.out.println("done");
-		return ResponseEntity.ok(jobskr);
+		
+		model.addAttribute("seeker", js);
+		return "userprofile";
 
 	}
 
@@ -278,7 +288,7 @@ public class JobSeekerController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
-			@RequestParam("type") String type) {
+			@RequestParam("type") String type, Model model) {
 		List<String> list = new ArrayList<String>();
 		String email = emailId;
 		String pwd = password;
@@ -311,7 +321,7 @@ public class JobSeekerController {
 	 */
 	@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
 	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
-			@RequestParam("userId") int userId) {
+			@RequestParam("userId") int userId, Model model) {
 
 		if (type.equals("seeker")) {
 
@@ -319,9 +329,10 @@ public class JobSeekerController {
 			if (j.getVerificationCode() == pin) {
 				j.setVerified(true);
 				jobSeekerDao.verify(j);
-
+				model.addAttribute("seeker", j);
+				return "userregister";
 			} else {
-				return "Invalid Login";
+				return "error";
 
 			}
 
@@ -331,14 +342,15 @@ public class JobSeekerController {
 			if (j.getVerificationCode() == pin) {
 				j.setVerified(true);
 				companyDao.verify(j);
-
+				model.addAttribute("company", j);
+				return "companyprofile";
 			} else {
-				return "Invalid Login";
+				return "error";
 			}
 
 		}
 
-		return "Hello";
+		
 
 	}
 	
