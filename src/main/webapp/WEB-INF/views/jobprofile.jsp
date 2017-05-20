@@ -69,7 +69,7 @@ html {
 	background: #d9d9d9;
 }
 
-body {
+.bod {
 	font-family: 'Open Sans', sans-serif;
 	overflow-x: hidden;
 	font-weight: 400;
@@ -873,10 +873,8 @@ a.stp-back-totop {
 
 </head>
 
-<body id="pagetop">
-	<%
-		String name = "John";
-	%>
+<body id="pagetop" class="container-fluid well">
+	<div class="bod">
 	<div class="container-fluid">
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -888,7 +886,7 @@ a.stp-back-totop {
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as ${companyname}
+						data-toggle="dropdown" href="#">logged in as ${company.companyName}
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
@@ -918,10 +916,10 @@ a.stp-back-totop {
 
 				<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
 					<h1>${job.title}</h1>
-					<p>${job.location}</p>
+					<h3>${job.location}</h3>
 					<br>
-					<p>Posted by: ${companyname}</p>
-					<h4>
+					<h3>Posted by: ${company.companyName}</h3>
+					<h3>
 						Status:
 						<c:if test="${job.state == 0}">	
 							<c:out value="Open" />
@@ -935,7 +933,7 @@ a.stp-back-totop {
 						
 						
 						
-							</h4>
+							</h3>
 							
 							
                     
@@ -943,11 +941,12 @@ a.stp-back-totop {
 
 					<div
 					class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
-						<p>Salary: ${job.salary}</p>
+						<h3>Salary: </h3>
+						<p>${job.salary}</p>
 						<br>
-						<p>Posted by: ${companyname}</p>
-						<br>
-						<p>Job responsibilities: ${job.responsibilities}</p>
+						
+						<h3>Job responsibilities: </h3>
+						<p>${job.responsibilities}</p>
 
 					</div>
 					<!-- job info -->
@@ -972,7 +971,7 @@ a.stp-back-totop {
 					</div>
 					<!-- Heading -->
 					<!-- Content -->
-					<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 stp-content">
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 stp-content">
 						<!-- job widget -->
 						<div class="row">
 							<div class="col-lg-12 col-xs-12">
@@ -983,6 +982,13 @@ a.stp-back-totop {
 								</div>
 							</div>
 						</div>
+						</div>
+						<div class="col-sm-3">
+							<form action="/JobPosting/delete/${job.jobId }">
+							<input type="submit" class="btn btn-danger btn-block" value="Delete Job">
+								
+							</form>
+						
 
 					</div>
 					<!-- Content -->
@@ -1001,7 +1007,7 @@ a.stp-back-totop {
 
 			</div>
 		</section>
-
+</div>
 
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>

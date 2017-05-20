@@ -5,7 +5,6 @@ package com.baeldung.spring.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import java.util.Optional;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,21 +40,7 @@ import com.baeldung.spring.mail.EmailServiceImpl;
 @RequestMapping(value = "/")
 public class JobSeekerController {
 
-	/**
-	 * @return Homepage
-	 */
-	@RequestMapping(value = "/findjobs", method = RequestMethod.GET)
-	public String showHomePage() {
-		return "index";
-	}
-
-	/**
-	 * @return Register page
-	 */
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String showRegisterPage() {
-		return "register";
-	}
+	
 
 	@Autowired
 	JobSeekerDao jobSeekerDao;
@@ -285,86 +269,12 @@ public class JobSeekerController {
 		return "userprofile";
 
 	}
-
-	/**
-	 * @param emailId
-	 * @param password
-	 * @param type
-	 * @return
-	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
-			@RequestParam("type") String type, Model model) {
-		List<String> list = new ArrayList<String>();
-		String email = emailId;
-		String pwd = password;
-		System.out.println(email + " : " + pwd);
-
-		if (type.equals("recruiter")) {
-			list = companyDao.PasswordLookUp(email);
-		} else if (type.equals("seeker")) {
-			list = jobSeekerDao.PasswordLookUp(email);
-		}
-
-		System.out.println(list);
-		if (list.size() == 0) {
-			return "UserName Invalid";
-		} else {
-			if (pwd.equals(list.get(0))) {
-				return "Login Successful";
-			}
-
-		}
-		return "Invalid Password";
-
-	}
-
-	/**
-	 * @param type
-	 * @param pin
-	 * @param userId
-	 * @return
-	 */
-	@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
-	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
-			@RequestParam("userId") int userId, Model model) {
-
-		if (type.equals("seeker")) {
-
-			JobSeeker j = jobSeekerDao.getJobSeeker(userId);
-			if (j.getVerificationCode() == pin) {
-				j.setVerified(true);
-				jobSeekerDao.verify(j);
-				model.addAttribute("seeker", j);
-				return "userregister";
-			} else {
-				return "error";
-
-			}
-
-		} else {
-
-			Company j = companyDao.getCompany(userId);
-			if (j.getVerificationCode() == pin) {
-				j.setVerified(true);
-				companyDao.verify(j);
-				model.addAttribute("company", j);
-				return "companyprofile";
-			} else {
-				return "error";
-			}
-
-		}
-
-		
-
-	}
 	
-	@RequestMapping(value="/update/company",method = RequestMethod.PUT)
-    public ResponseEntity<?> companyupdate(@RequestParam("id") String id,@RequestParam("companyName") Optional<String> name,
+	@RequestMapping(value="/update/company",method = RequestMethod.POST)
+    public String companyupdate(@RequestParam("id") String id,@RequestParam("companyName") Optional<String> name,
 @RequestParam("headquarters") Optional<String> headquarters,
 @RequestParam("companyUser") Optional<String>
-user,@RequestParam("description") Optional<String> description)
+user,@RequestParam("description") Optional<String> description, Model model)
     {
 
         Company  c = new Company();
@@ -375,6 +285,11 @@ user,@RequestParam("description") Optional<String> description)
         {
 
             c.setCompanyName(name.get());
+        }
+        if(!user .equals( Optional.empty()))
+        {
+
+            c.setCompanyUser(user.get());
         }
         if(!headquarters.equals( Optional.empty()))
         {
@@ -393,9 +308,12 @@ user,@RequestParam("description") Optional<String> description)
         {
             c1 = companyDao.updateCompany(c);
 
+        } else{
+        	return "error";
         }
         System.out.println("done");
-        return ResponseEntity.ok(c1);
+        model.addAttribute("company", c1);
+        return "companyprofile";
 
     }
 }
