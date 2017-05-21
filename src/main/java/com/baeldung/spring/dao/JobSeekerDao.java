@@ -5,7 +5,6 @@ package com.baeldung.spring.dao;
 
 import java.util.List;
 
-import com.baeldung.spring.entity.JobApplication;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 
@@ -14,16 +13,7 @@ import com.baeldung.spring.entity.JobSeeker;
  *
  */
 public interface JobSeekerDao {
-
-	/**
-	 * @param jobseekerId
-	 * @param jobId
-	 * @param resumeFlag
-	 * @param resumePath
-	 * @return The newly created job application
-	 */
-	public JobApplication apply(int jobseekerId, int jobId, boolean resumeFlag, String resumePath);
-
+	
 	/**
 	 * @param jpv
 	 * @param jobIds 

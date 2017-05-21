@@ -3,10 +3,15 @@ package com.baeldung.spring.dao;
 import com.baeldung.spring.entity.JobPosting;
 
 
+/**
+ * @author surendrary
+ *
+ */
 public interface JobPostingDao {
 	
 	/**
-	 * @param Job
+	 * @param job
+	 * @param cid
 	 * @return New JobPosting
 	 * @throws Exception 
 	 */
@@ -28,6 +33,6 @@ public interface JobPostingDao {
 	 * @param job
 	 * @return Updated Job Posting
 	 */
-	JobPosting updateJobPosting(JobPosting j);
+	JobPosting updateJobPosting(JobPosting job);
 
 }

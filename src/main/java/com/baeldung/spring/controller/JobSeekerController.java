@@ -5,7 +5,6 @@ package com.baeldung.spring.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
-import com.baeldung.spring.entity.JobApplication;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
@@ -46,22 +44,6 @@ public class JobSeekerController {
 
 	@Autowired
 	EmailServiceImpl emailService;
-
-	/**
-	 * @param jobSeekerId
-	 * @param jobId
-	 * @param resumeFlag
-	 * @param resumePath
-	 * @return The newly created application
-	 */
-	@RequestMapping(value = "/apply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<?> apply(@RequestParam("jobSeekerId") String jobSeekerId, @RequestParam("jobId") String jobId,
-			@RequestParam("resumeFlag") boolean resumeFlag, @RequestParam("resumePath") String resumePath) {
-		JobApplication ja = new JobApplication();
-		ja = jobSeekerDao.apply(Integer.parseInt(jobSeekerId), Integer.parseInt(jobId), resumeFlag, resumePath);
-		return ResponseEntity.ok(ja);
-	}
 
 	/**
 	 * @param searchString
@@ -278,7 +260,7 @@ public class JobSeekerController {
 	 * @param model
 	 * @return Login
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
 			@RequestParam("type") String type, Model model) {
 		List<String> list = new ArrayList<String>();
@@ -303,7 +285,7 @@ public class JobSeekerController {
 		}
 		return "Invalid Password";
 
-	}
+	}*/	
 
 	/**
 	 * @param type
@@ -312,7 +294,7 @@ public class JobSeekerController {
 	 * @param model
 	 * @return verified
 	 */
-	@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
 	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
 			@RequestParam("userId") int userId, Model model) {
 
@@ -344,7 +326,7 @@ public class JobSeekerController {
 		}
 
 	}
-
+	*/
 	/**
 	 * @param id
 	 * @param name
@@ -354,7 +336,7 @@ public class JobSeekerController {
 	 * @param model 
 	 * @return updated company
 	 */
-	@RequestMapping(value = "/update/company", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/company", method = RequestMethod.POST)
 	public String companyupdate(@RequestParam("id") String id,
 			@RequestParam("companyName") Optional<String> name,
 			@RequestParam("headquarters") Optional<String> headquarters,

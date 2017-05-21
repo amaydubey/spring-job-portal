@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.entity.Company;;
 
+/**
+ * @author ashay
+ *
+ */
 @Repository
 @Transactional
 @Service
@@ -90,6 +94,18 @@ public class CompanyDaoImpl implements CompanyDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.baeldung.spring.dao.CompanyDao#getJobsByCompany(java.lang.String, int)
+	 */
+	@Override
+	public List<?> getJobsByCompany(int companyId, int state) {
+		Query query = entityManager.createQuery("SELECT jobId, title, description, responsibilites, location, salary, state, companyId, companyName FROM JobPostingsView jp WHERE jp.companyId = :companyId AND jp.state = :state ");
+		query.setParameter("companyId", companyId);
+		query.setParameter("state", state);
+		List<?> querylist = query.getResultList();
+		return querylist;
 	}
 
 }

@@ -6,9 +6,7 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -110,6 +108,39 @@ public class JobPostingController {
 		} else {
 			return "error";
 		}
+	}
+
+	/**
+	 * @param id
+	 * @param state
+	 * @param title
+	 * @param description
+	 * @param responsibilities
+	 * @param location
+	 * @param salary
+	 * @param model
+	 * @return Updated job view
+	 */
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	public String updateJobPosting(@PathVariable("id") int id, @RequestParam("state") String state,
+			@RequestParam("title") String title, @RequestParam("description") String description,
+			@RequestParam("responsibilities") String responsibilities, @RequestParam("location") String location,
+			@RequestParam("salary") String salary, Model model) {
+		// TODO routing
+		JobPosting job = jobDao.getJobPosting(id);
+
+		if (job != null) {
+			job.setjobId(id);
+			job.setDescription(description);
+			job.setState(Integer.parseInt(state));
+			job.setTitle(title);
+			job.setLocation(location);
+			job.setResponsibilities(responsibilities);
+			jobDao.updateJobPosting(job);
+			return "Hello";
+		}
+		return "error";
+
 	}
 
 }

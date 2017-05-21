@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baeldung.spring.dao.JobSeekerDao;
-import com.baeldung.spring.entity.JobApplication;
-import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 
@@ -33,26 +31,6 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	@Override
-	public JobApplication apply(int jobseekerId, int jobId, boolean resumeFlag, String resumePath) {
-		JobApplication ja = new JobApplication();
-		try {
-			JobSeeker js = entityManager.find(JobSeeker.class, jobseekerId);
-			JobPosting jp = entityManager.find(JobPosting.class, jobId);
-			ja.setJobPosting(jp);
-			ja.setJobSeeker(js);
-			ja.setResume(resumeFlag);
-			if (!resumePath.equals(null)) {
-				ja.setResumePath(resumePath);
-			}
-			ja.setState(0);
-			entityManager.persist(ja);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ja;
-	}
 
 	/*
 	 * (non-Javadoc)

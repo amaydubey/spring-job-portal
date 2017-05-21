@@ -4,39 +4,49 @@ import java.util.List;
 
 import com.baeldung.spring.entity.Company;
 
+/**
+ * @author amayd
+ *
+ */
 public interface CompanyDao {
 	
 	
 	/**
 	 * @param emailid
-	 * @return
+	 * @return password for the given emailId
 	 */
 	public List<String> PasswordLookUp(String emailid);
 	
 	/**
 	 * @param com
-	 * @return
+	 * @return Created company
 	 * @throws Exception
 	 */
 	public Company createCompany(Company com) throws Exception;
 
 	/**
 	 * @param js
-	 * @return
+	 * @return Updated company
 	 */
 	public Company updateCompany(Company js);
 
 	/**
 	 * @param id
-	 * @return
+	 * @return Company
 	 */
 	public Company getCompany(int id);
 	
 	/**
 	 * @param c
-	 * @return
 	 */
 	public void verify(Company c);
+	
+	/**
+	 * @param companyId
+	 * @param state
+	 * @return List of jobs according to the state
+	 */
+	public List<?> getJobsByCompany(int companyId, int state);
 	
 	
 
