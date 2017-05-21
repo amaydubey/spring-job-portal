@@ -26,9 +26,10 @@ public interface JobSeekerDao {
 
 	/**
 	 * @param jpv
+	 * @param jobIds 
 	 * @return Job Postings according to the provided parameter
 	 */
-	public List<?> filterJobs(JobPostingsView jpv);
+	public List<?> filterJobs(JobPostingsView jpv, List<?> jobIds);
 
 	/**
 	 * @param job

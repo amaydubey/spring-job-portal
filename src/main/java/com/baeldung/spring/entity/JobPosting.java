@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class JobPosting {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "jobId", unique = true, nullable = false)
 	private int jobId;
@@ -45,6 +45,9 @@ public class JobPosting {
 
 	@Column(name = "salary")
 	private String salary;
+
+	@Column(name = "keywords")
+	private String keywords;
 
 	// @OneToMany(mappedBy="passenger", cascade = CascadeType.ALL)
 	// @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class,
@@ -166,6 +169,20 @@ public class JobPosting {
 	 */
 	public void setSalary(String Salary) {
 		this.salary = Salary;
+	}
+
+	/**
+	 * @return keywords for job
+	 */
+	public String getKeywords() {
+		return keywords;
+	}
+
+	/**
+	 * @param keywords
+	 */
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 
 }

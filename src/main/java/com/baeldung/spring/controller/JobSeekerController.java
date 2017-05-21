@@ -92,6 +92,9 @@ public class JobSeekerController {
 	public ResponseEntity<?> searchJobs(@RequestParam("searchString") Optional<String> searchString, @RequestParam("locations") Optional<String> locations,
 			@RequestParam("companies") Optional<String> companies, @RequestParam("salary") Optional<String> salary) {
 		JobPostingsView jpv = new JobPostingsView();
+		String search = searchString.get();
+		List<?> jobIds = jobSeekerDao.searchJobs(search);
+		System.out.println("*******************************jobId: "+ jobIds);
 
 		System.out.println("************************" + locations + " " + locations.equals(Optional.empty()));
 		if (!locations.equals(Optional.empty())) {
@@ -103,7 +106,7 @@ public class JobSeekerController {
 		if (!salary.equals(Optional.empty())) {
 			jpv.setSalary(salary.get());
 		}
-		List<?> jp = jobSeekerDao.filterJobs(jpv);
+		List<?> jp = jobSeekerDao.filterJobs(jpv, jobIds);
 		return ResponseEntity.ok(jp);
 	}
 

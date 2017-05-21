@@ -34,6 +34,8 @@ public class JobPostingsView {
 	private int companyId;
 	@Column(name="companyName")
 	private String companyName;
+	@Column(name="keywords")
+	private String keywords;
 	
 	/**
 	 * @return JobId
@@ -130,6 +132,18 @@ public class JobPostingsView {
 	 */
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	/**
+	 * @return keywords for job
+	 */
+	public String getKeywords() {
+		return keywords;
+	}
+	/**
+	 * @param keywords
+	 */
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 
 	
