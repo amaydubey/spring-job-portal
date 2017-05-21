@@ -41,22 +41,6 @@ import com.baeldung.spring.mail.EmailServiceImpl;
 @RequestMapping(value = "/")
 public class JobSeekerController {
 
-	/**
-	 * @return Homepage
-	 */
-	@RequestMapping(value = "/findjobs", method = RequestMethod.GET)
-	public String showHomePage() {
-		return "index";
-	}
-
-	/**
-	 * @return Register page
-	 */
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String showRegisterPage() {
-		return "register";
-	}
-
 	@Autowired
 	JobSeekerDao jobSeekerDao;
 
@@ -88,12 +72,13 @@ public class JobSeekerController {
 	 */
 	@RequestMapping(value = "/searchjobs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> searchJobs(@RequestParam("searchString") Optional<String> searchString, @RequestParam("locations") Optional<String> locations,
+	public ResponseEntity<?> searchJobs(@RequestParam("searchString") Optional<String> searchString,
+			@RequestParam("locations") Optional<String> locations,
 			@RequestParam("companies") Optional<String> companies, @RequestParam("salary") Optional<String> salary) {
 		JobPostingsView jpv = new JobPostingsView();
 		String search = searchString.get();
 		List<?> jobIds = jobSeekerDao.searchJobs(search);
-		System.out.println("*******************************jobId: "+ jobIds);
+		System.out.println("*******************************jobId: " + jobIds);
 
 		System.out.println("************************" + locations + " " + locations.equals(Optional.empty()));
 		if (!locations.equals(Optional.empty())) {
@@ -117,7 +102,7 @@ public class JobSeekerController {
 	 * @param email
 	 * @param password
 	 * @param type
-	 * @param model 
+	 * @param model
 	 * @return newly created job seeker
 	 * @throws IOException
 	 * @throws SQLException
@@ -148,7 +133,7 @@ public class JobSeekerController {
 						+ randomPIN + "&type=seeker";
 
 				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
-				model.addAttribute("name",j1.getFirstName());
+				model.addAttribute("name", j1.getFirstName());
 				return "codesent";
 
 			}
@@ -169,12 +154,11 @@ public class JobSeekerController {
 						+ randomPIN + "&type=recruiter";
 
 				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
-			    model.addAttribute("name",c1.getCompanyName());
+				model.addAttribute("name", c1.getCompanyName());
 
 				// Company c1 =companyDao.
 				return "codesent";
 			}
-
 
 		} catch (SQLException se) {
 			HttpHeaders httpHeaders = new HttpHeaders();
@@ -188,12 +172,9 @@ public class JobSeekerController {
 
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 			return "error";
-			
-			
-			
-		}
-		catch(Exception se){
-			HttpHeaders httpHeaders= new HttpHeaders();
+
+		} catch (Exception se) {
+			HttpHeaders httpHeaders = new HttpHeaders();
 
 			Map<String, Object> message = new HashMap<String, Object>();
 			Map<String, Object> response = new HashMap<String, Object>();
@@ -205,23 +186,22 @@ public class JobSeekerController {
 
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 			return "error";
-		}	
-}
-	
+		}
+	}
+
 	/**
 	 * @param id
 	 * @param model
 	 * @return updated seeker view
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String updateSeekerPage(@RequestParam("id") String id, Model model){
-		
+	public String updateSeekerPage(@RequestParam("id") String id, Model model) {
+
 		JobSeeker j1 = new JobSeekerDaoImpl().getJobSeeker(Integer.parseInt(id));
 		model.addAttribute("j", j1);
 		return "updateSeeker";
 	}
-	
-	
+
 	/**
 	 * @param id
 	 * @param firstname
@@ -231,14 +211,13 @@ public class JobSeekerController {
 	 * @param password
 	 * @param skills
 	 * @param workex
-	 * @param model 
+	 * @param model
 	 * @return updated userprofile view
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateJobSeeker(@RequestParam("id") String id,
-			@RequestParam("firstname") Optional<String> firstname, @RequestParam("lastname") Optional<String> lastname,
-			@RequestParam("emailid") Optional<String> emailid,
+	public String updateJobSeeker(@RequestParam("id") String id, @RequestParam("firstname") Optional<String> firstname,
+			@RequestParam("lastname") Optional<String> lastname, @RequestParam("emailid") Optional<String> emailid,
 			@RequestParam("highesteducation") Optional<String> highesteducation,
 			@RequestParam("password") Optional<String> password, @RequestParam("skills") Optional<String> skills,
 			@RequestParam("workex") Optional<String> workex, Model model) throws Exception {
@@ -280,13 +259,13 @@ public class JobSeekerController {
 		JobSeeker jobseeker = jobSeekerDao.getJobSeeker(Integer.parseInt(id));
 		JobSeeker jobskr = null;
 		if (jobseeker != null) {
-			jobskr  = jobSeekerDao.updateJobSeeker(js);
+			jobskr = jobSeekerDao.updateJobSeeker(js);
 			System.out.println("updated");
 		} else {
-			jobskr  = jobSeekerDao.createJobSeeker(js);
+			jobskr = jobSeekerDao.createJobSeeker(js);
 		}
 		System.out.println("done");
-		
+
 		model.addAttribute("seeker", js);
 		return "userprofile";
 
@@ -296,7 +275,7 @@ public class JobSeekerController {
 	 * @param emailId
 	 * @param password
 	 * @param type
-	 * @param model 
+	 * @param model
 	 * @return Login
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -330,7 +309,7 @@ public class JobSeekerController {
 	 * @param type
 	 * @param pin
 	 * @param userId
-	 * @param model 
+	 * @param model
 	 * @return verified
 	 */
 	@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
@@ -364,54 +343,54 @@ public class JobSeekerController {
 
 		}
 
-		
-
 	}
-	
+
 	/**
 	 * @param id
 	 * @param name
 	 * @param headquarters
 	 * @param user
 	 * @param description
+	 * @param model 
 	 * @return updated company
 	 */
-	@RequestMapping(value="/update/company",method = RequestMethod.PUT)
-    public ResponseEntity<?> companyupdate(@RequestParam("id") String id,@RequestParam("companyName") Optional<String> name,
-@RequestParam("headquarters") Optional<String> headquarters,
-@RequestParam("companyUser") Optional<String>
-user,@RequestParam("description") Optional<String> description)
-    {
+	@RequestMapping(value = "/update/company", method = RequestMethod.PUT)
+	public String companyupdate(@RequestParam("id") String id,
+			@RequestParam("companyName") Optional<String> name,
+			@RequestParam("headquarters") Optional<String> headquarters,
+			@RequestParam("companyUser") Optional<String> user,
+			@RequestParam("description") Optional<String> description, Model model) {
 
-        Company  c = new Company();
+		Company c = new Company();
 
-        c.setCompanyId(Integer.parseInt(id));
+		c.setCompanyId(Integer.parseInt(id));
 
-        if(!name .equals( Optional.empty()))
-        {
+		if (!name.equals(Optional.empty())) {
 
-            c.setCompanyName(name.get());
-        }
-        if(!headquarters.equals( Optional.empty()))
-        {
-            c.setHeadquarters(headquarters.get());
-        }
-        if(!description.equals( Optional.empty()))
-        {
-            c.setDescription(description.get());
-        }
+			c.setCompanyName(name.get());
+		}
+		if (!user.equals(Optional.empty())) {
 
+			c.setCompanyUser(user.get());
+		}
+		if (!headquarters.equals(Optional.empty())) {
+			c.setHeadquarters(headquarters.get());
+		}
+		if (!description.equals(Optional.empty())) {
+			c.setDescription(description.get());
+		}
 
+		Company company = companyDao.getCompany(Integer.parseInt(id));
+		Company c1 = null;
+		if (company != null) {
+			c1 = companyDao.updateCompany(c);
 
-        Company company = companyDao.getCompany(Integer.parseInt(id));
-        Company c1 = null;
-        if(company != null)
-        {
-            c1 = companyDao.updateCompany(c);
+		} else {
+			return "error";
+		}
+		System.out.println("done");
+		model.addAttribute("company", c1);
+		return "companyprofile";
 
-        }
-        System.out.println("done");
-        return ResponseEntity.ok(c1);
-
-    }
+	}
 }

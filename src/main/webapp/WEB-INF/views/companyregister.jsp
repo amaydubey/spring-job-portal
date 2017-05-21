@@ -216,8 +216,9 @@ body {
 		<div class="container">
 			<div class="well">
 				<h1>
-					<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">Complete
-					Registration
+					<img
+						src="http://qspear.com/admin/images/news_events_images/partner_news.png"
+						height="80" width="auto">Complete Registration
 				</h1>
 
 			</div>
@@ -225,51 +226,37 @@ body {
 				<h4 class="text-center">Recruiter registration</h4>
 				<br>
 				<div class="row">
-					<form>
+					<form action="/update/company" method="post">
+					<input type="hidden" name="id" value="${company.companyId}"></input>
 
 						<div class="col-sm-12">
 							<div class="row">
 								<div class="col-sm-6 form-group">
-									<label>First Name</label>
-									<%
-										String fname = "john";
-										String lname = "doe";
-										String email = "email@mail.com";
-										out.print("<input type='text' value='" + fname + "' readonly class='form-control'>");
-									%>
+									<label>Company Name</label>
+									
+									<input type='text' name="companyName" value='${company.companyName }' readonly class='form-control'>
 								</div>
-								<div class="col-sm-6 form-group">
-									<label>Last Name</label>
-									<%
-										out.print("<input type='text' value='" + lname + "' readonly class='form-control'>");
-									%>
-								</div>
-							</div>
-							<div class="form-group">
+								
+							
+							<div class="col-sm-6 form-group">
 								<label>Email Address</label>
-								<%
-									out.print("<input type='text' value='" + email + "' readonly class='form-control'>");
-								%>
+								<input type='text' readonly name="companyUser" value='${company.companyUser }' readonly class='form-control'>
+							</div>
 							</div>
 							<div class="form-group">
-								<label>Company name</label> <input type="text"
-									placeholder="Enter the name of your company Here.."
-									class="form-control">
-							</div>
-							<div class="form-group">
-								<label>Address</label>
-								<textarea placeholder="Enter address Here.." rows="2"
-									class="form-control"></textarea>
+								<label>Headquarter location</label>
+								<textarea rows="2" name="headquarters"
+									class="form-control">${company.headquarters}</textarea>
 							</div>
 
 							<div class="form-group">
 								<label>Description</label>
-								<textarea placeholder="Enter company description here.."
-									rows="3" class="form-control"></textarea>
+								<textarea  name="description"
+									rows="3" class="form-control"> ${company.description}</textarea>
 							</div>
 
 
-							<button type="button" class="btn btn-lg btn-primary">Submit</button>
+							<button type="submit" class="btn btn-lg btn-primary">Submit</button>
 						</div>
 					</form>
 				</div>

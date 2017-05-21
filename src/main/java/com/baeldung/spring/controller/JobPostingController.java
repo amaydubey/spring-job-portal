@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.JobPostingDao;
+import com.baeldung.spring.entity.Company;
 import com.baeldung.spring.entity.JobPosting;
 
 /**
@@ -29,6 +31,9 @@ public class JobPostingController {
 
 	@Autowired
 	JobPostingDao jobDao;
+
+	@Autowired
+	CompanyDao companyDao;
 
 	/**
 	 * @param cid
@@ -52,7 +57,6 @@ public class JobPostingController {
 	 * @param model
 	 * @return JobPosting
 	 */
-	@SuppressWarnings("finally")
 	@RequestMapping(method = RequestMethod.POST)
 	public String createJobPosting(@RequestParam("title") String title, @RequestParam("description") String description,
 			@RequestParam("responsibilities") String responsibilities, @RequestParam("location") String location,
@@ -71,8 +75,8 @@ public class JobPostingController {
 
 			JobPosting p1 = jobDao.createJobPosting(j, Integer.parseInt(cid));
 			model.addAttribute("job", p1);
-			String cname = p1.getCompany().getCompanyName();
-			model.addAttribute("companyname", cname);
+			Company company = companyDao.getCompany(Integer.parseInt(cid));
+			model.addAttribute("company", company);
 			return "jobprofile";
 
 		} catch (Exception e) {
@@ -93,36 +97,19 @@ public class JobPostingController {
 
 	/**
 	 * @param id
-	 * @return 
+	 * @param model
+	 * @return Message view for deleted javadocs
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteJobPosting(@PathVariable("id") int id) {
-
-		Map<String, Object> message = new HashMap<String, Object>();
-		Map<String, Object> response = new HashMap<String, Object>();
-		HttpHeaders httpHeaders = new HttpHeaders();
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public String deleteJobPosting(@PathVariable("id") int id, Model model) {
 
 		if (jobDao.deleteJobPosting(id)) {
-			message.put("code", "200");
-			message.put("msg", "Job Posting with JobID " + id + " is deleted successfully");
-			response.put("Response", message);
-			JSONObject json_test = new JSONObject(response);
-			String json_resp = json_test.toString();
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-			return new ResponseEntity<String>(json_resp, httpHeaders, HttpStatus.OK);
+			String message = "Job Posting with JobID " + id + " is deleted successfully";
+			model.addAttribute("message", message);
+			return "message";
 		} else {
-			System.out.println("Hello");
-			message.put("code", "404");
-			message.put("msg", "Sorry, the requested Job posting with JobID " + id + " does not exist");
-			response.put("Response", message);
-			JSONObject json_test = new JSONObject(response);
-			String json_resp = json_test.toString();
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-			return new ResponseEntity<String>(json_resp, httpHeaders, HttpStatus.NOT_FOUND);
+			return "error";
 		}
-
 	}
 
 }

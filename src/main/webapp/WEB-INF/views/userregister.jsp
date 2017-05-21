@@ -215,10 +215,7 @@ body {
 	<div class="container-fluid">
 		<div class="container">
 			<div class="well">
-				<h1>
-					Complete
-					Registration
-				</h1>
+				<h1>Complete Registration</h1>
 
 			</div>
 			<div class="col-lg-12 well" style="box-shadow: 0 0 20px black">
@@ -227,54 +224,54 @@ body {
 				<div class="row">
 					<form action="/update" method="post">
 
-					<input type="hidden" name="id" value="${seeker.jobseekerId}"></input>
-					<input type="hidden" name="password" value="123"></input>
+						<input type="hidden" name="id" value="${seeker.jobseekerId}"></input>
+						<input type="hidden" name="password" value="123"></input>
 
 
 						<div class="col-sm-12">
 							<div class="row">
 								<div class="col-sm-6 form-group">
-									<label>First Name</label>
-									
-									<input type='text' name="firstname" value='${ seeker.firstName} ' readonly class='form-control'>
+									<label>First Name</label> <input type='text' name="firstname"
+										value='${ seeker.firstName} ' readonly class='form-control'>
 								</div>
 								<div class="col-sm-6 form-group">
-									<label>Last Name</label>
-									<input type='text' name="lastname" value='${seeker.lastName }' readonly class='form-control'>
+									<label>Last Name</label> <input type='text' name="lastname"
+										value='${seeker.lastName }' readonly class='form-control'>
 								</div>
 							</div>
 							<div class="form-group">
-								<label>Email Address</label>
-								<input type='text' name="emailid" value='${seeker.emailId }' readonly class='form-control'>
+								<label>Email Address</label> <input type='text' name="emailid"
+									value='${seeker.emailId }' readonly class='form-control'>
 							</div>
-							
+
 							<div class="row">
 								<div class="col-sm-6 form-group">
-									<label>Work experience (in years)</label> <input type="text" name="workex"
-										placeholder="Enter number of years Here.." value="${seeker.workEx }"
-										class="form-control">
+									<label>Work experience (in years)</label> <input type="text"
+										name="workex" placeholder="Enter number of years Here.."
+										value="${seeker.workEx }" class="form-control">
 								</div>
 								<div class="col-sm-6 dropdown form-group">
-									<div ><label>Highest education</label>
-								<label class="btn btn-default active"><input 
-									type="radio" name="highesteducation" id="seeker" value="0"
-									autocomplete="off" checked> Master's degree
-								</label> <label class="btn btn-default"> <input type="radio"
-									name="highesteducation" id="recruiter" value="1"
-									autocomplete="off"> Bachelor's degree
-								</label>
+									<div>
+										<label>Highest education</label> <label
+											class="btn btn-default active"><input type="radio"
+											name="highesteducation" id="seeker" value="0"
+											autocomplete="off" checked> Master's degree </label> <label
+											class="btn btn-default"> <input type="radio"
+											name="highesteducation" id="recruiter" value="1"
+											autocomplete="off"> Bachelor's degree
+										</label>
 
-							</div>
-									
-									
+									</div>
+
+
 
 								</div>
 
 							</div>
 							<div class="form-group">
 								<label>Skills (comma separated)</label>
-								<textarea 
-									rows="3" name="skills" class="form-control" value="${seeker.skills }"></textarea>
+								<textarea rows="3" name="skills" class="form-control"
+									value="${seeker.skills }"></textarea>
 							</div>
 
 

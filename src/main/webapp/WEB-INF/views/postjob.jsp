@@ -225,7 +225,7 @@ body {
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as <% out.print(name);%>
+						data-toggle="dropdown" href="#">logged in as ${company.companyName }
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
@@ -252,18 +252,23 @@ body {
 						
 						<div class="col-sm-12">
 							<div class="row">
-								<div class="col-sm-6 form-group">
+								<div class="col-sm-4 form-group">
 									<label>Title *</label> <input type="text" name="title" placeholder="Enter title Here.." class="form-control">
 								</div>
-								<div class="col-sm-6 form-group">
+								
+								<div class="col-sm-4 form-group">
 									<label>Location *</label> <input type="text" name="location"
 										placeholder="Enter Location Here.." class="form-control">
 								</div>
+								<div class="col-sm-4 form-group">
+									<label>Company</label> <input type="text" readonly name="company" value="${company.companyName }" class="form-control">
+								</div>
+								
 							</div>
 
 							<div class="form-group">
 								<input type="hidden"
-									value="${cid}" class="form-control"
+									value="${company.companyId}" class="form-control"
 									name="cid" required>
 							</div>
 							<div class="form-group">
