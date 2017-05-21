@@ -14,7 +14,6 @@ import java.util.Optional;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -118,7 +117,8 @@ public class JobSeekerController {
 	 * @param email
 	 * @param password
 	 * @param type
-	 * @return
+	 * @param model 
+	 * @return newly created job seeker
 	 * @throws IOException
 	 * @throws SQLException
 	 */
@@ -208,6 +208,11 @@ public class JobSeekerController {
 		}	
 }
 	
+	/**
+	 * @param id
+	 * @param model
+	 * @return updated seeker view
+	 */
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String updateSeekerPage(@RequestParam("id") String id, Model model){
 		
@@ -226,7 +231,8 @@ public class JobSeekerController {
 	 * @param password
 	 * @param skills
 	 * @param workex
-	 * @return
+	 * @param model 
+	 * @return updated userprofile view
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -290,7 +296,8 @@ public class JobSeekerController {
 	 * @param emailId
 	 * @param password
 	 * @param type
-	 * @return
+	 * @param model 
+	 * @return Login
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
@@ -323,7 +330,8 @@ public class JobSeekerController {
 	 * @param type
 	 * @param pin
 	 * @param userId
-	 * @return
+	 * @param model 
+	 * @return verified
 	 */
 	@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
 	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
@@ -360,6 +368,14 @@ public class JobSeekerController {
 
 	}
 	
+	/**
+	 * @param id
+	 * @param name
+	 * @param headquarters
+	 * @param user
+	 * @param description
+	 * @return updated company
+	 */
 	@RequestMapping(value="/update/company",method = RequestMethod.PUT)
     public ResponseEntity<?> companyupdate(@RequestParam("id") String id,@RequestParam("companyName") Optional<String> name,
 @RequestParam("headquarters") Optional<String> headquarters,
