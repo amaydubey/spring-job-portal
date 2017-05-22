@@ -11,10 +11,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Olga
- */
 @Configuration
 @ComponentScan("com.baeldung.spring")
 @EnableWebMvc //tha same as <mvc:annotation-driven/>

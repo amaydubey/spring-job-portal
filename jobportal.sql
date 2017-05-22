@@ -41,7 +41,7 @@ CREATE TABLE `company` (
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES (1,'l','San Jose','linkedin','1234','We are LinkedIn',NULL,NULL),(3,'surendra yadav','head','amaydubey@gmail.com','1234',NULL,9632,'');
+INSERT INTO `company` VALUES (1,'l','San Jose','linkedin','1234','We are LinkedIn',1234,''),(3,'surendra yadav','head','amaydubey@gmail.com','1234',NULL,9632,'');
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,6 +93,7 @@ CREATE TABLE `jobposting` (
   `responsibilities` blob,
   `location` varchar(255) NOT NULL,
   `salary` float DEFAULT '0',
+  `keywords` blob,
   PRIMARY KEY (`jobId`),
   KEY `FK9s2a13di3vurgeiw7iwp1kwl` (`companyId`),
   CONSTRAINT `FK9s2a13di3vurgeiw7iwp1kwl` FOREIGN KEY (`companyId`) REFERENCES `company` (`companyId`)
@@ -105,7 +106,7 @@ CREATE TABLE `jobposting` (
 
 LOCK TABLES `jobposting` WRITE;
 /*!40000 ALTER TABLE `jobposting` DISABLE KEYS */;
-INSERT INTO `jobposting` VALUES (1,1,0,'SE','SE ','SE','San Jose',1212140),(2,1,0,'Test','66','234','adfd',242),(3,1,0,'Test','66','234','adfd',242);
+INSERT INTO `jobposting` VALUES (1,1,1,'new','Updated','Do yourwork','Pune',1212140,'SE SE SE san Jose'),(2,1,0,'Test','66','234','San Jose',242,'Test 66 243 adfd'),(3,1,0,'Test','66','234','adfd',242,'Test 66 243 adfd');
 /*!40000 ALTER TABLE `jobposting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,6 +125,8 @@ SET character_set_client = utf8;
  1 AS `responsibilities`,
  1 AS `location`,
  1 AS `salary`,
+ 1 AS `keywords`,
+ 1 AS `state`,
  1 AS `companyId`,
  1 AS `companyName`*/;
 SET character_set_client = @saved_cs_client;
@@ -173,7 +176,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `jobpostingsview` AS select `jp`.`jobId` AS `jobId`,`jp`.`title` AS `title`,`jp`.`description` AS `description`,`jp`.`responsibilities` AS `responsibilities`,`jp`.`location` AS `location`,`jp`.`salary` AS `salary`,`c`.`companyId` AS `companyId`,`c`.`companyName` AS `companyName` from (`jobposting` `jp` join `company` `c`) where (`c`.`companyId` = `jp`.`companyId`) */;
+/*!50001 VIEW `jobpostingsview` AS select `jp`.`jobId` AS `jobId`,`jp`.`title` AS `title`,`jp`.`description` AS `description`,`jp`.`responsibilities` AS `responsibilities`,`jp`.`location` AS `location`,`jp`.`salary` AS `salary`,`jp`.`keywords` AS `keywords`,`jp`.`state` AS `state`,`c`.`companyId` AS `companyId`,`c`.`companyName` AS `companyName` from (`jobposting` `jp` join `company` `c`) where (`c`.`companyId` = `jp`.`companyId`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -187,4 +190,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-17 17:04:43
+-- Dump completed on 2017-05-21 17:42:43
