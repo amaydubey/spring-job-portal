@@ -211,9 +211,7 @@ body {
 </head>
 
 <body id="pagetop">
-	<%
-		String name = "John"; 
-	%>
+	
 	<div class="container-fluid">
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">

@@ -97,6 +97,8 @@ public class MainController {
 		if (type.equals("seeker")) {
 
 			JobSeeker j = jobSeekerDao.getJobSeeker(userId);
+			System.out.println("ashay");
+			System.out.println(j.getVerificationCode());
 			if (j.getVerificationCode() == pin) {
 				j.setVerified(true);
 				jobSeekerDao.verify(j);

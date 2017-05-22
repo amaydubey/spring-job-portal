@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -253,12 +254,24 @@ body {
 								<div class="col-sm-6 dropdown form-group">
 									<div>
 										<label>Highest education</label> <label
-											class="btn btn-default active"><input type="radio"
+											class="btn btn-default"><input type="radio"
 											name="highesteducation" id="seeker" value="0"
-											autocomplete="off" checked> Master's degree </label> <label
-											class="btn btn-default"> <input type="radio"
-											name="highesteducation" id="recruiter" value="1"
-											autocomplete="off"> Bachelor's degree
+											autocomplete="off"
+											<c:if test="${seeker.highestEducation == 0}">	
+												<c:out value="checked" />
+											</c:if>>
+											Master's degree </label> 
+											<label class="btn btn-default"> <input
+											type="radio" name="highesteducation" id="recruiter" value="1"
+											autocomplete="off" <c:if test="${seeker.highestEducation == 1}">	
+												<c:out value="checked" />
+											</c:if>> Bachelor's degree
+										</label>
+										<label class="btn btn-default"> <input
+											type="radio" name="highesteducation" id="recruiter" value="2"
+											autocomplete="off" <c:if test="${seeker.highestEducation == 2}">	
+												<c:out value="checked" />
+											</c:if>> Ph.D.
 										</label>
 
 									</div>
@@ -271,7 +284,7 @@ body {
 							<div class="form-group">
 								<label>Skills (comma separated)</label>
 								<textarea rows="3" name="skills" class="form-control"
-									value="${seeker.skills }"></textarea>
+									>${seeker.skills }</textarea>
 							</div>
 
 

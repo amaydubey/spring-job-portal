@@ -265,7 +265,7 @@ public class JobSeekerController {
 		}
 		System.out.println("done");
 		
-		model.addAttribute("seeker", js);
+		model.addAttribute("seeker", jobskr);
 		return "userprofile";
 
 	}
