@@ -25,11 +25,17 @@ public interface JobApplicationDao {
 	 * @return The newly created job application
 	 */
 	JobApplication apply(int jobseekerId, int jobId, boolean resumeFlag, String resumePath);
-	
+
 	/**
 	 * @param jobAppId
 	 * @return Required job application
 	 */
 	JobApplication getJobApplication(int jobAppId);
+
+	/**
+	 * @param state
+	 * @return Modified job application
+	 */
+	JobApplication modifyJobApplicationStatus(int jobAppId, int state);
 
 }

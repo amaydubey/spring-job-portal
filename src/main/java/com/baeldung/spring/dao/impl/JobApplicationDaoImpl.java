@@ -61,4 +61,25 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
 		}
 		return ja;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.baeldung.spring.dao.JobApplicationDao#modifyJobApplicationStatus(int)
+	 */
+	@Override
+	public JobApplication modifyJobApplicationStatus(int jobAppId, int state) {
+		JobApplication ja = null;
+		ja = getJobApplication(jobAppId);
+		try {
+			if (ja != null) {
+				ja.setState(state);
+				entityManager.merge(ja);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ja;
+	}
 }

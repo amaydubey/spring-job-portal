@@ -142,5 +142,21 @@ public class JobPostingController {
 		return "error";
 
 	}
+	
+	/**
+	 * @param jobId
+	 * @param state
+	 * @return true if the state has been modified
+	 */
+	@RequestMapping(value = "/modifyjobstate", method = RequestMethod.POST)
+	public String modifyJobState(@RequestParam("jobId") String jobId, @RequestParam("state") String state) {
+		JobPosting jp = jobDao.getJobPosting(Integer.parseInt(jobId));
+		jp.setState(Integer.parseInt(state));
+		jp = jobDao.updateJobPosting(jp);
+		if(jp==null){
+			return "Error";
+		}
+		return "modified";
+	}
 
 }
