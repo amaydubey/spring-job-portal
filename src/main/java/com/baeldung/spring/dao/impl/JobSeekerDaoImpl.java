@@ -41,7 +41,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	@Override
 	public List<?> filterJobs(JobPostingsView jpv, List<?> jobIds) {
 		boolean locationFlag = false, companyFlag = false, salaryFlag = false;
-		String selectQuery = "SELECT jobId, title, description, responsibilites, location, salary, companyId, companyName FROM JobPostingsView jpv WHERE jobId in :jobIds";
+		String selectQuery = "SELECT jobId, title, description, responsibilites, location, salary, state, companyId, companyName FROM JobPostingsView jpv WHERE jobId in :jobIds";
 		String[] salaries = null;
 		if (null != jpv.getLocation()) {
 			locationFlag = true;
@@ -91,9 +91,11 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	@Override
 	public JobSeeker getJobSeeker(int id) {
 		JobSeeker js = null;
-
-		js = entityManager.find(JobSeeker.class, id);
-
+		try {
+			js = entityManager.find(JobSeeker.class, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return js;
 	}
 

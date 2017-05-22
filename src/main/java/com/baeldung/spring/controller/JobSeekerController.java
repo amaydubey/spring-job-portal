@@ -5,7 +5,6 @@ package com.baeldung.spring.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baeldung.spring.dao.CompanyDao;
+import com.baeldung.spring.dao.InterestedDao;
 import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
+import com.baeldung.spring.entity.Interested;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
-import com.baeldung.spring.dao.InterestedDao;
-import com.baeldung.spring.entity.Interested;
-
-
 
 /**
  * @author ashay
@@ -53,7 +49,7 @@ public class JobSeekerController {
 
 	@Autowired
 	EmailServiceImpl emailService;
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -90,9 +86,9 @@ public class JobSeekerController {
 
 	@Autowired
 	CompanyDao companyDao;
-	
+
 	@Autowired
-	InterestedDao InterestedDao;
+	InterestedDao interestedDao;
 
 	/**
 	 * @param name
@@ -275,32 +271,27 @@ public class JobSeekerController {
 	 * @param model
 	 * @return Login
 	 */
-	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
-			@RequestParam("type") String type, Model model) {
-		List<String> list = new ArrayList<String>();
-		String email = emailId;
-		String pwd = password;
-		System.out.println(email + " : " + pwd);
-
-		if (type.equals("recruiter")) {
-			list = companyDao.PasswordLookUp(email);
-		} else if (type.equals("seeker")) {
-			list = jobSeekerDao.PasswordLookUp(email);
-		}
-
-		System.out.println(list);
-		if (list.size() == 0) {
-			return "UserName Invalid";
-		} else {
-			if (pwd.equals(list.get(0))) {
-				return "Login Successful";
-			}
-
-		}
-		return "Invalid Password";
-
-	}*/	
+	/*
+	 * @RequestMapping(value = "/login", method = RequestMethod.POST) public
+	 * String login(@RequestParam("emailId") String
+	 * emailId, @RequestParam("password") String password,
+	 * 
+	 * @RequestParam("type") String type, Model model) { List<String> list = new
+	 * ArrayList<String>(); String email = emailId; String pwd = password;
+	 * System.out.println(email + " : " + pwd);
+	 * 
+	 * if (type.equals("recruiter")) { list = companyDao.PasswordLookUp(email);
+	 * } else if (type.equals("seeker")) { list =
+	 * jobSeekerDao.PasswordLookUp(email); }
+	 * 
+	 * System.out.println(list); if (list.size() == 0) { return
+	 * "UserName Invalid"; } else { if (pwd.equals(list.get(0))) { return
+	 * "Login Successful"; }
+	 * 
+	 * } return "Invalid Password";
+	 * 
+	 * }
+	 */
 
 	/**
 	 * @param type
@@ -309,51 +300,44 @@ public class JobSeekerController {
 	 * @param model
 	 * @return verified
 	 */
-	/*@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
-	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
-			@RequestParam("userId") int userId, Model model) {
-
-		if (type.equals("seeker")) {
-
-			JobSeeker j = jobSeekerDao.getJobSeeker(userId);
-			if (j.getVerificationCode() == pin) {
-				j.setVerified(true);
-				jobSeekerDao.verify(j);
-				model.addAttribute("seeker", j);
-				return "userregister";
-			} else {
-				return "error";
-
-			}
-
-		} else {
-
-			Company j = companyDao.getCompany(userId);
-			if (j.getVerificationCode() == pin) {
-				j.setVerified(true);
-				companyDao.verify(j);
-				model.addAttribute("company", j);
-				return "companyprofile";
-			} else {
-				return "error";
-			}
-
-		}
-
-	}
-	*/
+	/*
+	 * @RequestMapping(value = "/register/verify", method = RequestMethod.GET)
+	 * public String verification(@RequestParam("type") String
+	 * type, @RequestParam("pin") int pin,
+	 * 
+	 * @RequestParam("userId") int userId, Model model) {
+	 * 
+	 * if (type.equals("seeker")) {
+	 * 
+	 * JobSeeker j = jobSeekerDao.getJobSeeker(userId); if
+	 * (j.getVerificationCode() == pin) { j.setVerified(true);
+	 * jobSeekerDao.verify(j); model.addAttribute("seeker", j); return
+	 * "userregister"; } else { return "error";
+	 * 
+	 * }
+	 * 
+	 * } else {
+	 * 
+	 * Company j = companyDao.getCompany(userId); if (j.getVerificationCode() ==
+	 * pin) { j.setVerified(true); companyDao.verify(j);
+	 * model.addAttribute("company", j); return "companyprofile"; } else {
+	 * return "error"; }
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 	/**
 	 * @param id
 	 * @param name
 	 * @param headquarters
 	 * @param user
 	 * @param description
-	 * @param model 
+	 * @param model
 	 * @return updated company
 	 */
 	@RequestMapping(value = "/update/company", method = RequestMethod.POST)
-	public String companyupdate(@RequestParam("id") String id,
-			@RequestParam("companyName") Optional<String> name,
+	public String companyupdate(@RequestParam("id") String id, @RequestParam("companyName") Optional<String> name,
 			@RequestParam("headquarters") Optional<String> headquarters,
 			@RequestParam("companyUser") Optional<String> user,
 			@RequestParam("description") Optional<String> description, Model model) {
@@ -390,19 +374,17 @@ public class JobSeekerController {
 		return "companyprofile";
 
 	}
-	
-	
+
 	@RequestMapping(value = "/interested", method = RequestMethod.POST)
-	public String createInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId ) {
-		
-		try{
-		Interested in = new Interested();
-		in.setJobId(jobId);
-		in.setJobSeekerId(userId);
-		Interested i1 = InterestedDao.createInterest(in);
-		}
-		catch(Exception e){
-			
+	public String createInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId) {
+
+		try {
+			Interested in = new Interested();
+			in.setJobId(jobId);
+			in.setJobSeekerId(userId);
+			Interested i1 = interestedDao.createInterest(in);
+		} catch (Exception e) {
+
 			HttpHeaders httpHeaders = new HttpHeaders();
 
 			Map<String, Object> message = new HashMap<String, Object>();
@@ -415,39 +397,31 @@ public class JobSeekerController {
 
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 			return "error";
-			
-			
-			
+
 		}
-		
-		
-     return "done";
+
+		return "done";
 	}
-	
-	
+
+	/**
+	 * @param userId
+	 * @param jobId
+	 * @return "deleted" if the interest is deleted
+	 */
 	@RequestMapping(value = "/interested/delete", method = RequestMethod.DELETE)
-	public String deleteInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId ) {
-		
-		try{
-			
-			
-			Query query = entityManager.createQuery("SELECT ID FROM Interested jd WHERE jd.jobId = :jobid and jd.jobSeekerId =:userid");
-			query.setParameter("jobid", jobId);
-			query.setParameter("userid", userId);
-			List<?> querylist = query.getResultList();
-			System.out.println(querylist.get(0));
-			if (InterestedDao.deleteInterest(Integer.parseInt(querylist.get(0).toString()))) {
+	public String deleteInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId) {
+
+		try {
+			List<?> querylist = interestedDao.getInterestedJobId(jobId, userId);
+			boolean interestDeleted = interestedDao.deleteInterest(Integer.parseInt(querylist.get(0).toString()));
+			if (interestDeleted) {
 				return "deleted";
 			} else {
 				return "error";
 			}
-			
-			
-			
-			
-		}
-		catch(Exception e){
-			
+
+		} catch (Exception e) {
+
 			HttpHeaders httpHeaders = new HttpHeaders();
 
 			Map<String, Object> message = new HashMap<String, Object>();
@@ -460,19 +434,19 @@ public class JobSeekerController {
 
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 			return "error";
-			
-			
-			
+
 		}
-		
-		
-    
+
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * @param jobSeekerId
+	 * @return List of the jobs the job seeker is interested in
+	 */
+	@RequestMapping(value = "/getinterestedjobs", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getInterestedJobsForJobSeeker(@RequestParam("jobSeekerId") String jobSeekerId) {
+		List<?> jobSeekerInterestsList = jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getInterestedjobs();
+		return ResponseEntity.ok(jobSeekerInterestsList);
+	}
+
 }

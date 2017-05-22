@@ -9,18 +9,17 @@ import com.baeldung.spring.entity.Interested;
  *
  */
 public interface InterestedDao {
-	
-	
+
 	/**
-	 * @param com
+	 * @param in
 	 * @return Created interest
 	 * @throws Exception
 	 */
 	public Interested createInterest(Interested in) throws Exception;
 
 	/**
-	 * @param js
-	 * @return Updated interest
+	 * @param id
+	 * @return true if interest has been deleted
 	 */
 	public boolean deleteInterest(int id);
 
@@ -29,8 +28,12 @@ public interface InterestedDao {
 	 * @return Interest
 	 */
 	public Interested getInterest(int id);
-	
 
-	
+	/**
+	 * @param jobId
+	 * @param userId
+	 * @return List of the job ids of the jobs the user is interested in
+	 */
+	public List<?> getInterestedJobId(int jobId, int userId);
 
 }

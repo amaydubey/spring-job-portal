@@ -27,23 +27,20 @@ public class InterestedDaoImpl implements InterestedDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-/*
-	@Override
-	public List<String> PasswordLookUp(String emailid) {
 
-		Query query = entityManager.createQuery("SELECT password FROM Company c WHERE c.companyUser = :emailId ");
-		query.setParameter("emailId", emailid);
-		List<String> list = new ArrayList<String>();
-		List<?> querylist = query.getResultList();
-		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
-			String pwd = (String) iterator.next();
-			System.out.println(pwd + " is the password");
-			list.add(pwd);
-		}
-		System.out.println("list :::::::::::::::::::::::::::::       " + list);
-		return list;
-	}
-*/
+	/*
+	 * @Override public List<String> PasswordLookUp(String emailid) {
+	 * 
+	 * Query query = entityManager.
+	 * createQuery("SELECT password FROM Company c WHERE c.companyUser = :emailId "
+	 * ); query.setParameter("emailId", emailid); List<String> list = new
+	 * ArrayList<String>(); List<?> querylist = query.getResultList(); for
+	 * (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
+	 * String pwd = (String) iterator.next(); System.out.println(pwd +
+	 * " is the password"); list.add(pwd); }
+	 * System.out.println("list :::::::::::::::::::::::::::::       " + list);
+	 * return list; }
+	 */
 	@Override
 	public Interested createInterest(Interested c) throws Exception {
 		try {
@@ -72,10 +69,19 @@ public class InterestedDaoImpl implements InterestedDao {
 			return false;
 		}
 		return true;
-		
-		
-		
-		
+	}
+	
+	/**
+	 * @param jobId
+	 * @param userId
+	 * @return Job Id for interested list
+	 */
+	public List<?> getInterestedJobId(int jobId, int userId) {
+		Query query = entityManager.createQuery("SELECT ID FROM Interested jd WHERE jd.jobId = :jobid and jd.jobSeekerId =:userid");
+		query.setParameter("jobid", jobId);
+		query.setParameter("userid", userId);
+		List<?> querylist = query.getResultList();
+		return querylist;
 	}
 
 }
