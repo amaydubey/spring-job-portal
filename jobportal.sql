@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
 -- Host: localhost    Database: jobportal
 -- ------------------------------------------------------
--- Server version	5.7.15-log
+-- Server version	5.7.18-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,6 +43,36 @@ LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
 INSERT INTO `company` VALUES (1,'l','San Jose','linkedin','1234','We are LinkedIn',1234,''),(3,'surendra yadav','head','amaydubey@gmail.com','1234',NULL,9632,'');
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `interested`
+--
+
+DROP TABLE IF EXISTS `interested`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `interested` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `jobId` int(11) NOT NULL,
+  `jobSeekerId` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK1g8pqo7qt66g6n1hmo3gkmefe` (`jobId`),
+  KEY `FKdam92xaal9185wiya9xb0qlpy` (`jobSeekerId`),
+  CONSTRAINT `FK1g8pqo7qt66g6n1hmo3gkmefe` FOREIGN KEY (`jobId`) REFERENCES `jobposting` (`jobId`),
+  CONSTRAINT `FKdam92xaal9185wiya9xb0qlpy` FOREIGN KEY (`jobSeekerId`) REFERENCES `jobseeker` (`jobSeekerId`),
+  CONSTRAINT `interested_ibfk_1` FOREIGN KEY (`jobSeekerId`) REFERENCES `jobseeker` (`jobSeekerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `interested`
+--
+
+LOCK TABLES `interested` WRITE;
+/*!40000 ALTER TABLE `interested` DISABLE KEYS */;
+INSERT INTO `interested` VALUES (2,1,1);
+/*!40000 ALTER TABLE `interested` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -111,7 +141,7 @@ INSERT INTO `jobposting` VALUES (1,1,1,'new','Updated','Do yourwork','Pune',1212
 UNLOCK TABLES;
 
 --
--- Temporary view structure for view `jobpostingsview`
+-- Temporary table structure for view `jobpostingsview`
 --
 
 DROP TABLE IF EXISTS `jobpostingsview`;
@@ -190,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-21 17:42:43
+-- Dump completed on 2017-05-21 23:34:32

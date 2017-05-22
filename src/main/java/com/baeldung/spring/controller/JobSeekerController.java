@@ -5,10 +5,15 @@ package com.baeldung.spring.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,10 @@ import com.baeldung.spring.entity.Company;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
+import com.baeldung.spring.dao.InterestedDao;
+import com.baeldung.spring.entity.Interested;
+
+
 
 /**
  * @author ashay
@@ -44,6 +53,9 @@ public class JobSeekerController {
 
 	@Autowired
 	EmailServiceImpl emailService;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	/**
 	 * @param searchString
@@ -78,6 +90,9 @@ public class JobSeekerController {
 
 	@Autowired
 	CompanyDao companyDao;
+	
+	@Autowired
+	InterestedDao InterestedDao;
 
 	/**
 	 * @param name
@@ -247,14 +262,86 @@ public class JobSeekerController {
 			jobskr = jobSeekerDao.createJobSeeker(js);
 		}
 		System.out.println("done");
-		
-		model.addAttribute("seeker", jobskr);
 
+		model.addAttribute("seeker", js);
 		return "userprofile";
 
 	}
 
-	
+	/**
+	 * @param emailId
+	 * @param password
+	 * @param type
+	 * @param model
+	 * @return Login
+	 */
+	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
+			@RequestParam("type") String type, Model model) {
+		List<String> list = new ArrayList<String>();
+		String email = emailId;
+		String pwd = password;
+		System.out.println(email + " : " + pwd);
+
+		if (type.equals("recruiter")) {
+			list = companyDao.PasswordLookUp(email);
+		} else if (type.equals("seeker")) {
+			list = jobSeekerDao.PasswordLookUp(email);
+		}
+
+		System.out.println(list);
+		if (list.size() == 0) {
+			return "UserName Invalid";
+		} else {
+			if (pwd.equals(list.get(0))) {
+				return "Login Successful";
+			}
+
+		}
+		return "Invalid Password";
+
+	}*/	
+
+	/**
+	 * @param type
+	 * @param pin
+	 * @param userId
+	 * @param model
+	 * @return verified
+	 */
+	/*@RequestMapping(value = "/register/verify", method = RequestMethod.GET)
+	public String verification(@RequestParam("type") String type, @RequestParam("pin") int pin,
+			@RequestParam("userId") int userId, Model model) {
+
+		if (type.equals("seeker")) {
+
+			JobSeeker j = jobSeekerDao.getJobSeeker(userId);
+			if (j.getVerificationCode() == pin) {
+				j.setVerified(true);
+				jobSeekerDao.verify(j);
+				model.addAttribute("seeker", j);
+				return "userregister";
+			} else {
+				return "error";
+
+			}
+
+		} else {
+
+			Company j = companyDao.getCompany(userId);
+			if (j.getVerificationCode() == pin) {
+				j.setVerified(true);
+				companyDao.verify(j);
+				model.addAttribute("company", j);
+				return "companyprofile";
+			} else {
+				return "error";
+			}
+
+		}
+
+	}
+	*/
 	/**
 	 * @param id
 	 * @param name
@@ -303,4 +390,89 @@ public class JobSeekerController {
 		return "companyprofile";
 
 	}
+	
+	
+	@RequestMapping(value = "/interested", method = RequestMethod.POST)
+	public String createInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId ) {
+		
+		try{
+		Interested in = new Interested();
+		in.setJobId(jobId);
+		in.setJobSeekerId(userId);
+		Interested i1 = InterestedDao.createInterest(in);
+		}
+		catch(Exception e){
+			
+			HttpHeaders httpHeaders = new HttpHeaders();
+
+			Map<String, Object> message = new HashMap<String, Object>();
+			Map<String, Object> response = new HashMap<String, Object>();
+			message.put("code", "400");
+			message.put("msg", "Error Occured");
+			response.put("BadRequest", message);
+			JSONObject json_test = new JSONObject(response);
+			String json_resp = json_test.toString();
+
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			return "error";
+			
+			
+			
+		}
+		
+		
+     return "done";
+	}
+	
+	
+	@RequestMapping(value = "/interested/delete", method = RequestMethod.DELETE)
+	public String deleteInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId ) {
+		
+		try{
+			
+			
+			Query query = entityManager.createQuery("SELECT ID FROM Interested jd WHERE jd.jobId = :jobid and jd.jobSeekerId =:userid");
+			query.setParameter("jobid", jobId);
+			query.setParameter("userid", userId);
+			List<?> querylist = query.getResultList();
+			System.out.println(querylist.get(0));
+			if (InterestedDao.deleteInterest(Integer.parseInt(querylist.get(0).toString()))) {
+				return "deleted";
+			} else {
+				return "error";
+			}
+			
+			
+			
+			
+		}
+		catch(Exception e){
+			
+			HttpHeaders httpHeaders = new HttpHeaders();
+
+			Map<String, Object> message = new HashMap<String, Object>();
+			Map<String, Object> response = new HashMap<String, Object>();
+			message.put("code", "400");
+			message.put("msg", "Error Occured");
+			response.put("BadRequest", message);
+			JSONObject json_test = new JSONObject(response);
+			String json_resp = json_test.toString();
+
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			return "error";
+			
+			
+			
+		}
+		
+		
+    
+	}
+	
+	
+	
+	
+	
+	
+	
 }

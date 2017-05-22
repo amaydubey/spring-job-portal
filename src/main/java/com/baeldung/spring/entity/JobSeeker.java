@@ -2,12 +2,19 @@
  * 
  */
 package com.baeldung.spring.entity;
+import java.util.List;
+
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -50,6 +57,10 @@ public class JobSeeker {
 	
 	@Column(name="verificationCode")
 	private int verificationCode;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "interested", joinColumns = @JoinColumn(name = "jobSeekerId", referencedColumnName = "jobseekerId"), inverseJoinColumns = @JoinColumn(name = "jobId"))
+	public List<JobPosting> interestedjobs;
 	
 	/**
 	 * @return JobSeeker Id
@@ -171,5 +182,18 @@ public class JobSeeker {
 	public void setVerificationCode(int verificationCode) {
 		this.verificationCode = verificationCode;
 	}
+	
+	public List<JobPosting> getJobs() {
+		return interestedjobs;
+	}
+
+	/**
+	 * @param flights
+	 */
+	public void setJobs(List<JobPosting> interestedjobs) {
+		this.interestedjobs = interestedjobs;
+}
+	
+	
 
 }
