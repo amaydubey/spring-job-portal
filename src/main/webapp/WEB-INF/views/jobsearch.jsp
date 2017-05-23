@@ -1,8 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/template">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/template">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <head>
 
 <meta charset="utf-8">
@@ -52,6 +54,12 @@ input[type=text], input[type=password] {
 	box-sizing: border-box;
 }
 
+.results {
+	margin: 0px 100px 0px 100px;
+	padding: 50px 100px 10px 100px;
+	border-right: 1px solid #bdbdbd;
+	border-left: 1px solid #bdbdbd;
+}
 /* Set a style for all buttons */
 button {
 	background-color: #4CAF50;
@@ -211,9 +219,7 @@ body {
 </head>
 
 <body id="pagetop">
-	<%
-		String name = "John"; 
-	%>
+
 	<div class="container-fluid">
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -225,8 +231,9 @@ body {
 					<li class="active"><a href="#team">Team</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as <% out.print(name);%>
-							<span class="caret"></span></a>
+						data-toggle="dropdown" href="#">logged in as
+							${seeker.firstName} <span class="caret"></span>
+					</a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
 							<li><a href="jobsearch.jsp">Search Jobs</a></li>
@@ -241,42 +248,92 @@ body {
 
 
 				<h2>Search jobs</h2>
-				<p th:text="'Hello, ' + ${job} + '!'" />
-				<p>${job.title}</p>
 
 			</div>
 		</div>
 
-		
-		<form class="form-inline row well" style="margin:5px" action="/action_page.php">
-			<div class="form-group col-sm-4">
-				<label class="col-sm-12" for="cname">Company name</label> <input
-					type="text" class="form-control" id="email"
-					placeholder="comma separated" name="cname">
-			</div>
-			<div class="form-group col-sm-4">
-				<label class="col-sm-12" for="location">Job locations</label> <input
-					type="text" class="form-control" id="pwd"
-					placeholder="comma separated" name="location">
-			</div>
-			<div class="form-group col-sm-4">
-				<label class="col-sm-12">Salary $ p.a.:</label>
+		<div class="well">
+			<form class="form-inline row well" style="margin: 5px"
+				action="/searchjobs" method="get">
 				<div class="form-group col-sm-4">
-					<label for="min">Min</label> <input class="col-sm-2" type="text"
-						class="form-control" id="min" placeholder="$" name="min"
-						width="10px">
+					<label class="col-sm-12" for="cname">Company name</label> <input
+						type="text" class="form-control" id="email"
+						placeholder="comma separated" name="cname">
 				</div>
 				<div class="form-group col-sm-4">
-					<label for="max">Max</label> <input class="col-sm-2" type="text"
-						class="form-control" id="max" placeholder="$" name="max">
+					<label class="col-sm-12" for="location">Job locations</label> <input
+						type="text" class="form-control" id="pwd"
+						placeholder="comma separated" name="location">
 				</div>
-			</div>
+				<div class="form-group col-sm-4">
+					<label class="col-sm-12">Salary $ p.a.:</label>
+					<div class="form-group col-sm-4">
+						<label for="min">Min</label> <input class="col-sm-2" type="text"
+							class="form-control" id="min" value="0" name="min" width="10px">
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="max">Max</label> <input class="col-sm-2" type="text"
+							class="form-control" id="max" value="1000000" name="max">
+					</div>
+				</div>
 
-			<button type="submit" class="btn btn-primary">Search</button>
-		</form>
-		<div>
-		
+				<button type="submit" class="btn btn-primary">Search</button>
+			</form>
 		</div>
+		<div class="results">
+			<h2>Search Results:</h2>
+			<p>${fn:length(jobs)}search results</p>
+
+			
+
+			<c:forEach items="${jobs}" var="job">
+				<a href="/showjob?userId=${seeker.jobseekerId}&jobId=${job[0]}">${job[1]}</a>
+				<div class="row">
+					<div class="col-sm-4">
+						<p>
+							<b>jobId:</b> ${job[0]}
+						</p>
+						<p>
+							<b>location:</b> ${job[4]}
+						</p>
+						<p>
+							<b>Salary:</b> $ ${job[5]}
+						</p>
+						<p>
+							<b>Status:</b>
+							<c:if test="${job[7] == 0}">
+								<c:out value="Open" />
+							</c:if>
+							<c:if test="${job[7] == 1}">
+								<c:out value="Filled" />
+							</c:if>
+							<c:if test="${job[7] == 2}">
+								<c:out value="Cancelled" />
+							</c:if>
+						</p>
+						<p>
+							<b>Posted by:</b> ${job[8]}
+						</p>
+					</div>
+					<div class="col-sm-8">
+						<p>
+							<b>Responsibilities :</b> ${job[3]}
+						</p>
+						<p>
+							<b>Description:</b> ${job[2]}
+						</p>
+					</div>
+				</div>
+				<hr />
+			</c:forEach>
+			<!-- <p>Posted by: <c:out value="${job.company}"></c:out></p>
+    <p>Status: <c:out value="${job.location}"></c:out></p>
+    <p>Status: <c:out value="${job.salary}"></c:out></p>
+    <p>${job.description}</p>
+     -->
+
+		</div>
+
 
 		<div id="team" class="container-fluid text-center">
 			<h1>Team:</h1>
@@ -291,16 +348,16 @@ body {
 	</div>
 
 	<script>
-// Get the modal
-var modal = document.getElementById('id01');
+		// Get the modal
+		var modal = document.getElementById('id01');
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
 
 </body>
 

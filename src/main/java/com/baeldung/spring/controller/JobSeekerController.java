@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.JobSeekerDao;
+import com.baeldung.spring.dao.JobPostingDao;
 import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
+import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
@@ -52,32 +54,61 @@ public class JobSeekerController {
 	 * @param salary
 	 * @return Jobs that match the filter criteria
 	 */
-	@RequestMapping(value = "/searchjobs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<?> searchJobs(@RequestParam("searchString") Optional<String> searchString,
+	@RequestMapping(value = "/searchjobs", method = RequestMethod.GET)
+	public String searchJobs(@RequestParam("userId") String userId,
+			@RequestParam("searchString") Optional<String> searchString,
 			@RequestParam("locations") Optional<String> locations,
-			@RequestParam("companies") Optional<String> companies, @RequestParam("salary") Optional<String> salary) {
+			@RequestParam("companies") Optional<String> companies, 
+			@RequestParam("min") Optional<String> min,
+			@RequestParam("max") Optional<String> max, Model model) {
 		JobPostingsView jpv = new JobPostingsView();
-		String search = searchString.get();
+		String search = "";
+		if (!searchString.equals(Optional.empty())) {
+			search = searchString.get();
+		}
+		
 		List<?> jobIds = jobSeekerDao.searchJobs(search);
-		System.out.println("*******************************jobId: " + jobIds);
-
-		System.out.println("************************" + locations + " " + locations.equals(Optional.empty()));
 		if (!locations.equals(Optional.empty())) {
 			jpv.setLocation(locations.get());
 		}
 		if (!companies.equals(Optional.empty())) {
 			jpv.setCompanyName(companies.get());
 		}
-		if (!salary.equals(Optional.empty())) {
-			jpv.setSalary(salary.get());
+		if (!min.equals(Optional.empty()) && !max.equals(Optional.empty())) {
+		String salary = min.get()+","+max.get();
+		jpv.setSalary(salary);
 		}
+
 		List<?> jp = jobSeekerDao.filterJobs(jpv, jobIds);
-		return ResponseEntity.ok(jp);
+
+		JobSeeker jobseeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
+		System.out.println(jp.get(0));
+		
+		model.addAttribute("jobs", jp);
+		model.addAttribute("seeker", jobseeker);
+		
+		return "jobsearch";
 	}
 
 	@Autowired
 	CompanyDao companyDao;
+	
+	@Autowired
+	JobPostingDao jobDao;
+	
+	@RequestMapping(value = "/showjob", method = RequestMethod.GET)
+	public String showJob(@RequestParam("userId") String userId, @RequestParam("jobId") String jobId, Model model) {
+		
+		JobPosting job = jobDao.getJobPosting(Integer.parseInt(jobId));
+		Company company = job.getCompany();
+		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
+		
+		model.addAttribute("job", job);
+		model.addAttribute("seeker", seeker);
+		model.addAttribute("company", company);
+		
+		return "userjobprofile";
+	}
 
 	/**
 	 * @param name
