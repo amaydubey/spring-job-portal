@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Sat May 20 20:41:41 PDT 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-015c-2918-abe1-000012302168 
-on database directory memory:C:\Users\ashay\Desktop\Development\neon workspace\spring-job-portal\testdb with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/ashay/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
+Tue May 23 15:49:05 PDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-015c-377f-dc13-00000c909a28 
+on database directory memory:/Users/avdeepsandhu/spring-job-portal/testdb with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
+Loaded from file:/Users/avdeepsandhu/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_92-b14
-user.dir=C:\Users\ashay\Desktop\Development\neon workspace\spring-job-portal
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
+java.runtime.version=1.8.0_131-b11
+user.dir=/Users/avdeepsandhu/spring-job-portal
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.12.4
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
