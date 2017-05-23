@@ -149,7 +149,7 @@ p {
 	font-family: 'Open Sans', sans-serif;
 }
 
-.strong, strong {
+.strong {
 	font-weight: 500;
 }
 
@@ -874,91 +874,110 @@ a.stp-back-totop {
 </head>
 
 <body id="pagetop" class="container-fluid well">
-	<div class="bod">
-	<div class="container-fluid">
 
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+	
+		<div class="container-fluid">
+
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+					</div>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a href="#team">Team</a></li>
+
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">logged in as
+								${seeker.firstName} <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Profile</a></li>
+								<li><a href="jobsearch.jsp">Search Jobs</a></li>
+								<li><a href="index.jsp">Logout</a></li>
+							</ul></li>
+					</ul>
 				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="#team">Team</a></li>
+			</nav>
+		</div>
+<div class="container-fluid" style="margin-top: 40px">${message}</div>
 
-					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as ${seeker.firstName}
-							<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="index.jsp">Logout</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-
-
-	<div class="jumbotron">
+<div class="bod" style="margin-top: 5px">
+		<div class="jumbotron">
 			<div class="container text-center">
 
 
 				<h2>Job Profile</h2>
-				
+
 			</div>
 		</div>
-		
-	
-	<header id="stp-header">
-		<div class="container">
-		<div class="row">
-			<div class="col-sm-6">
-				<form action="">
-					<input type="submit" class="btn btn-lg btn-block btn-primary" value="interested in this job"/>
-				</form>
-			</div>
-			<div class="col-sm-6">
-				<form action="">
-					<input type="submit" class="btn btn-lg btn-block btn-success" value="apply for this job"/>
-				</form>
-			</div>
-		</div>
-			<div class="row">
+
+
+		<header id="stp-header">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<c:if test="${interested == 0}">
+							<form action="/interested" method="post">
+							<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
+							<input type="hidden" name="jobId" value="${job.jobId }"></input>
+								<input type="submit" class="btn btn-lg btn-block btn-primary"
+									value="show interest in this job" />
+							</form>
+						</c:if>
+						<c:if test="${interested == 1}">
+							<form action="/interested/delete" method="post">
+							<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
+							<input type="hidden" name="jobId" value="${job.jobId }"></input>
+								<input type="submit" class="btn btn-lg btn-block btn-danger"
+									value="remove from interested" />
+							</form>
+						</c:if>
+
+
+					</div>
+					<div class="col-sm-6">
+						<form action="">
+							<input type="submit" class="btn btn-lg btn-block btn-success"
+								value="apply for this job" />
+						</form>
+					</div>
+				</div>
+				<div class="row">
 
 
 
-				<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
-					<h1>${job.title}</h1>
-					<h3>${job.location}</h3>
-					<br>
-					<h3>Posted by: ${company.companyName}</h3>
-					<h3>
-						Status:
-						<c:if test="${job.state == 0}">	
-							<c:out value="Open" />
-						</c:if>
-						<c:if test="${job.state == 1}">	
-							<c:out value="Filled" />
-						</c:if>
-						<c:if test="${job.state == 2}">	
-							<c:out value="Cancelled" />
-						</c:if>
-						
-						
-						
-							</h3>
-							
-							
-                    
+					<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
+						<h1>${job.title}</h1>
+						<h3>${job.location}</h3>
+						<br>
+						<h3>Posted by: ${company.companyName}</h3>
+						<h3>
+							Status:
+							<c:if test="${job.state == 0}">
+								<c:out value="Open" />
+							</c:if>
+							<c:if test="${job.state == 1}">
+								<c:out value="Filled" />
+							</c:if>
+							<c:if test="${job.state == 2}">
+								<c:out value="Cancelled" />
+							</c:if>
+
+
+
+						</h3>
+
+
+
 					</div>
 
 					<div
-					class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
-						<h3>Salary: </h3>
-						<p>${job.salary}</p>
+						class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
+						<h3>Salary:</h3>
+						<p>$ ${job.salary}</p>
 						<br>
-						
-						<h3>Job responsibilities: </h3>
+
+						<h3>Job responsibilities:</h3>
 						<p>${job.responsibilities}</p>
 
 					</div>
@@ -995,15 +1014,8 @@ a.stp-back-totop {
 								</div>
 							</div>
 						</div>
-						</div>
-						<div class="col-sm-3">
-							<form action="/JobPosting/delete/${job.jobId }">
-							<input type="submit" class="btn btn-danger btn-block" value="Delete Job">
-								
-							</form>
-						
-
 					</div>
+					
 					<!-- Content -->
 				</div>
 				<!-- Recent Jobs -->
@@ -1020,15 +1032,15 @@ a.stp-back-totop {
 
 			</div>
 		</section>
-</div>
+	</div>
 
-		<div id="team" class="container-fluid text-center">
-			<h1>Team:</h1>
-			<p>Amay</p>
-			<p>Ashay</p>
-			<p>Avdeep</p>
-			<p>Surendra</p>
-			<p>Surendra</p>
-		</div>
+	<div id="team" class="container-fluid text-center">
+		<h1>Team:</h1>
+		<p>Amay</p>
+		<p>Ashay</p>
+		<p>Avdeep</p>
+		<p>Surendra</p>
+		<p>Surendra</p>
+	</div>
 </body>
 </html>

@@ -44,6 +44,10 @@
 .jumbotron {
 	margin-bottom: 10px;
 }
+
+.a1{
+	font-size: 24px;
+}
 /* Full-width input fields */
 input[type=text], input[type=password] {
 	width: 100%;
@@ -87,6 +91,10 @@ button:hover {
 	text-align: center;
 	margin: 24px 0 12px 0;
 	position: relative;
+}
+
+.groups{
+	line-height: 90%;
 }
 
 img.avatar {
@@ -255,14 +263,15 @@ body {
 		<div class="well">
 			<form class="form-inline row well" style="margin: 5px"
 				action="/searchjobs" method="get">
+				<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
 				<div class="form-group col-sm-4">
 					<label class="col-sm-12" for="cname">Company name</label> <input
-						type="text" class="form-control" id="email"
+						type="text" class="form-control" name="companies"
 						placeholder="comma separated" name="cname">
 				</div>
 				<div class="form-group col-sm-4">
 					<label class="col-sm-12" for="location">Job locations</label> <input
-						type="text" class="form-control" id="pwd"
+						type="text" class="form-control" name="locations"
 						placeholder="comma separated" name="location">
 				</div>
 				<div class="form-group col-sm-4">
@@ -282,14 +291,14 @@ body {
 		</div>
 		<div class="results">
 			<h2>Search Results:</h2>
-			<p>${fn:length(jobs)}search results</p>
+			<p>${fn:length(jobs)} search results</p>
 
 			
 
 			<c:forEach items="${jobs}" var="job">
-				<a href="/showjob?userId=${seeker.jobseekerId}&jobId=${job[0]}">${job[1]}</a>
+				<a class="a1" href="/showjob?userId=${seeker.jobseekerId}&jobId=${job[0]}">${job[1]}</a>
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-4 groups">
 						<p>
 							<b>jobId:</b> ${job[0]}
 						</p>
@@ -299,6 +308,12 @@ body {
 						<p>
 							<b>Salary:</b> $ ${job[5]}
 						</p>
+						
+						<p>
+							<b>Posted by:</b> ${job[8]}
+						</p>
+					</div>
+					<div class="col-sm-8">
 						<p>
 							<b>Status:</b>
 							<c:if test="${job[7] == 0}">
@@ -311,11 +326,6 @@ body {
 								<c:out value="Cancelled" />
 							</c:if>
 						</p>
-						<p>
-							<b>Posted by:</b> ${job[8]}
-						</p>
-					</div>
-					<div class="col-sm-8">
 						<p>
 							<b>Responsibilities :</b> ${job[3]}
 						</p>

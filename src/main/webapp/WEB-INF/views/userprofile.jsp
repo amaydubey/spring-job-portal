@@ -909,14 +909,22 @@ a.stp-back-totop {
 		<header id="stp-header">
 			<div class="container">
 				<div class="row">
-				<div class="col-sm-8">${seeker.jobseekerId}</div>
-				<div class="col-sm-4">
-				<form action="/searchjobs" method="get">
+					<div class="col-sm-6">
+						<form action="/searchjobs" method="get">
 							<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
-							<button type="submit" class="btn btn-block btn-primary">Search jobs</button>
+							<button type="submit" class="btn btn-block btn-lg btn-primary">Search
+								all jobs</button>
 						</form>
+					</div>
+					<div class="col-sm-6">
+						<form action="">
+							<input type="submit" class="btn btn-lg btn-block btn-success"
+								value="See all interested jobs" />
+						</form>
+					</div>
 				</div>
-				</div>
+
+
 				<div class="row">
 					<!-- user image -->
 
@@ -928,9 +936,8 @@ a.stp-back-totop {
 							<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
 
 							<input type="hidden" name="pin"
-								value="${seeker.verificationCode}"></input> 
-								<input
-								type="hidden" name="type" value="seeker"></input>
+								value="${seeker.verificationCode}"></input> <input type="hidden"
+								name="type" value="seeker"></input>
 							<button type="submit" class="btn btn-primary">Update
 								Profile</button>
 						</form>

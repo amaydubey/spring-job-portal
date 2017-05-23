@@ -51,6 +51,9 @@ public class JobSeekerController {
 
 	@Autowired
 	EmailServiceImpl emailService;
+	
+	@Autowired
+	InterestedDao interestedDao;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -76,10 +79,12 @@ public class JobSeekerController {
 		}
 		
 		List<?> jobIds = jobSeekerDao.searchJobs(search);
-		if (!locations.equals(Optional.empty())) {
+		if ((!locations.equals(Optional.empty())) && (locations.get()!="")) {
+			System.out.println("location");
 			jpv.setLocation(locations.get());
 		}
-		if (!companies.equals(Optional.empty())) {
+		if (!companies.equals(Optional.empty()) && companies.get()!="") {
+			System.out.println("comp");
 			jpv.setCompanyName(companies.get());
 		}
 		if (!min.equals(Optional.empty()) && !max.equals(Optional.empty())) {
@@ -90,7 +95,6 @@ public class JobSeekerController {
 		List<?> jp = jobSeekerDao.filterJobs(jpv, jobIds);
 
 		JobSeeker jobseeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
-		System.out.println(jp.get(0));
 		
 		model.addAttribute("jobs", jp);
 		model.addAttribute("seeker", jobseeker);
@@ -110,16 +114,21 @@ public class JobSeekerController {
 		JobPosting job = jobDao.getJobPosting(Integer.parseInt(jobId));
 		Company company = job.getCompany();
 		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
+		List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(userId));
+		int i = 0;
+		if(ij.contains(Integer.parseInt(jobId))){
+			i = 1;
+		}
 		
 		model.addAttribute("job", job);
 		model.addAttribute("seeker", seeker);
 		model.addAttribute("company", company);
+		model.addAttribute("interested", i);
 		
 		return "userjobprofile";
 	}
 
-	@Autowired
-	InterestedDao interestedDao;
+
 
 	/**
 	 * @param name
@@ -407,13 +416,14 @@ public class JobSeekerController {
 	}
 
 	@RequestMapping(value = "/interested", method = RequestMethod.POST)
-	public String createInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId) {
+	public String createInterest(@RequestParam("userId") String userId, @RequestParam("jobId") String jobId, Model model) {
 
 		try {
 			Interested in = new Interested();
-			in.setJobId(jobId);
-			in.setJobSeekerId(userId);
+			in.setJobId(Integer.parseInt(jobId));
+			in.setJobSeekerId(Integer.parseInt(userId));
 			Interested i1 = interestedDao.createInterest(in);
+			
 		} catch (Exception e) {
 
 			HttpHeaders httpHeaders = new HttpHeaders();
@@ -430,8 +440,24 @@ public class JobSeekerController {
 			return "error";
 
 		}
-
-		return "done";
+		JobPosting job = jobDao.getJobPosting(Integer.parseInt(jobId));
+		Company company = job.getCompany();
+		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
+		List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(userId));
+		int i = 0;
+		if(ij.contains(Integer.parseInt(jobId))){
+			i = 1;
+		}
+		String message="<div class=\"alert alert-success\">This job has been <strong>Successfully added</strong> to your interests</div>";
+		
+		
+		model.addAttribute("job", job);
+		model.addAttribute("seeker", seeker);
+		model.addAttribute("company", company);
+		model.addAttribute("interested", i);
+		model.addAttribute("message", message);
+		
+		return "userjobprofile";
 	}
 
 	/**
@@ -439,14 +465,32 @@ public class JobSeekerController {
 	 * @param jobId
 	 * @return "deleted" if the interest is deleted
 	 */
-	@RequestMapping(value = "/interested/delete", method = RequestMethod.DELETE)
-	public String deleteInterest(@RequestParam("userid") int userId, @RequestParam("jobid") int jobId) {
+	@RequestMapping(value = "/interested/delete", method = RequestMethod.POST)
+	public String deleteInterest(@RequestParam("userId") String userId, @RequestParam("jobId") String jobId, Model model) {
 
 		try {
-			List<?> querylist = interestedDao.getInterestedJobId(jobId, userId);
+			List<?> querylist = interestedDao.getInterestedJobId(Integer.parseInt(jobId), Integer.parseInt(userId));
 			boolean interestDeleted = interestedDao.deleteInterest(Integer.parseInt(querylist.get(0).toString()));
 			if (interestDeleted) {
-				return "deleted";
+				JobPosting job = jobDao.getJobPosting(Integer.parseInt(jobId));
+				Company company = job.getCompany();
+				JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
+				List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(userId));
+				int i = 0;
+				if(ij.contains(Integer.parseInt(jobId))){
+					i = 1;
+				}
+
+				String message="<div class=\"alert alert-danger\">This job has been <strong>Successfully removed</strong> from your interests</div>";
+				
+				model.addAttribute("job", job);
+				model.addAttribute("seeker", seeker);
+				model.addAttribute("company", company);
+				model.addAttribute("interested", i);
+				model.addAttribute("message", message);
+				
+				return "userjobprofile";
+
 			} else {
 				return "error";
 			}

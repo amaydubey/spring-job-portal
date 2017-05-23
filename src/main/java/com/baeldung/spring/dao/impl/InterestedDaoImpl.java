@@ -83,5 +83,12 @@ public class InterestedDaoImpl implements InterestedDao {
 		List<?> querylist = query.getResultList();
 		return querylist;
 	}
+	
+	public List<?> getAllInterestedJobId(int userId) {
+		Query query = entityManager.createQuery("SELECT jobId FROM Interested jd WHERE jd.jobSeekerId =:userid");
+		query.setParameter("userid", userId);
+		List<?> querylist = query.getResultList();
+		return querylist;
+	}
 
 }
