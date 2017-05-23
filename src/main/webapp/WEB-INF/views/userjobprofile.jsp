@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/template">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <head>
 <!-- Basic -->
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="keywords"
@@ -67,7 +69,7 @@ html {
 	background: #d9d9d9;
 }
 
-body {
+.bod {
 	font-family: 'Open Sans', sans-serif;
 	overflow-x: hidden;
 	font-weight: 400;
@@ -147,7 +149,7 @@ p {
 	font-family: 'Open Sans', sans-serif;
 }
 
-.strong, strong {
+.strong {
 	font-weight: 500;
 }
 
@@ -870,79 +872,100 @@ a.stp-back-totop {
 
 
 </head>
-<body>
-<body id="pagetop">
 
-	<div class="container-fluid">
+<body id="pagetop" class="container-fluid well">
 
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
+	
+		<div class="container-fluid">
+
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+					</div>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a href="#team">Team</a></li>
+
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">logged in as
+								${seeker.firstName} <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Profile</a></li>
+								<li><a href="jobsearch.jsp">Search Jobs</a></li>
+								<li><a href="index.jsp">Logout</a></li>
+							</ul></li>
+					</ul>
 				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="#team">Team</a></li>
+			</nav>
+		</div>
+<div class="container-fluid" style="margin-top: 40px">${message}</div>
 
-					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as
-							${seeker.firstName} <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="/findjobs">Logout</a></li>
-						</ul></li>
-				</ul>
+<div class="bod" style="margin-top: 5px">
+		<div class="jumbotron">
+			<div class="container text-center">
+
+
+				<h2>Job Profile</h2>
+
 			</div>
-		</nav>
+		</div>
 
-
-		<script>
-			UPLOADCARE_PUBLIC_KEY = 'f78da83ce6beb3f386b7';
-			UPLOADCARE_LIVE = false;
-			UPLOADCARE_LOCALE = 'en';
-		</script>
-		<script
-			src="https://ucarecdn.com/libs/widget/2.10.3/uploadcare.full.min.js"
-			charset="utf-8"></script>
 
 		<header id="stp-header">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6">
-						<form action="/searchjobs" method="get">
-							<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
-							<button type="submit" class="btn btn-block btn-lg btn-primary">Search
-								all jobs</button>
-						</form>
+						<c:if test="${interested == 0}">
+							<form action="/interested" method="post">
+							<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
+							<input type="hidden" name="jobId" value="${job.jobId }"></input>
+								<input type="submit" class="btn btn-lg btn-block btn-primary"
+									value="show interest in this job" />
+							</form>
+						</c:if>
+						<c:if test="${interested == 1}">
+							<form action="/interested/delete" method="post">
+							<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
+							<input type="hidden" name="jobId" value="${job.jobId }"></input>
+								<input type="submit" class="btn btn-lg btn-block btn-danger"
+									value="remove from interested" />
+							</form>
+						</c:if>
+
+
 					</div>
 					<div class="col-sm-6">
 						<form action="">
 							<input type="submit" class="btn btn-lg btn-block btn-success"
-								value="See all interested jobs" />
+								value="apply for this job" />
 						</form>
 					</div>
 				</div>
-
-
 				<div class="row">
-					<!-- user image -->
 
-					<!-- user image -->
-					<!-- user bio -->
+
+
 					<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12 stp-user-bio">
-						<h1>${ seeker.firstName}${seeker.lastName }</h1>
-						<form action="/register/verify" method="get">
-							<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
+						<h1>${job.title}</h1>
+						<h3>${job.location}</h3>
+						<br>
+						<h3>Posted by: ${company.companyName}</h3>
+						<h3>
+							Status:
+							<c:if test="${job.state == 0}">
+								<c:out value="Open" />
+							</c:if>
+							<c:if test="${job.state == 1}">
+								<c:out value="Filled" />
+							</c:if>
+							<c:if test="${job.state == 2}">
+								<c:out value="Cancelled" />
+							</c:if>
 
-							<input type="hidden" name="pin"
-								value="${seeker.verificationCode}"></input> <input type="hidden"
-								name="type" value="seeker"></input>
-							<button type="submit" class="btn btn-primary">Update
-								Profile</button>
-						</form>
 
 
+						</h3>
 
 
 
@@ -950,14 +973,15 @@ a.stp-back-totop {
 
 					<div
 						class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-8 col-sm-offset-4 col-xs-12 stp-user-info">
-						<h3>Email:</h3>
-						<p>
-							<a>${seeker.emailId}</a>
-						</p>
+						<h3>Salary:</h3>
+						<p>$ ${job.salary}</p>
+						<br>
 
+						<h3>Job responsibilities:</h3>
+						<p>${job.responsibilities}</p>
 
 					</div>
-					<!-- user info -->
+					<!-- job info -->
 				</div>
 			</div>
 		</header>
@@ -969,104 +993,43 @@ a.stp-back-totop {
 
 
 
-				<div class="row">
-
-
-					<!-- Recent Jobs -->
-					<div class="col-sm-6">
-						<!-- Heading -->
-						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 stp-heading">
-							<h2 class="stp-title">WORK EXPERIENCE</h2>
-						</div>
-						<!-- Heading -->
-						<!-- Content -->
-						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 stp-content">
-							<!-- job widget -->
-							<div class="row">
-								<div class="col-lg-12 col-xs-12">
-									<div class="stp-jobs">
-
-										<h2 class="stp-job-title">${seeker.workEx }years</h2>
-
-
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<!-- Content -->
-					</div>
-					<!-- Recent Jobs -->
 
 
 
-
-
-
-
-
-					<!-- Skill Area -->
-					<div class="col-sm-6">
-						<!-- Heading -->
-						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 stp-heading">
-							<h2 class="stp-title">SKILL SET</h2>
-						</div>
-						<!-- Heading -->
-						<!-- Content -->
-						<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 stp-content">
-
-							<div class="skill">
-								<div class="">${seeker.skills }</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
-				<!-- Gap -->
-				<div class="stp-gap"></div>
-				<!-- Gap -->
-
-
-
-
-
-
-				<!-- Education -->
 				<div class="row">
 					<!-- Heading -->
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 stp-heading">
-						<h2 class="stp-title">Highest Education</h2>
+						<h4 class="stp-title">JOB DESCRIPTION</h4>
 					</div>
 					<!-- Heading -->
 					<!-- Content -->
-					<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 stp-content">
-						<!-- degree -->
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 stp-content">
+						<!-- job widget -->
 						<div class="row">
 							<div class="col-lg-12 col-xs-12">
-								<div class="stp-degree">
+								<div class="stp-jobs">
+									<p class="stp-job-time">${job.description}</p>
 
-									<h2 class="stp-degree-title">
-										<c:if test="${seeker.highestEducation == 0}">
-											<c:out value="Master's degree" />
-										</c:if>
-										<c:if test="${seeker.highestEducation == 1}">
-											<c:out value="Bachelor's degree" />
-										</c:if>
-										<c:if test="${seeker.highestEducation == 2}">
-											<c:out value="Ph.D." />
-										</c:if>
-									</h2>
 
 								</div>
 							</div>
 						</div>
-
-
 					</div>
-
+					
+					<!-- Content -->
 				</div>
+				<!-- Recent Jobs -->
+
+
+
+
+
+
+
+
+
+
+
 			</div>
 		</section>
 	</div>
@@ -1079,7 +1042,5 @@ a.stp-back-totop {
 		<p>Surendra</p>
 		<p>Surendra</p>
 	</div>
-
-
 </body>
 </html>

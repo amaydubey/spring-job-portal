@@ -35,5 +35,10 @@ public interface InterestedDao {
 	 * @return List of the job ids of the jobs the user is interested in
 	 */
 	public List<?> getInterestedJobId(int jobId, int userId);
-
+	
+	/**
+	 * @param userId
+	 * @return List of the job ids of the jobs the user is interested in
+	 */
+	public List<?> getAllInterestedJobId(int userId); 
 }
