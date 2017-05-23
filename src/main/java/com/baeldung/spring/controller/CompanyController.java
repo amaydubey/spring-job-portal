@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +32,7 @@ public class CompanyController {
 	 * @param state
 	 * @return List of jobs posted by the company
 	 */
-	@RequestMapping(value = "/getjobs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getjobs", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<?> getJobs(@RequestParam("companyId") String companyId, @RequestParam("state") String state) {
 		List<?> companyJobPostings = new ArrayList<String>();

@@ -91,9 +91,11 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	@Override
 	public JobSeeker getJobSeeker(int id) {
 		JobSeeker js = null;
-
-		js = entityManager.find(JobSeeker.class, id);
-
+		try {
+			js = entityManager.find(JobSeeker.class, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return js;
 	}
 
@@ -120,7 +122,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	@Override
 	public List<String> PasswordLookUp(String emailid) {
 
-		Query query = entityManager.createQuery("SELECT password FROM JobSeeker js WHERE js.emailId = :emailId ");
+		Query query = entityManager.createQuery("SELECT password FROM JobSeeker js WHERE js.emailId = :emailId");
 		query.setParameter("emailId", emailid);
 		List<String> list = new ArrayList<String>();
 		List<?> querylist = query.getResultList();

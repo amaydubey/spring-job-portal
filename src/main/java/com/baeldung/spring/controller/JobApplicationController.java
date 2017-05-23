@@ -37,7 +37,7 @@ public class JobApplicationController {
 
 	@Autowired
 	JobPostingDao jobDao;
-	
+
 	@Autowired
 	JobApplicationDao jobAppDao;
 
@@ -73,9 +73,24 @@ public class JobApplicationController {
 	@ResponseBody
 	public String cancelApplication(@RequestParam("jobApplicationId") String jobAppId) {
 		boolean deleted = jobAppDao.cancel(Integer.parseInt(jobAppId));
-		if(deleted)
+		if (deleted)
 			return "Cancelled";
 		return "Unable to delete";
+	}
+
+	/**
+	 * @param jobAppId
+	 * @param state
+	 * @return true if the state has been modified
+	 */
+	@RequestMapping(value = "/modifyapplicationstate", method = RequestMethod.POST)
+	public String modifyApplicationState(@RequestParam("jobAppId") String jobAppId,
+			@RequestParam("state") String state) {
+		JobApplication ja = jobAppDao.modifyJobApplicationStatus(Integer.parseInt(jobAppId), Integer.parseInt(state));
+		if (ja == null) {
+			return "Error";
+		}
+		return "modified";
 	}
 
 }
