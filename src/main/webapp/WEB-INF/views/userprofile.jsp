@@ -888,8 +888,6 @@ a.stp-back-totop {
 							${seeker.firstName} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
 							<li><a href="/findjobs">Logout</a></li>
 						</ul></li>
 				</ul>
@@ -917,7 +915,9 @@ a.stp-back-totop {
 						</form>
 					</div>
 					<div class="col-sm-6">
-						<form action="">
+						<form action="/getinterestedjobs" method="get">
+						
+							<input type="hidden" name="jobSeekerId" value="${seeker.jobseekerId}"></input>
 							<input type="submit" class="btn btn-lg btn-block btn-success"
 								value="See all interested jobs" />
 						</form>
@@ -935,9 +935,8 @@ a.stp-back-totop {
 						<form action="/register/verify" method="get">
 							<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
 
-							<input type="hidden" name="pin"
-								value="${seeker.verificationCode}"></input> <input type="hidden"
-								name="type" value="seeker"></input>
+							<input type="hidden" name="pin" value="${seeker.verificationCode}"></input> 
+								<input type="hidden" name="type" value="seeker"></input>
 							<button type="submit" class="btn btn-primary">Update
 								Profile</button>
 						</form>

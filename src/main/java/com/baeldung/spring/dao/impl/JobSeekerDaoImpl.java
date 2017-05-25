@@ -128,7 +128,6 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		List<?> querylist = query.getResultList();
 		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
 			String pwd = (String) iterator.next();
-			System.out.println(pwd + " is the password");
 			list.add(pwd);
 		}
 		return list;
@@ -186,6 +185,20 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		try {
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Integer> getUserIdFromEmail(String emailid) {
+
+		Query query = entityManager.createQuery("SELECT jobseekerId FROM JobSeeker js WHERE js.emailId = :emailId");
+		query.setParameter("emailId", emailid);
+		List<Integer> list = new ArrayList<Integer>();
+		List<?> querylist = query.getResultList();
+		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
+			int uid = (int) iterator.next();
+			list.add(uid);
 		}
 		return list;
 	}

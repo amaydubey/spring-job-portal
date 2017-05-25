@@ -42,6 +42,20 @@ public class CompanyDaoImpl implements CompanyDao {
 		System.out.println("list :::::::::::::::::::::::::::::       " + list);
 		return list;
 	}
+	
+	@Override
+	public List<Integer> getCompanyIdFromEmail(String emailid) {
+
+		Query query = entityManager.createQuery("SELECT companyId FROM Company c WHERE c.companyUser = :emailId ");
+		query.setParameter("emailId", emailid);
+		List<Integer> list = new ArrayList<Integer>();
+		List<?> querylist = query.getResultList();
+		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
+			int cid = (int) iterator.next();
+			list.add(cid);
+		}
+		return list;
+	}
 
 	@Override
 	public Company createCompany(Company c) throws Exception {

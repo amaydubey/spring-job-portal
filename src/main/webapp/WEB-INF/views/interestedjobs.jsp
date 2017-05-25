@@ -45,7 +45,7 @@
 	margin-bottom: 10px;
 }
 
-.a1{
+.a1 {
 	font-size: 24px;
 }
 /* Full-width input fields */
@@ -93,7 +93,7 @@ button:hover {
 	position: relative;
 }
 
-.groups{
+.groups {
 	line-height: 90%;
 }
 
@@ -243,9 +243,8 @@ body {
 							${seeker.firstName} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="index.jsp">Logout</a></li>
+							<li><a href="/userprofile/${seeker.jobseekerId}">Profile</a></li>
+							<li><a href="/findjobs">Logout</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -255,82 +254,62 @@ body {
 			<div class="container text-center">
 
 
-				<h2>Search jobs</h2>
+				<h2>Interested jobs for ${seeker.firstName}</h2>
 
 			</div>
 		</div>
 
-		<div class="well">
-			<form class="form-inline row well" style="margin: 5px"
-				action="/searchjobs" method="get">
-				<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
-				<div class="form-group col-sm-4">
-					<label class="col-sm-12" for="cname">Company name</label> <input
-						type="text" class="form-control" name="companies"
-						placeholder="comma separated" name="cname">
-				</div>
-				<div class="form-group col-sm-4">
-					<label class="col-sm-12" for="location">Job locations</label> <input
-						type="text" class="form-control" name="locations"
-						placeholder="comma separated" name="location">
-				</div>
-				<div class="form-group col-sm-4">
-					<label class="col-sm-12">Salary $ p.a.:</label>
-					<div class="form-group col-sm-4">
-						<label for="min">Min</label> <input class="col-sm-2" type="text"
-							class="form-control" id="min" value="0" name="min" width="10px">
-					</div>
-					<div class="form-group col-sm-4">
-						<label for="max">Max</label> <input class="col-sm-2" type="text"
-							class="form-control" id="max" value="1000000" name="max">
-					</div>
-				</div>
 
-				<button type="submit" class="btn btn-primary">Search</button>
-			</form>
-		</div>
 		<div class="results">
-			<h2>Search Results:</h2>
-			<p>${fn:length(jobs)} search results</p>
-
-			
+			<div class="row">
+				<div class="col-sm-6">
+					<h2>Search Results:</h2>
+					<p>${fn:length(jobs)}search results</p>
+				</div>
+				<div class="col-sm-6">
+					<form action="/searchjobs" method="get">
+						<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
+						<button type="submit" class="btn btn-block btn-lg btn-primary">Search
+							all jobs</button>
+					</form>
+				</div>
+			</div>
 
 			<c:forEach items="${jobs}" var="job">
-				<a class="a1" href="/showjob?userId=${seeker.jobseekerId}&jobId=${job[0]}">${job[1]}</a>
+				<a class="a1"
+					href="/showjob?userId=${seeker.jobseekerId}&jobId=${job.jobId}">${job.title}</a>
 				<div class="row">
 					<div class="col-sm-4 groups">
 						<p>
-							<b>jobId:</b> ${job[0]}
+							<b>jobId:</b> ${job.jobId}
 						</p>
 						<p>
-							<b>location:</b> ${job[4]}
+							<b>location:</b> ${job.location}
 						</p>
 						<p>
-							<b>Salary:</b> $ ${job[5]}
+							<b>Salary:</b> $ ${job.salary}
 						</p>
-						
-						<p>
-							<b>Posted by:</b> ${job[8]}
-						</p>
+
+						<p></p>
 					</div>
 					<div class="col-sm-8">
 						<p>
 							<b>Status:</b>
-							<c:if test="${job[7] == 0}">
+							<c:if test="${job.state == 0}">
 								<c:out value="Open" />
 							</c:if>
-							<c:if test="${job[7] == 1}">
+							<c:if test="${job.state == 1}">
 								<c:out value="Filled" />
 							</c:if>
-							<c:if test="${job[7] == 2}">
+							<c:if test="${job.state == 2}">
 								<c:out value="Cancelled" />
 							</c:if>
 						</p>
 						<p>
-							<b>Responsibilities :</b> ${job[3]}
+							<b>Responsibilities :</b> ${job.responsibilities}
 						</p>
 						<p>
-							<b>Description:</b> ${job[2]}
+							<b>Description:</b> ${job.description}
 						</p>
 					</div>
 				</div>

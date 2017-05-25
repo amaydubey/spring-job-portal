@@ -243,9 +243,8 @@ body {
 							${seeker.firstName} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="index.jsp">Logout</a></li>
+							<li><a href="/userprofile/${seeker.jobseekerId}">Profile</a></li>
+							<li><a href="/findjobs">Logout</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -263,16 +262,21 @@ body {
 		<div class="well">
 			<form class="form-inline row well" style="margin: 5px"
 				action="/searchjobs" method="get">
+				<div class="col-sm-12">
+					<label  for="cname">Search</label> <input
+						type="text" class="form-control" name="searchString"
+						placeholder="Enter Search Keywords" >
+				</div>
 				<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
 				<div class="form-group col-sm-4">
 					<label class="col-sm-12" for="cname">Company name</label> <input
 						type="text" class="form-control" name="companies"
-						placeholder="comma separated" name="cname">
+						placeholder="comma separated">
 				</div>
 				<div class="form-group col-sm-4">
 					<label class="col-sm-12" for="location">Job locations</label> <input
 						type="text" class="form-control" name="locations"
-						placeholder="comma separated" name="location">
+						placeholder="comma separated">
 				</div>
 				<div class="form-group col-sm-4">
 					<label class="col-sm-12">Salary $ p.a.:</label>

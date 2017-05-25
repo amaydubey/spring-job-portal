@@ -4,6 +4,7 @@
 package com.baeldung.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,6 +58,7 @@ public class MainController {
 	 * @param type
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
 			@RequestParam("type") String type, Model model) {
@@ -67,19 +69,39 @@ public class MainController {
 
 		if (type.equals("recruiter")) {
 			list = companyDao.PasswordLookUp(email);
+			if (list.size() == 0) {
+				return "UserName Invalid";
+			} else {
+				if (pwd.equals(list.get(0))) {
+					List<Integer> cidl = new ArrayList<Integer>();
+					cidl = companyDao.getCompanyIdFromEmail(email);
+					Company cmp = companyDao.getCompany(cidl.get(0));
+					model.addAttribute("company", cmp);
+					
+					return "companyprofile";
+				}
+
+			}
+			
 		} else if (type.equals("seeker")) {
 			list = jobSeekerDao.PasswordLookUp(email);
+			if (list.size() == 0) {
+				return "UserName Invalid";
+			} else {
+				if (pwd.equals(list.get(0))) {
+					List<Integer> jsl = new ArrayList<Integer>();
+					jsl = jobSeekerDao.getUserIdFromEmail(email);
+					JobSeeker js = jobSeekerDao.getJobSeeker(jsl.get(0));
+					   
+					model.addAttribute("seeker", js);
+					return "userprofile";
+				}
+
+			}
 		}
 
 		System.out.println(list);
-		if (list.size() == 0) {
-			return "UserName Invalid";
-		} else {
-			if (pwd.equals(list.get(0))) {
-				return "Login Successful";
-			}
-
-		}
+		
 		return "Invalid Password";
 
 	}
@@ -97,8 +119,6 @@ public class MainController {
 		if (type.equals("seeker")) {
 
 			JobSeeker j = jobSeekerDao.getJobSeeker(userId);
-			System.out.println("ashay");
-			System.out.println(j.getVerificationCode());
 			if (j.getVerificationCode() == pin) {
 				j.setVerified(true);
 				jobSeekerDao.verify(j);
