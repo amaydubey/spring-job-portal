@@ -124,6 +124,7 @@ public class JobSeekerController {
 		model.addAttribute("seeker", seeker);
 		model.addAttribute("company", company);
 		model.addAttribute("interested", i);
+		model.addAttribute("applied", 0);
 		
 		return "userjobprofile";
 	}

@@ -117,6 +117,85 @@ input, textarea, button, a {
 	transition: all 300ms ease-in-out;
 }
 
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	padding-top: 60px;
+	
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto 15% auto;
+	/* 5% from the top, 15% from the bottom and centered */
+	border: 1px solid #888;
+	width: 40%; /* Could be more or less, depending on screen size */
+	padding: 30px;
+}
+
+/* The Close Button (x) */
+.close {
+	position: absolute;
+	right: 25px;
+	top: 0;
+	color: #000;
+	font-size: 35px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: red;
+	cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s
+}
+
+@
+-webkit-keyframes animatezoom {
+	from {-webkit-transform: scale(0)
+}
+
+to {
+	-webkit-transform: scale(1)
+}
+
+}
+@
+keyframes animatezoom {
+	from {transform: scale(0)
+}
+
+to {
+	transform: scale(1)
+}
+
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+	span.psw {
+		display: block;
+		float: none;
+	}
+	.cancelbtn {
+		width: 100%;
+	}
+}
+
 img {
 	max-width: 100%;
 }
@@ -875,33 +954,33 @@ a.stp-back-totop {
 
 <body id="pagetop" class="container-fluid well">
 
-	
-		<div class="container-fluid">
 
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
-					</div>
-					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="#team">Team</a></li>
+	<div class="container-fluid">
 
-						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#">logged in as
-								${seeker.firstName} <span class="caret"></span>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Profile</a></li>
-								<li><a href="jobsearch.jsp">Search Jobs</a></li>
-								<li><a href="index.jsp">Logout</a></li>
-							</ul></li>
-					</ul>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
 				</div>
-			</nav>
-		</div>
-<div class="container-fluid" style="margin-top: 40px">${message}</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="#team">Team</a></li>
 
-<div class="bod" style="margin-top: 5px">
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">logged in as
+							${seeker.firstName} <span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Profile</a></li>
+							<li><a href="jobsearch.jsp">Search Jobs</a></li>
+							<li><a href="index.jsp">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div class="container-fluid" style="margin-top: 40px">${message}</div>
+
+	<div class="bod" style="margin-top: 5px">
 		<div class="jumbotron">
 			<div class="container text-center">
 
@@ -918,17 +997,19 @@ a.stp-back-totop {
 					<div class="col-sm-6">
 						<c:if test="${interested == 0}">
 							<form action="/interested" method="post">
-							<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
-							<input type="hidden" name="jobId" value="${job.jobId }"></input>
-								<input type="submit" class="btn btn-lg btn-block btn-primary"
+								<input type="hidden" name="userId"
+									value="${seeker.jobseekerId }"></input> <input type="hidden"
+									name="jobId" value="${job.jobId }"></input> <input
+									type="submit" class="btn btn-lg btn-block btn-primary"
 									value="show interest in this job" />
 							</form>
 						</c:if>
 						<c:if test="${interested == 1}">
 							<form action="/interested/delete" method="post">
-							<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
-							<input type="hidden" name="jobId" value="${job.jobId }"></input>
-								<input type="submit" class="btn btn-lg btn-block btn-danger"
+								<input type="hidden" name="userId"
+									value="${seeker.jobseekerId }"></input> <input type="hidden"
+									name="jobId" value="${job.jobId }"></input> <input
+									type="submit" class="btn btn-lg btn-block btn-danger"
 									value="remove from interested" />
 							</form>
 						</c:if>
@@ -936,12 +1017,56 @@ a.stp-back-totop {
 
 					</div>
 					<div class="col-sm-6">
-						<form action="">
-							<input type="submit" class="btn btn-lg btn-block btn-success"
-								value="apply for this job" />
-						</form>
+					<c:if test="${applied == 0}">
+							<button class="btn btn-lg btn-block btn-success"
+								onclick="document.getElementById('id01').style.display='block'">apply
+								for this job</button>
+						</c:if>
+						<c:if test="${applied == 1}">
+							<button class="btn btn-lg btn-block btn-warning"
+								onclick="">Already Applied</button>
+						</c:if>
+					
+					
+							
+
 					</div>
 				</div>
+
+				<div id="id01" class="modal">
+
+					<form class="modal-content animate" action="/application/apply" method="post">
+						<div class="container-fluid">
+							<div class="col-sm-6 dropdown form-group">
+									<div>
+										<label>Apply with?</label> <label
+											class="btn btn-default"><input type="radio"
+											name="resumeFlag" value="0"
+											autocomplete="off"
+											>
+											Your Profile </label> 
+											<label class="btn btn-default"> <input
+											type="radio" name="resumeFlag" value="1"
+											autocomplete="off" > Profile + Resume
+										</label>
+
+									</div>
+
+				
+
+								</div>
+								<input type="hidden" name="userId" value="${seeker.jobseekerId }"></input>
+								<input type="hidden" name="jobId" value="${job.jobId }"></input>
+								<input type="hidden" name="resumePath" value="fakepath/resume.pdf"></input>
+								
+							<input type="submit"
+								class="btn btn-lg btn-block btn-success"
+								value="apply for this job" />
+						</div>
+
+					</form>
+				</div>
+
 				<div class="row">
 
 
@@ -1015,7 +1140,7 @@ a.stp-back-totop {
 							</div>
 						</div>
 					</div>
-					
+
 					<!-- Content -->
 				</div>
 				<!-- Recent Jobs -->
@@ -1042,5 +1167,18 @@ a.stp-back-totop {
 		<p>Surendra</p>
 		<p>Surendra</p>
 	</div>
+	
+	<script>
+		// Get the modal
+		var modal = document.getElementById('id01');
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
+	
 </body>
 </html>
