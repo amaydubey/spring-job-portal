@@ -23,16 +23,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.InterestedDao;
-import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.JobPostingDao;
+import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
-import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.Interested;
+import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
@@ -531,7 +530,7 @@ public class JobSeekerController {
 	 */
 	@RequestMapping(value="/getappliedjobs", method = RequestMethod.GET)
 	public ResponseEntity<?> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
-		List<?> jobSeekerAppliedList = null;//jobSeekerDao.getApplicationList(Integer.parseInt(jobSeekerId));
+		List<?> jobSeekerAppliedList =jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
 		return ResponseEntity.ok(jobSeekerAppliedList);
 	}
 

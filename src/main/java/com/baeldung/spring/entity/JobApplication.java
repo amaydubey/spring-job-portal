@@ -3,10 +3,8 @@
  */
 package com.baeldung.spring.entity;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * @author amayd
@@ -36,6 +36,7 @@ public class JobApplication {
 	
 	@ManyToOne
 	@JoinColumn(name="jobSeekerId")
+	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="jobSeekerId")
 	private JobSeeker jobSeeker;
 	
 	@Column(name="resume")
@@ -78,6 +79,7 @@ public class JobApplication {
 	/**
 	 * @return JobSeeker
 	 */
+	@JsonProperty
 	public JobSeeker getJobSeeker() {
 		return jobSeeker;
 	}

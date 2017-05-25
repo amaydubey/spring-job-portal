@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
@@ -66,6 +65,10 @@ public class JobSeeker {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "interested", joinColumns = @JoinColumn(name = "jobSeekerId", referencedColumnName = "jobseekerId"), inverseJoinColumns = @JoinColumn(name = "jobId"))
 	private List<JobPosting> interestedjobs;
+	
+	@OneToMany(mappedBy="jobSeeker", cascade = CascadeType.ALL)
+	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="appId")
+	private List<JobApplication> jobApplicationList;
 	
 
 	/**
@@ -220,6 +223,14 @@ public class JobSeeker {
 	 */
 	public void setInterestedjobs(List<JobPosting> interestedjobs) {
 		this.interestedjobs = interestedjobs;
+	}
+
+	public List<JobApplication> getJobApplicationList() {
+		return jobApplicationList;
+	}
+
+	public void setJobApplicationList(List<JobApplication> jobApplicationList) {
+		this.jobApplicationList = jobApplicationList;
 	}
 
 }
