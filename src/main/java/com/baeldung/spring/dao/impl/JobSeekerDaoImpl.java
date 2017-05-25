@@ -101,7 +101,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 
 	@Override
 	public JobSeeker updateJobSeeker(JobSeeker js) {
-		JobSeeker jobseeker = getJobSeeker(js.getJobseekerId());
+		JobSeeker jobseeker = getJobSeeker(js.getJobSeekerId());
 		jobseeker.setEmailId(js.getEmailId());
 		jobseeker.setFirstName(js.getFirstName());
 		jobseeker.setLastName(js.getLastName());
@@ -143,7 +143,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	 */
 	@Override
 	public void verify(JobSeeker j) {
-		JobSeeker jobseeker = getJobSeeker(j.getJobseekerId());
+		JobSeeker jobseeker = getJobSeeker(j.getJobSeekerId());
 		jobseeker.setVerified(true);
 		try {
 			if (jobseeker != null) {
@@ -189,5 +189,6 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		}
 		return list;
 	}
+
 
 }

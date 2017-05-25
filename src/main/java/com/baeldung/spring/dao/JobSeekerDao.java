@@ -57,4 +57,9 @@ public interface JobSeekerDao {
 	 */
 	public List<?> searchJobs(String searchString);
 
+	/**
+	 * @param jobSeekerId
+	 * @return Application List for the job seeker
+	 */
+
 }

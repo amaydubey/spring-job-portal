@@ -163,7 +163,7 @@ public class JobSeekerController {
 
 				JobSeeker j1 = jobSeekerDao.createJobSeeker(j);
 
-				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobseekerId() + "&pin="
+				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobSeekerId() + "&pin="
 						+ randomPIN + "&type=seeker";
 
 				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
@@ -531,7 +531,7 @@ public class JobSeekerController {
 	 */
 	@RequestMapping(value="/getappliedjobs", method = RequestMethod.GET)
 	public ResponseEntity<?> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
-		List<?> jobSeekerAppliedList = jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
+		List<?> jobSeekerAppliedList = null;//jobSeekerDao.getApplicationList(Integer.parseInt(jobSeekerId));
 		return ResponseEntity.ok(jobSeekerAppliedList);
 	}
 
