@@ -15,7 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * @author amayd
@@ -61,6 +65,10 @@ public class JobSeeker {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "interested", joinColumns = @JoinColumn(name = "jobSeekerId", referencedColumnName = "jobseekerId"), inverseJoinColumns = @JoinColumn(name = "jobId"))
 	private List<JobPosting> interestedjobs;
+	
+	@OneToMany(mappedBy="jobseeker", cascade=CascadeType.ALL)
+	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="appId")
+	private List<JobApplication> jobApplicationList;
 
 	/**
 	 * @return JobSeeker Id
@@ -214,6 +222,20 @@ public class JobSeeker {
 	 */
 	public void setInterestedjobs(List<JobPosting> interestedjobs) {
 		this.interestedjobs = interestedjobs;
+	}
+
+	/**
+	 * @return JobApplication list
+	 */
+	public List<JobApplication> getJobApplicationList() {
+		return jobApplicationList;
+	}
+
+	/**
+	 * @param jobApplicationList
+	 */
+	public void setJobApplicationList(List<JobApplication> jobApplicationList) {
+		this.jobApplicationList = jobApplicationList;
 	}
 
 }
