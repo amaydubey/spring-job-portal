@@ -65,10 +65,14 @@ public class MainController {
 		String email = emailId;
 		String pwd = password;
 		System.out.println(email + " : " + pwd);
+		String message="<div class=\"alert alert-danger\">Invalid Login Credentials</div>";
+		
 
 		if (type.equals("recruiter")) {
 			list = companyDao.PasswordLookUp(email);
 			if (list.size() == 0) {
+				
+				model.addAttribute("message", message);
 				return "index";
 			} else {
 				if (pwd.equals(list.get(0))) {
@@ -85,6 +89,8 @@ public class MainController {
 		} else if (type.equals("seeker")) {
 			list = jobSeekerDao.PasswordLookUp(email);
 			if (list.size() == 0) {
+				model.addAttribute("message", message);
+				
 				return "index";
 			} else {
 				if (pwd.equals(list.get(0))) {
@@ -100,6 +106,7 @@ public class MainController {
 		}
 
 		System.out.println(list);
+		model.addAttribute("message", message);
 		
 		return "index";
 
