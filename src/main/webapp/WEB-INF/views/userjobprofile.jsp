@@ -1035,7 +1035,7 @@ a.stp-back-totop {
 
 				<div id="id01" class="modal">
 
-					<form class="modal-content animate" action="/application/apply" method="post">
+					<form class="modal-content animate" action="/application/apply" method="post" enctype="multipart/form-data">
 						<div class="container-fluid">
 							<div class="col-sm-6 dropdown form-group">
 									<div>
@@ -1048,6 +1048,8 @@ a.stp-back-totop {
 											<label class="btn btn-default"> <input
 											type="radio" name="resumeFlag" value="1"
 											autocomplete="off" > Profile + Resume
+    										<input type="file" name="file" /><br/><br/>
+
 										</label>
 
 									</div>
