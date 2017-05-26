@@ -58,8 +58,8 @@ public interface JobSeekerDao {
 	public List<?> searchJobs(String searchString);
 
 	/**
-	 * @param jobSeekerId
-	 * @return Application List for the job seeker
+	 * @param emailid
+	 * @return userId
 	 */
-
+	public List<Integer> getUserIdFromEmail(String emailid);
 }

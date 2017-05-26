@@ -226,7 +226,8 @@ body {
 
 		<div class="jumbotron">
 			<div class="container text-center">
-
+			<div class="container-fluid" style="margin-top: 40px">${message}</div>
+			
 				<h2>
 					<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">FindJobs.com
 				</h2>
@@ -258,46 +259,32 @@ body {
 
 				<div id="id01" class="modal">
 
-					<form class="modal-content animate" action="/action_page.php">
+					<form class="modal-content animate" action="/login" method="post">
 						<div class="imgcontainer">
 							<span
 								onclick="document.getElementById('id01').style.display='none'"
 								class="close" title="Close Modal">&times;</span> <img
 								src="https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png" alt="Avatar" class="avatar">
 						</div>
+						<div class="btn-group btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-default active"> <input
+									type="radio" name="type" id="seeker" value="seeker"
+									autocomplete="off" checked> Job Seeker
+								</label> <label class="btn btn-default"> <input type="radio"
+									name="type" id="recruiter" value="recruiter"
+									autocomplete="off"> Recruiter
+								</label>
+
+							</div>
 
 						<div class="container-fluid">
 							<label><b>Email</b></label> <input type="text"
-								placeholder="Enter Email" name="email" required> <label><b>Password</b></label>
-							<input type="password" placeholder="Enter Password" name="psw"
+								placeholder="Enter Email" name="emailId" required> <label><b>Password</b></label>
+							<input type="password" placeholder="Enter Password" name="password"
 								required>
 
 							<button type="submit">Login</button>
 						</div>
-
-						<!--<div id="id02" class="modal">
-  
-  <form class="modal-content animate" action="/action_page.php">
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-      
-    </div>
-
-    <div class="container-fluid">
-      <label><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
-
-      <label><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-
-      <label><b>Re-enter Password</b></label>
-      <input type="password" placeholder="Re-enter Password" name="psw2" required>
-
-            
-
-      <button type="submit">Send verification code</button>
-    </div>-->
-
 
 					</form>
 				</div>

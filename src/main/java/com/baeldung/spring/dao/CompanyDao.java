@@ -47,6 +47,8 @@ public interface CompanyDao {
 	 * @return List of jobs according to the state
 	 */
 	public List<?> getJobsByCompany(int companyId, int state);
+
+	public List<Integer> getCompanyIdFromEmail(String emailid);
 	
 	
 

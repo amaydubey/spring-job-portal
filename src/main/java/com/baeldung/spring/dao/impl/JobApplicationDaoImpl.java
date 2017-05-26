@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baeldung.spring.dao.JobApplicationDao;
 import com.baeldung.spring.entity.JobApplication;
@@ -18,6 +19,7 @@ import com.baeldung.spring.entity.JobSeeker;
  *
  */
 @Service
+@Transactional
 public class JobApplicationDaoImpl implements JobApplicationDao {
 
 	@PersistenceContext

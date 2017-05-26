@@ -101,7 +101,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 
 	@Override
 	public JobSeeker updateJobSeeker(JobSeeker js) {
-		JobSeeker jobseeker = getJobSeeker(js.getJobSeekerId());
+		JobSeeker jobseeker = getJobSeeker(js.getJobseekerId());
 		jobseeker.setEmailId(js.getEmailId());
 		jobseeker.setFirstName(js.getFirstName());
 		jobseeker.setLastName(js.getLastName());
@@ -128,7 +128,6 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		List<?> querylist = query.getResultList();
 		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
 			String pwd = (String) iterator.next();
-			System.out.println(pwd + " is the password");
 			list.add(pwd);
 		}
 		return list;
@@ -143,7 +142,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	 */
 	@Override
 	public void verify(JobSeeker j) {
-		JobSeeker jobseeker = getJobSeeker(j.getJobSeekerId());
+		JobSeeker jobseeker = getJobSeeker(j.getJobseekerId());
 		jobseeker.setVerified(true);
 		try {
 			if (jobseeker != null) {
@@ -189,6 +188,22 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 		}
 		return list;
 	}
+	
+	
+	@Override
+	public List<Integer> getUserIdFromEmail(String emailid) {
+
+		Query query = entityManager.createQuery("SELECT jobseekerId FROM JobSeeker js WHERE js.emailId = :emailId");
+		query.setParameter("emailId", emailid);
+		List<Integer> list = new ArrayList<Integer>();
+		List<?> querylist = query.getResultList();
+		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
+			int uid = (int) iterator.next();
+			list.add(uid);
+		}
+		return list;
+	}
+
 
 
 }

@@ -33,7 +33,7 @@ public class JobSeeker {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "jobSeekerId", unique = true, nullable = false)
-	private int jobSeekerId;
+	private int jobseekerId;
 
 	@Column(name = "firstName")
 	private String firstName;
@@ -63,7 +63,7 @@ public class JobSeeker {
 	private int verificationCode;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "interested", joinColumns = @JoinColumn(name = "jobSeekerId", referencedColumnName = "jobseekerId"), inverseJoinColumns = @JoinColumn(name = "jobId"))
+	@JoinTable(name = "interested", joinColumns = @JoinColumn(name = "jobSeekerId", referencedColumnName = "jobSeekerId"), inverseJoinColumns = @JoinColumn(name = "jobId"))
 	private List<JobPosting> interestedjobs;
 	
 	@OneToMany(mappedBy="jobSeeker", cascade = CascadeType.ALL)
@@ -74,15 +74,15 @@ public class JobSeeker {
 	/**
 	 * @return JobSeeker Id
 	 */
-	public int getJobSeekerId() {
-		return jobSeekerId;
+	public int getJobseekerId() {
+		return jobseekerId;
 	}
 
 	/**
-	 * @param jobSeekerId
+	 * @param jobseekerId
 	 */
-	public void setJobseekerId(int jobSeekerId) {
-		this.jobSeekerId = jobSeekerId;
+	public void setJobseekerId(int jobseekerId) {
+		this.jobseekerId = jobseekerId;
 	}
 
 	/**
