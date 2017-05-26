@@ -37,5 +37,11 @@ public interface JobApplicationDao {
 	 * @return Modified job application
 	 */
 	JobApplication modifyJobApplicationStatus(int jobAppId, int state);
+	
+	/**
+	 * @param ja
+	 * @return Updated job application
+	 */
+	JobApplication updateApplication(JobApplication ja);
 
 }

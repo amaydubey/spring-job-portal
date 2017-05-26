@@ -82,4 +82,10 @@ public class JobApplicationDaoImpl implements JobApplicationDao {
 		}
 		return ja;
 	}
+
+	@Override
+	public JobApplication updateApplication(JobApplication ja) {
+		entityManager.merge(ja);
+		return null;
+	}
 }

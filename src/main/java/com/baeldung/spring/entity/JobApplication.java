@@ -2,6 +2,8 @@
  * 
  */
 package com.baeldung.spring.entity;
+import java.sql.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +49,18 @@ public class JobApplication {
 	
 	@Column(name="state")
 	private int state;
+	
+	@Column(name="interviewFlag")
+	private boolean interviewFlag;
+	
+	@Column(name="interviewLocation")
+	private String interviewLocation;
+	
+	@Column(name="interviewTime")
+	private Date interviewTime;
+	
+	@Column(name="interviewAccepted")
+	private boolean interviewAccepted;
 
 	/**
 	 * @return Application ID
@@ -131,6 +145,38 @@ public class JobApplication {
 	 */
 	public void setState(int state) {
 		this.state = state;
+	}
+
+	public boolean isInterviewFlag() {
+		return interviewFlag;
+	}
+
+	public void setInterviewFlag(boolean interviewFlag) {
+		this.interviewFlag = interviewFlag;
+	}
+
+	public String getInterviewLocation() {
+		return interviewLocation;
+	}
+
+	public void setInterviewLocation(String interviewLocation) {
+		this.interviewLocation = interviewLocation;
+	}
+
+	public Date getInterviewTime() {
+		return interviewTime;
+	}
+
+	public void setInterviewTime(Date interviewTime) {
+		this.interviewTime = interviewTime;
+	}
+
+	public boolean isInterviewAccepted() {
+		return interviewAccepted;
+	}
+
+	public void setInterviewAccepted(boolean interviewAccepted) {
+		this.interviewAccepted = interviewAccepted;
 	}
 
 }

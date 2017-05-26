@@ -5,7 +5,9 @@ package com.baeldung.spring.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,6 +33,7 @@ import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
 import com.baeldung.spring.entity.Interested;
+import com.baeldung.spring.entity.JobApplication;
 import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
@@ -531,7 +534,13 @@ public class JobSeekerController {
 	@RequestMapping(value="/getappliedjobs", method = RequestMethod.GET)
 	public ResponseEntity<?> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
 		List<?> jobSeekerAppliedList =jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
-		return ResponseEntity.ok(jobSeekerAppliedList);
+		List<Integer> jobIdList = new ArrayList<Integer>();
+		for (Iterator iterator = jobSeekerAppliedList.iterator(); iterator.hasNext();) {
+			JobApplication ja = (JobApplication) iterator.next();
+			int jobId = ja.getJobPosting().getJobId();
+			jobIdList.add(jobId);
+		}
+		return ResponseEntity.ok(jobIdList);
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package com.baeldung.spring.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,12 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.InterviewDao;
-import com.baeldung.spring.dao.JobSeekerDao;
-import com.baeldung.spring.dao.impl.InterviewDaoImpl;
+import com.baeldung.spring.dao.JobApplicationDao;
 import com.baeldung.spring.entity.Company;
 import com.baeldung.spring.entity.Interview;
+import com.baeldung.spring.entity.JobApplication;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
 
@@ -38,79 +38,51 @@ public class InterviewController {
 
 	@Autowired
 	InterviewDao interviewdao;
-	
+
 	@Autowired
-	JobSeekerDao jobSeekerDao;
-	
-	@Autowired
-	CompanyDao companyDao;
-	
+	JobApplicationDao jobAppDao;
+
 	@Autowired
 	EmailServiceImpl emailService;
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@RequestMapping(value = "/createinterview", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> createInterview(@RequestParam("jobSeekerId") String jobSeekerId, @RequestParam("company") String company, @RequestParam("location") String location, @RequestParam("datetime") String datetime) {
+	public ResponseEntity<?> createInterview(@RequestParam("appId") String appId,
+			@RequestParam("location") String location, @RequestParam("datetime") String datetime) {
 		System.out.println("started");
-		Interview interview = new Interview();
-		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId));
-		String verificationUrl = "http://localhost:8080/acceptinterview?jobseekerid=" + jobSeekerId;
-		interview = interviewdao.createInterview(Integer.parseInt(jobSeekerId),company,location,datetime,"false");
+		JobApplication ja = jobAppDao.getJobApplication(Integer.parseInt(appId));
+		JobSeeker jobSeeker = ja.getJobSeeker();
+		ja.setInterviewFlag(true);
+		ja.setInterviewLocation(location);
+		ja.setInterviewTime(Date.valueOf(datetime));
+		ja.setInterviewAccepted(false);
+		jobAppDao.updateApplication(ja);
+		String verificationUrl = "http://localhost:8080/acceptinterview?jobseekerid=" + ja.getAppId();
 		System.out.println("interview created");
-		emailService.sendSimpleMessage(seeker.getEmailId(),"Interview call", "Hi "+seeker.getFirstName()+" "+seeker.getLastName() +", \nYou have been selected to interview for the position at time "+ datetime + " at VENUE : "+ location +".\n If you are intereseted in it please click on the following link : \n" 
-				+ verificationUrl);
-		return  ResponseEntity.ok(interview);
+		emailService.sendSimpleMessage(jobSeeker.getEmailId(), "Interview call",
+				"Hi " + jobSeeker.getFirstName() + " " + jobSeeker.getLastName()
+						+ ", \nYou have been selected to interview for the position at time " + datetime
+						+ " at VENUE : " + location
+						+ ".\n If you are intereseted in it please click on the following link : \n" + verificationUrl);
+		return ResponseEntity.ok(ja);
 	}
-	
-	@RequestMapping(value = "/acceptinterview", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/acceptinterview", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> acceptinterview(@RequestParam("jobSeekerId") String jobSeekerId, @RequestParam("companyid") String companyId) {
+	public ResponseEntity<?> acceptinterview(@RequestParam("appId") String appId) {
 		System.out.println("started");
-		Interview interview = new Interview();
-	    Company company = companyDao.getCompany(Integer.parseInt(companyId));
-		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId));
-		String result = interviewdao.acceptInterview(Integer.parseInt(jobSeekerId));
-		System.out.println("interview created");
-		Query query = entityManager.createQuery("SELECT flag from interview int WHERE int.jobseekerid = :jobseekerid");
-		query.setParameter("jobseekerid", jobSeekerId);
-		List<?> querylist = query.getResultList();
-		ArrayList<String> list = new ArrayList<>();
-		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
-			String flag = (String) iterator.next();
-			list.add(flag);
-		}
-		String decision = "";
-		if(list.get(0).equals("true"))
-		{
-			decision = "" ;
-		}
-		else
-		{
-			decision = "not";
-		}
-		
-		emailService.sendSimpleMessage(company.getCompanyUser(),"Interview Response",seeker.getFirstName()+" "+seeker.getLastName()+" has decide to "+ decision +" move forward with the interview process");
-		return  ResponseEntity.ok(interview);
+		JobApplication ja = jobAppDao.getJobApplication(Integer.parseInt(appId));
+		JobSeeker jobSeeker = ja.getJobSeeker();
+		ja.setInterviewAccepted(false);
+		jobAppDao.updateApplication(ja);
+		Company c = ja.getJobPosting().getCompany();
+
+		emailService.sendSimpleMessage(c.getCompanyUser(), "Interview Response", jobSeeker.getFirstName() + " "
+				+ jobSeeker.getLastName() + " has decide to move forward with the interview process");
+		return ResponseEntity.ok(ja);
 	}
-	
-	
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
