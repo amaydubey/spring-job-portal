@@ -163,7 +163,7 @@ public class JobSeekerController {
 
 				JobSeeker j1 = jobSeekerDao.createJobSeeker(j);
 
-				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobSeekerId() + "&pin="
+				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobseekerId() + "&pin="
 						+ randomPIN + "&type=seeker";
 
 				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
