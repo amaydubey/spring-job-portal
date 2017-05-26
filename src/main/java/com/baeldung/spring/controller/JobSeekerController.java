@@ -490,14 +490,6 @@ public class JobSeekerController {
 		return ResponseEntity.ok(jobSeekerAppliedList);
 	}
 	
-	/**
-	 * @param jobSeekerId
-	 * @return Job applications list for the job seeker
-	 */
-	@RequestMapping(value="/getappliedjobs", method = RequestMethod.GET)
-	public ResponseEntity<?> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
-		List<?> jobSeekerAppliedList =jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
-		return ResponseEntity.ok(jobSeekerAppliedList);
-	}
+	
 
 }
