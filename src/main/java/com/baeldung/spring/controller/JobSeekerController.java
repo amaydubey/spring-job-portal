@@ -118,16 +118,23 @@ public class JobSeekerController {
 		Company company = job.getCompany();
 		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
 		List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(userId));
-		int i = 0;
+		int i = 0,j=0;
 		if(ij.contains(Integer.parseInt(jobId))){
 			i = 1;
 		}
+		
+		List<Integer> il = getAppliedJobs(userId);
+		if(il.contains(Integer.parseInt(jobId))){
+			j = 1;
+		}
+
+		
 		
 		model.addAttribute("job", job);
 		model.addAttribute("seeker", seeker);
 		model.addAttribute("company", company);
 		model.addAttribute("interested", i);
-		model.addAttribute("applied", 0);
+		model.addAttribute("applied", j);
 		
 		return "userjobprofile";
 	}
@@ -488,7 +495,7 @@ public class JobSeekerController {
 	 * @return Job applications list for the job seeker
 	 */
 	@RequestMapping(value="/getappliedjobs", method = RequestMethod.GET)
-	public ResponseEntity<?> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
+	public List<Integer> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
 		List<?> jobSeekerAppliedList =jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
 		List<Integer> jobIdList = new ArrayList<Integer>();
 		for (Iterator iterator = jobSeekerAppliedList.iterator(); iterator.hasNext();) {
@@ -496,7 +503,7 @@ public class JobSeekerController {
 			int jobId = ja.getJobPosting().getJobId();
 			jobIdList.add(jobId);
 		}
-		return ResponseEntity.ok(jobIdList);
+		return jobIdList;
 	}
 	
 	
