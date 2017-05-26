@@ -18,7 +18,6 @@ import com.baeldung.spring.entity.JobSeeker;
  * @author amayd
  *
  */
-@Transactional
 @Service
 @Transactional
 public class JobApplicationDaoImpl implements JobApplicationDao {
