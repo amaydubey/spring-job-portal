@@ -7,6 +7,7 @@
 <head>
 <!-- Basic -->
 <meta charset="utf-8">
+<title>Job Profile</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="keywords"
@@ -880,7 +881,7 @@ a.stp-back-totop {
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+					<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="#team">Team</a></li>
@@ -890,8 +891,7 @@ a.stp-back-totop {
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="index.jsp">Logout</a></li>
+							<li><a href="/findjobs">Logout</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -910,6 +910,15 @@ a.stp-back-totop {
 	
 	<header id="stp-header">
 		<div class="container">
+		<div class="row " style="margin: auto">
+					<form class="" action="/company/getapplicants" method="get">
+						<input type="hidden" name="jobId" value="${job.jobId}"></input>
+
+						<button type="submit" class="btn btn-block btn-primary">View all job applicants for this job</button>
+					</form>
+
+
+				</div>
 			<div class="row">
 
 

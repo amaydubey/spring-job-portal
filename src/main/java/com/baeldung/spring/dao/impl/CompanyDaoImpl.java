@@ -114,10 +114,9 @@ public class CompanyDaoImpl implements CompanyDao {
 	 * @see com.baeldung.spring.dao.CompanyDao#getJobsByCompany(java.lang.String, int)
 	 */
 	@Override
-	public List<?> getJobsByCompany(int companyId, int state) {
-		Query query = entityManager.createQuery("SELECT jobId, title, description, responsibilites, location, salary, state, companyId, companyName FROM JobPostingsView jp WHERE jp.companyId = :companyId AND jp.state = :state ");
+	public List<?> getJobsByCompany(int companyId) {
+		Query query = entityManager.createQuery("SELECT jobId, title, description, responsibilites, location, salary, state, companyId, companyName FROM JobPostingsView jp WHERE jp.companyId = :companyId");
 		query.setParameter("companyId", companyId);
-		query.setParameter("state", state);
 		List<?> querylist = query.getResultList();
 		return querylist;
 	}

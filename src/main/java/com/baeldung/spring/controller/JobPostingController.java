@@ -144,8 +144,6 @@ public class JobPostingController {
 			@RequestParam("salary") String salary, @RequestParam("cid") String cid, Model model) {
 		// TODO routing
 		JobPosting job = jobDao.getJobPosting(id);
-		System.out.println("state--------------");
-		System.out.println("state-------------"+state);
 		if (job != null) {
 			job.setjobId(id);
 			job.setDescription(description);

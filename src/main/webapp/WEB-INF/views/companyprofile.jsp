@@ -847,7 +847,7 @@ a.stp-back-totop {
 			<nav class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+						<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="active"><a href="#team">Team</a></li>
@@ -859,7 +859,7 @@ a.stp-back-totop {
 							<ul class="dropdown-menu">
 								<li><a href="#">Profile</a></li>
 								<li><a href="jobsearch.jsp">Search Jobs</a></li>
-								<li><a href="index.jsp">Logout</a></li>
+								<li><a href="/findjobs">Logout</a></li>
 							</ul></li>
 					</ul>
 				</div>
@@ -906,14 +906,14 @@ a.stp-back-totop {
 							<input type="hidden" name="pin"
 								value="${company.verificationCode}"></input> <input
 								type="hidden" name="type" value="recruiter"></input>
-								
+
 							<button type="submit" class="btn btn-block btn-default">Update
 								Profile</button>
 						</form>
 						<br>
 						<form action="/JobPosting" method="get">
-						<input type="hidden" name="cid" value="${company.companyId}"></input>
-						
+							<input type="hidden" name="cid" value="${company.companyId}"></input>
+
 							<button type="submit" class="btn btn-block btn-primary">Post
 								a Job</button>
 						</form>
@@ -929,11 +929,16 @@ a.stp-back-totop {
 		<section id="stp-content-area">
 			<div class="container">
 
+				<div class="row " style="margin: auto">
+					<form class="" action="/company/getjobs" method="get">
+						<input type="hidden" name="companyId" value="${company.companyId}"></input>
+
+						<button type="submit" class="btn btn-block btn-primary">Jobs
+							posted by you</button>
+					</form>
 
 
-
-
-
+				</div>
 				<div class="row">
 					<!-- Heading -->
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 stp-heading">

@@ -33,15 +33,8 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="/index.jsp">FindJobs.com</a>
+					<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
 				</div>
-				<ul class="nav navbar-nav navbar-right">
-					
-					<li class="active"><a href="#team">Team</a></li>
-					<!--<li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>-->
-				</ul>
 			</div>
 		</nav>
 

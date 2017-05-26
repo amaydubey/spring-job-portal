@@ -9,7 +9,7 @@
 
 <meta charset="utf-8">
 <meta name="author" content="">
-<title>Search jobs | FindJobs.com</title>
+<title>Job applicants | FindJobs.com</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Latest compiled and minified CSS -->
@@ -45,7 +45,7 @@
 	margin-bottom: 10px;
 }
 
-.a1 {
+.a1{
 	font-size: 24px;
 }
 /* Full-width input fields */
@@ -93,7 +93,7 @@ button:hover {
 	position: relative;
 }
 
-.groups {
+.groups{
 	line-height: 90%;
 }
 
@@ -218,8 +218,6 @@ body {
 </style>
 
 
-
-
 </head>
 
 <body id="pagetop">
@@ -227,85 +225,74 @@ body {
 	<div class="container-fluid">
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
-				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="#team">Team</a></li>
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
+					</div>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a href="#team">Team</a></li>
 
-					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" href="#">logged in as
-							${seeker.firstName} <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu">
-							<li><a href="/userprofile/${seeker.jobseekerId}">Profile</a></li>
-							<li><a href="/findjobs">Logout</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</nav>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">logged in as
+								${company.companyName} <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="/company/profile/${company.companyId}">Profile</a></li>
+								<li><a href="/findjobs">Logout</a></li>
+							</ul></li>
+					</ul>
+				</div>
+			</nav>
 
 		<div class="jumbotron">
 			<div class="container text-center">
 
 
-				<h2>Interested jobs for ${seeker.firstName}</h2>
+				<h2>Job Applicants for ${job.title}</h2>
 
 			</div>
 		</div>
 
-
+		
 		<div class="results">
-			<div class="row">
-				<div class="col-sm-6">
-					<h2>Search Results:</h2>
-					<p>${fn:length(jobs)}search results</p>
-				</div>
-				<div class="col-sm-6">
-					<form action="/searchjobs" method="get">
-						<input type="hidden" name="userId" value="${seeker.jobseekerId}"></input>
-						<button type="submit" class="btn btn-block btn-lg btn-primary">Search
-							all jobs</button>
-					</form>
-				</div>
-			</div>
+			<h2>${fn:length(jobs)} job Applicants for ${job.title}</h2>
 
 			<c:forEach items="${jobs}" var="job">
-				<a class="a1"
-					href="/showjob?userId=${seeker.jobseekerId}&jobId=${job.jobId}">${job.title}</a>
+				<a class="a1" href="/company/showjob?cid=${company.companyId}&jobId=${job[0]}">${job[1]}</a>
 				<div class="row">
 					<div class="col-sm-4 groups">
 						<p>
-							<b>jobId:</b> ${job.jobId}
+							<b>jobId:</b> ${job[0]}
 						</p>
 						<p>
-							<b>location:</b> ${job.location}
+							<b>location:</b> ${job[4]}
 						</p>
 						<p>
-							<b>Salary:</b> $ ${job.salary}
+							<b>Salary:</b> $ ${job[5]}
 						</p>
-
-						<p></p>
+						
+						<p>
+							<b>Posted by:</b> ${job[8]}
+						</p>
 					</div>
 					<div class="col-sm-8">
 						<p>
 							<b>Status:</b>
-							<c:if test="${job.state == 0}">
+							<c:if test="${job[7] == 0}">
 								<c:out value="Open" />
 							</c:if>
-							<c:if test="${job.state == 1}">
+							<c:if test="${job[7] == 1}">
 								<c:out value="Filled" />
 							</c:if>
-							<c:if test="${job.state == 2}">
+							<c:if test="${job[7] == 2}">
 								<c:out value="Cancelled" />
 							</c:if>
 						</p>
 						<p>
-							<b>Responsibilities :</b> ${job.responsibilities}
+							<b>Responsibilities :</b> ${job[3]}
 						</p>
 						<p>
-							<b>Description:</b> ${job.description}
+							<b>Description:</b> ${job[2]}
 						</p>
 					</div>
 				</div>

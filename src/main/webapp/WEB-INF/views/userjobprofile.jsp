@@ -960,7 +960,7 @@ a.stp-back-totop {
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#pagetop">FindJobs.com</a>
+					<a class="navbar-brand" href="/findjobs">FindJobs.com</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="#team">Team</a></li>
@@ -970,9 +970,9 @@ a.stp-back-totop {
 							${seeker.firstName} <span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="jobsearch.jsp">Search Jobs</a></li>
-							<li><a href="index.jsp">Logout</a></li>
+							<li><a href="/userprofile/${seeker.jobseekerId}">Profile</a></li>
+							<li><a href="/searchjobs?userId=${seeker.jobseekerId}">Search Jobs</a></li>
+							<li><a href="/findjobs">Logout</a></li>
 						</ul></li>
 				</ul>
 			</div>
