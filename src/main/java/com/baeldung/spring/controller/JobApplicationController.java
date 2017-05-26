@@ -11,14 +11,20 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -64,6 +70,11 @@ public class JobApplicationController {
 	
 	@Autowired
 	InterestedDao interestedDao;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+
 	
 	private static String UPLOADED_FOLDER = "C:/";
 
@@ -252,6 +263,27 @@ public class JobApplicationController {
         return "uploadStatus";
     }
 	
+    @RequestMapping(value="/company/getAppliedJobs",method = RequestMethod.GET)
+    public ResponseEntity<?> getAppliedJobs(@RequestParam("companyId") int id) {
+    	Query query = entityManager.createQuery("SELECT jobId FROM JobPosting jp WHERE jp.companyId = :id");
+		query.setParameter("id", id);
+		List<Integer> list = new ArrayList<Integer>();
+		List<?> querylist = query.getResultList();
+		for (Iterator<?> iterator = querylist.iterator(); iterator.hasNext();) {
+			int uid = (int) iterator.next();
+			list.add(uid);
+			System.out.println(uid);
+		}
+		
+		
+    	
+    	
+    	
+    	
+    	return ResponseEntity.ok("data");
+    }
+    
+    
 	//****************************************************
 
 }
