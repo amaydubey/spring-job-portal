@@ -58,7 +58,6 @@ public class MainController {
 	 * @param type
 	 * @return
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("emailId") String emailId, @RequestParam("password") String password,
 			@RequestParam("type") String type, Model model) {
@@ -70,7 +69,7 @@ public class MainController {
 		if (type.equals("recruiter")) {
 			list = companyDao.PasswordLookUp(email);
 			if (list.size() == 0) {
-				return "UserName Invalid";
+				return "index";
 			} else {
 				if (pwd.equals(list.get(0))) {
 					List<Integer> cidl = new ArrayList<Integer>();
@@ -86,7 +85,7 @@ public class MainController {
 		} else if (type.equals("seeker")) {
 			list = jobSeekerDao.PasswordLookUp(email);
 			if (list.size() == 0) {
-				return "UserName Invalid";
+				return "index";
 			} else {
 				if (pwd.equals(list.get(0))) {
 					List<Integer> jsl = new ArrayList<Integer>();
@@ -102,7 +101,7 @@ public class MainController {
 
 		System.out.println(list);
 		
-		return "Invalid Password";
+		return "index";
 
 	}
 

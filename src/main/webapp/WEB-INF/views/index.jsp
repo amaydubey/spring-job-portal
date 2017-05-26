@@ -226,7 +226,8 @@ body {
 
 		<div class="jumbotron">
 			<div class="container text-center">
-
+			<div class="container-fluid" style="margin-top: 40px">${message}</div>
+			
 				<h2>
 					<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">FindJobs.com
 				</h2>
