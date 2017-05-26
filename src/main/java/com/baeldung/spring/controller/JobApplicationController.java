@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,25 +104,31 @@ public class JobApplicationController {
 			ja = jobAppDao.apply(Integer.parseInt(jobSeekerId), Integer.parseInt(jobId), resumeFlag, path.toString());//apply(Integer.parseInt(jobSeekerId), Integer.parseInt(jobId), resumeFlag, path);
 			JobSeeker js = jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId));
 			JobPosting jp = jobDao.getJobPosting(Integer.parseInt(jobId));
-			/*emailService.sendSimpleMessage(js.getEmailId(),
+			emailService.sendSimpleMessage(js.getEmailId(),
 					"You have successfully applied to the position " + jp.getTitle() + " at "
 							+ jp.getCompany().getCompanyName(),
 					"Hi " + js.getFirstName() + " " + js.getLastName()
 							+ ".\n You have successfully completed your application for " + jp.getTitle() + " at "
-							+ jp.getCompany().getCompanyName() + ".\n Regards,\nThe FindJobs Team");*/
+							+ jp.getCompany().getCompanyName() + ".\n Regards,\nThe FindJobs Team");
 			
 			Company company = jp.getCompany();
 			List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(jobSeekerId));
 			int i = 0;
+			int j=0;
 			if(ij.contains(Integer.parseInt(jobId))){
 				i = 1;
+			}
+			
+			List<Integer> il = getAppliedJobs(jobSeekerId);
+			if(il.contains(Integer.parseInt(jobId))){
+				j = 1;
 			}
 			
 			model.addAttribute("job", jp);
 			model.addAttribute("seeker", js);
 			model.addAttribute("company", company);
 			model.addAttribute("interested", i);
-			model.addAttribute("applied", 1);
+			model.addAttribute("applied", j);
 		    System.out.println(path);
 	        Files.write(path, bytes);
 	        System.out.println(path);
@@ -153,15 +161,21 @@ public class JobApplicationController {
 							+ jp.getCompany().getCompanyName() + ".\n Regards,\nThe FindJobs Team");
 			Company company = jp.getCompany();
 			List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(jobSeekerId));
-			int i = 0;
+			int i = 0, j=0;
 			if(ij.contains(Integer.parseInt(jobId))){
 				i = 1;
 			}
+			
+			List<Integer> il = getAppliedJobs(jobSeekerId);
+			if(il.contains(Integer.parseInt(jobId))){
+				j = 1;
+			}
+			
 			model.addAttribute("job", jp);
 			model.addAttribute("seeker", js);
 			model.addAttribute("company", company);
 			model.addAttribute("interested", i);
-			model.addAttribute("applied", 1);
+			model.addAttribute("applied", j);
 			
 			return "userjobprofile";
 			
@@ -252,6 +266,17 @@ public class JobApplicationController {
         return "uploadStatus";
     }
 	
-	//****************************************************
+    @SuppressWarnings("rawtypes")
+	public List<Integer> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
+		List<?> jobSeekerAppliedList =jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
+		List<Integer> jobIdList = new ArrayList<Integer>();
+		for (Iterator iterator = jobSeekerAppliedList.iterator(); iterator.hasNext();) {
+			JobApplication ja = (JobApplication) iterator.next();
+			int jobId = ja.getJobPosting().getJobId();
+			jobIdList.add(jobId);
+		}
+		return jobIdList;
+	}
 
+    
 }
