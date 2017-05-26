@@ -204,4 +204,5 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
 	}
 
 
+
 }
