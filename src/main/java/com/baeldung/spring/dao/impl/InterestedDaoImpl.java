@@ -84,10 +84,12 @@ public class InterestedDaoImpl implements InterestedDao {
 		return querylist;
 	}
 	
-	public List<?> getAllInterestedJobId(int userId) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getAllInterestedJobId(int userId) {
 		Query query = entityManager.createQuery("SELECT jobId FROM Interested jd WHERE jd.jobSeekerId =:userid");
 		query.setParameter("userid", userId);
-		List<?> querylist = query.getResultList();
+		List<Integer> querylist = query.getResultList();
 		return querylist;
 	}
 

@@ -51,9 +51,9 @@
 				<h2>
 					<img src="http://qspear.com/admin/images/news_events_images/partner_news.png" height="80" width="auto">FindJobs.com
 				</h2>
-				<h1>Message</h1>
+				<p>Message</p>
 
-				<p>${message}</p>
+				<h1>${message}</h1>
 			</div>
 		</div>
 		

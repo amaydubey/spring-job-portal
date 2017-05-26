@@ -15,7 +15,7 @@ public interface JobPostingDao {
 	 * @return New JobPosting
 	 * @throws Exception 
 	 */
-	JobPosting createJobPosting(JobPosting job, int cid) throws Exception;
+	JobPosting createJobPosting(JobPosting job, int cid);
 	
 	/**
 	 * @param id

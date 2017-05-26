@@ -417,6 +417,8 @@ public class JobSeekerController {
 		model.addAttribute("company", company);
 		model.addAttribute("interested", i);
 		model.addAttribute("message", message);
+		model.addAttribute("applied", 1);
+		
 		
 		return "userjobprofile";
 	}
@@ -449,6 +451,8 @@ public class JobSeekerController {
 				model.addAttribute("company", company);
 				model.addAttribute("interested", i);
 				model.addAttribute("message", message);
+				model.addAttribute("applied", 1);
+				
 				
 				return "userjobprofile";
 

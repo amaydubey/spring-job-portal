@@ -932,7 +932,6 @@ a.stp-back-totop {
 						</c:if>
 						
 						
-						
 							</h3>
 							
 							
@@ -951,6 +950,13 @@ a.stp-back-totop {
 					</div>
 					<!-- job info -->
 				</div>
+			</div>
+			
+			<div class="col-sm-4">
+				<form action="/JobPosting/update/${job.jobId}" method="get">
+				<input type="hidden" value="${company.companyId}" name="cid">
+				<input type="submit" value="Update job" class="btn btn-default btn-block">
+				</form>
 			</div>
 		</header>
 		<!-- Header Area End-->

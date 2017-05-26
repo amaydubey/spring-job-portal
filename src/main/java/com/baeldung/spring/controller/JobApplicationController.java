@@ -157,7 +157,6 @@ public class JobApplicationController {
 			if(ij.contains(Integer.parseInt(jobId))){
 				i = 1;
 			}
-			
 			model.addAttribute("job", jp);
 			model.addAttribute("seeker", js);
 			model.addAttribute("company", company);

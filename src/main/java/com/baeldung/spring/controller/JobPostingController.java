@@ -41,7 +41,10 @@ public class JobPostingController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String showHomePage(@RequestParam("cid") String cid, Model model) {
 		System.out.println(cid);
+		
+		Company company = companyDao.getCompany(Integer.parseInt(cid));
 		model.addAttribute("cid", cid);
+		model.addAttribute("company", company);
 		return "postjob";
 	}
 
@@ -59,7 +62,6 @@ public class JobPostingController {
 	public String createJobPosting(@RequestParam("title") String title, @RequestParam("description") String description,
 			@RequestParam("responsibilities") String responsibilities, @RequestParam("location") String location,
 			@RequestParam("salary") String salary, @RequestParam("cid") String cid, Model model) {
-		System.out.println("ashay");
 		JobPosting j = new JobPosting();
 		j.setTitle(title);
 		j.setDescription(description);
@@ -67,11 +69,13 @@ public class JobPostingController {
 		j.setLocation(location);
 		j.setSalary(salary);
 		j.setKeywords(title + " " + description + " " + responsibilities + " " + location);
-		System.out.println(model);
 
 		try {
+			System.out.println("0");
 
 			JobPosting p1 = jobDao.createJobPosting(j, Integer.parseInt(cid));
+			System.out.println("ashay");
+
 			model.addAttribute("job", p1);
 			Company company = companyDao.getCompany(Integer.parseInt(cid));
 			model.addAttribute("company", company);
@@ -110,6 +114,18 @@ public class JobPostingController {
 		}
 	}
 
+	@RequestMapping(value = "/update/{id}",method = RequestMethod.GET)
+	public String showUpdatePage(@PathVariable("id") int id, @RequestParam("cid") String cid, Model model) {
+		System.out.println(cid);
+		System.out.println(id);
+		
+		Company company = companyDao.getCompany(Integer.parseInt(cid));
+		JobPosting jp = jobDao.getJobPosting(id);
+		model.addAttribute("job", jp);
+		model.addAttribute("company", company);
+		return "updatejob";
+	}
+	
 	/**
 	 * @param id
 	 * @param state
@@ -125,10 +141,11 @@ public class JobPostingController {
 	public String updateJobPosting(@PathVariable("id") int id, @RequestParam("state") String state,
 			@RequestParam("title") String title, @RequestParam("description") String description,
 			@RequestParam("responsibilities") String responsibilities, @RequestParam("location") String location,
-			@RequestParam("salary") String salary, Model model) {
+			@RequestParam("salary") String salary, @RequestParam("cid") String cid, Model model) {
 		// TODO routing
 		JobPosting job = jobDao.getJobPosting(id);
-
+		System.out.println("state--------------");
+		System.out.println("state-------------"+state);
 		if (job != null) {
 			job.setjobId(id);
 			job.setDescription(description);
@@ -136,8 +153,12 @@ public class JobPostingController {
 			job.setTitle(title);
 			job.setLocation(location);
 			job.setResponsibilities(responsibilities);
-			jobDao.updateJobPosting(job);
-			return "Hello";
+			JobPosting p1 = jobDao.updateJobPosting(job);
+
+			model.addAttribute("job", p1);
+			Company company = companyDao.getCompany(Integer.parseInt(cid));
+			model.addAttribute("company", company);
+			return "jobprofile";
 		}
 		return "error";
 
