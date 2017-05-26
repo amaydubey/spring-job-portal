@@ -5,7 +5,7 @@
 	<groupId>edu.cmpe275</groupId>
 	<artifactId>jobboard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>jobboard</name>
 	<url>http://maven.apache.org</url>
@@ -13,6 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<start-class>com.baeldung.spring.Application</start-class>
 		<java.version>1.8</java.version>
 	</properties>
 	<parent>

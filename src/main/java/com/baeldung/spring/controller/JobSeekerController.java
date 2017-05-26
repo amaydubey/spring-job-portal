@@ -24,16 +24,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baeldung.spring.dao.CompanyDao;
 import com.baeldung.spring.dao.InterestedDao;
-import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.JobPostingDao;
+import com.baeldung.spring.dao.JobSeekerDao;
 import com.baeldung.spring.dao.impl.JobSeekerDaoImpl;
 import com.baeldung.spring.entity.Company;
-import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.Interested;
+import com.baeldung.spring.entity.JobPosting;
 import com.baeldung.spring.entity.JobPostingsView;
 import com.baeldung.spring.entity.JobSeeker;
 import com.baeldung.spring.mail.EmailServiceImpl;
@@ -164,7 +163,7 @@ public class JobSeekerController {
 
 				JobSeeker j1 = jobSeekerDao.createJobSeeker(j);
 
-				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobseekerId() + "&pin="
+				String verificationUrl = "http://localhost:8080/register/verify?userId=" + j1.getJobSeekerId() + "&pin="
 						+ randomPIN + "&type=seeker";
 
 				emailService.sendSimpleMessage(email, "Verification Pin", verificationUrl);
@@ -479,6 +478,16 @@ public class JobSeekerController {
 		model.addAttribute("jobs", jobSeekerInterestsList);
 		model.addAttribute("seeker", jobseeker);
 		return "interestedjobs";
+	}
+	
+	/**
+	 * @param jobSeekerId
+	 * @return Job applications list for the job seeker
+	 */
+	@RequestMapping(value="/getappliedjobs", method = RequestMethod.GET)
+	public ResponseEntity<?> getAppliedJobs(@RequestParam("jobSeekerId") String jobSeekerId){
+		List<?> jobSeekerAppliedList =jobSeekerDao.getJobSeeker(Integer.parseInt(jobSeekerId)).getJobApplicationList();
+		return ResponseEntity.ok(jobSeekerAppliedList);
 	}
 
 }

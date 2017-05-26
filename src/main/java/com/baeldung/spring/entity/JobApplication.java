@@ -10,8 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * @author amayd
@@ -33,7 +36,8 @@ public class JobApplication {
 	
 	@ManyToOne
 	@JoinColumn(name="jobSeekerId")
-	private JobSeeker jobseeker;
+	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="jobSeekerId")
+	private JobSeeker jobSeeker;
 	
 	@Column(name="resume")
 	private boolean resume;
@@ -75,15 +79,16 @@ public class JobApplication {
 	/**
 	 * @return JobSeeker
 	 */
+	@JsonProperty
 	public JobSeeker getJobSeeker() {
-		return jobseeker;
+		return jobSeeker;
 	}
 
 	/**
 	 * @param jobSeeker
 	 */
 	public void setJobSeeker(JobSeeker jobSeeker) {
-		this.jobseeker = jobSeeker;
+		this.jobSeeker = jobSeeker;
 	}
 
 	/**

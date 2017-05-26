@@ -15,7 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * @author amayd
@@ -29,7 +33,7 @@ public class JobSeeker {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "jobSeekerId", unique = true, nullable = false)
-	private int jobseekerId;
+	private int jobSeekerId;
 
 	@Column(name = "firstName")
 	private String firstName;
@@ -61,19 +65,24 @@ public class JobSeeker {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "interested", joinColumns = @JoinColumn(name = "jobSeekerId", referencedColumnName = "jobseekerId"), inverseJoinColumns = @JoinColumn(name = "jobId"))
 	private List<JobPosting> interestedjobs;
+	
+	@OneToMany(mappedBy="jobSeeker", cascade = CascadeType.ALL)
+	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="appId")
+	private List<JobApplication> jobApplicationList;
+	
 
 	/**
 	 * @return JobSeeker Id
 	 */
-	public int getJobseekerId() {
-		return jobseekerId;
+	public int getJobSeekerId() {
+		return jobSeekerId;
 	}
 
 	/**
-	 * @param jobseekerId
+	 * @param jobSeekerId
 	 */
-	public void setJobseekerId(int jobseekerId) {
-		this.jobseekerId = jobseekerId;
+	public void setJobseekerId(int jobSeekerId) {
+		this.jobSeekerId = jobSeekerId;
 	}
 
 	/**
@@ -214,6 +223,14 @@ public class JobSeeker {
 	 */
 	public void setInterestedjobs(List<JobPosting> interestedjobs) {
 		this.interestedjobs = interestedjobs;
+	}
+
+	public List<JobApplication> getJobApplicationList() {
+		return jobApplicationList;
+	}
+
+	public void setJobApplicationList(List<JobApplication> jobApplicationList) {
+		this.jobApplicationList = jobApplicationList;
 	}
 
 }

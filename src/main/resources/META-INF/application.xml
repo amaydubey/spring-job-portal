@@ -4,16 +4,16 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd"
              version="6">
 
-    <module id="SpringMVCEmail">
+    <module id="SpringJobPortal">
         <web>
-            <web-uri>SpringMVCEmail.war</web-uri>
-            <context-root>SpringMVCEmail</context-root>
+            <web-uri>SpringJobPortal.war</web-uri>
+            <context-root>SpringJobPortal</context-root>
         </web>
     </module>
-    <module id="SpringMVCEmail-Web">
+    <module id="SpringJobPortal-Web">
         <web>
             <web-uri>web.war</web-uri>
-            <context-root>SpringMVCEmailWeb</context-root>
+            <context-root>SpringJobPortalWeb</context-root>
         </web>
     </module>
 </application>
