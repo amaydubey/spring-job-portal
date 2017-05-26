@@ -405,19 +405,23 @@ public class JobSeekerController {
 		Company company = job.getCompany();
 		JobSeeker seeker = jobSeekerDao.getJobSeeker(Integer.parseInt(userId));
 		List<?> ij = interestedDao.getAllInterestedJobId(Integer.parseInt(userId));
-		int i = 0;
+		int i = 0, j = 0;
 		if(ij.contains(Integer.parseInt(jobId))){
 			i = 1;
 		}
 		String message="<div class=\"alert alert-success\">This job has been <strong>Successfully added</strong> to your interests</div>";
 		
+		List<Integer> il = getAppliedJobs(userId);
+		if(il.contains(Integer.parseInt(jobId))){
+			j = 1;
+		}
 		
 		model.addAttribute("job", job);
 		model.addAttribute("seeker", seeker);
 		model.addAttribute("company", company);
 		model.addAttribute("interested", i);
 		model.addAttribute("message", message);
-		model.addAttribute("applied", 1);
+		model.addAttribute("applied", j);
 		
 		
 		return "userjobprofile";
